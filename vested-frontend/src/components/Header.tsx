@@ -24,6 +24,11 @@ const Header: React.FC = () => {
         onChange={(e) => {
           updateState({ search: e.target.value });
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && state.search.trim() !== "") {
+            navigate("/");
+          }
+        }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
