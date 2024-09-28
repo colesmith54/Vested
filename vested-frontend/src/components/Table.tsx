@@ -67,7 +67,7 @@ const StickyHeadTable: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get<CsvRow[]>(
-          `http://vested-backend.vercel.app/api/csv`
+          `https://vested-backend.vercel.app/api/csv`
         );
 
         const result = await response.data;
