@@ -93,7 +93,7 @@ const StickyHeadTable: React.FC = () => {
     };
 
     fetchData();
-  }, [updateState]);
+  }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
