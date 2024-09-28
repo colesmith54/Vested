@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Box, TextField, Typography } from '@mui/material';
-import Sidebar from '../components/Sidebar';
 import styles from '../styles/Dashboard.module.css';
 import Logo from '../assets/vest.png'; // Ensure the logo image is in src/assets/
 

@@ -6,7 +6,7 @@ import Table from '../components/Table';
 import { useGlobalState } from '../GlobalState.tsx';
 
 const Dashboard: React.FC = () => {
-  const { state, updateState } = useGlobalState(); // Get global state and update function
+  const { updateState } = useGlobalState(); // Get global state and update function (add state here)
 
   // Fetch data from the backend using useEffect (runs only once)
   useEffect(() => {
@@ -21,7 +21,7 @@ const Dashboard: React.FC = () => {
     };
 
     fetchData(); // Call the fetch function
-  }, []);
+  }, [updateState]);
 
   return (
     <div className={styles.dashboardContainer}>
