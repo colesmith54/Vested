@@ -1,0 +1,33 @@
+/* src/styles/PortfolioTable.module.css */
+
+.tableContainer {
+    /* Ensures the table container fills the available space */
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .paper {
+    width: 100%;
+    overflow: auto;
+    /* Optional: Add any additional styles for the Paper component */
+  }
+  
+  .table {
+    min-width: 650px; /* Ensures the table has a minimum width */
+  }
+  
+  .tableHeadCell {
+    background-color: #4caf50; /* Green background for header cells */
+    color: white; /* White text color */
+    font-weight: bold;
+  }
+  
+  .tableRow:hover {
+    background-color: #f1f1f1; /* Hover effect for rows */
+  }
+  
+  .viewProfileButton {
+    /* Styles for the "View Profile" button */
+    text-transform: none; /* Prevents uppercase transformation */
+  }
+  

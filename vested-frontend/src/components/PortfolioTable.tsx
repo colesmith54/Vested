@@ -1,5 +1,5 @@
-import styles from "../styles/Table.module.css";
-import React, { useEffect } from "react";
+import styles from "../styles/PortfolioTable.module.css";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import MuiTable from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import { TablePagination } from "@mui/material";
 import { useGlobalState } from "../GlobalState.tsx";
 import axios from "axios";
-import StockTableRow from "./StockTableRow.tsx";
+import PortfolioStockTableRow from "./PortfolioStockTableRow.tsx";
 import { useNavigate } from "react-router-dom";
 
 interface StockRow {
@@ -21,6 +21,7 @@ interface StockRow {
   social: string;
   governance: string;
   stockInfoUrl: string;
+  amount: string;
 }
 
 interface CsvRow {
@@ -31,7 +32,7 @@ interface CsvRow {
   e: number;
   s: number;
   g: number;
-  url: string;
+  url: string
 }
 
 interface Column {
@@ -42,10 +43,12 @@ interface Column {
   format?: (value: number) => string;
 }
 
+
 const columns: readonly Column[] = [
   { id: "logo", label: "Logo", minWidth: 100, align: "center" },
   { id: "name", label: "Name", minWidth: 170, align: "left" },
   { id: "ticker", label: "Ticker", minWidth: 70, align: "left" },
+  { id: "amount", label: "Amount", minWidth: 70, align: "left" },
   {
     id: "environmental",
     label: "Environmental",
@@ -55,8 +58,8 @@ const columns: readonly Column[] = [
   { id: "social", label: "Social", minWidth: 70, align: "right" },
   { id: "governance", label: "Governance", minWidth: 70, align: "right" },
   {
-    id: "add",
-    label: "Add",
+    id: "edit",
+    label: "Edit",
     minWidth: 50,
     align: "center",
   },
@@ -66,7 +69,10 @@ const scaleToTen = (value: number, min: number, max: number): string => {
   return String((((value - min) / (max - min)) * 10).toFixed(1));
 };
 
-const StickyHeadTable: React.FC = () => {
+const PortfolioTable: React.FC = () => {
+
+  const [portfolioData, setPortfolioData] = useState<StockRow[]>([]);
+
   const navigate = useNavigate();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -76,36 +82,33 @@ const StickyHeadTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<CsvRow[]>(
-          `https://vested-backend.vercel.app/api/csv`
-        );
 
-        const result = await response.data;
+        let result = state.portfolioItems;
 
-        const environmentalScores = result.map((row: any) => row.e);
-        const socialScores = result.map((row: any) => row.s);
-        const governanceScores = result.map((row: any) => row.g);
+        // Create a map for easy lookup of amounts by ticker
+        const amountsMap = state.portfolioItems.reduce((map, item) => {
+          map[item.ticker.toLowerCase()] = item.amount; // Use toLowerCase for case-insensitive matching
+          return map;
+        }, {});
+        
+        // Get tickers for filtering
+        const tickers = state.portfolioItems.map((item) => item.ticker.toLowerCase());
+        
+        // Filter the csvData based on the tickers and add the amount field
+        const filtered_data = state.csvData
+          .filter((row) => row.ticker && tickers.includes(row.ticker.toLowerCase()))
+          .map((row) => ({
+            ...row,
+            amount: amountsMap[row.ticker.toLowerCase()] || 0, // Add dollar amount, defaulting to 0 if not found
+          }));
+        
+        result = filtered_data;
+        console.log("result: ", result);
+        
+        // Update portfolio data with the new result
+        setPortfolioData(result);
+        
 
-        const minE = Math.min(...environmentalScores);
-        const maxE = Math.max(...environmentalScores);
-
-        const minS = Math.min(...socialScores);
-        const maxS = Math.max(...socialScores);
-
-        const minG = Math.min(...governanceScores);
-        const maxG = Math.max(...governanceScores);
-
-        const data: StockRow[] = result.map((row: any, index) => ({
-          logo: row.l,
-          name: row.n,
-          ticker: row.t,
-          environmental: scaleToTen(row.e, minE, maxE),
-          social: scaleToTen(row.s, minS, maxS),
-          governance: scaleToTen(row.g, minG, maxG),
-          stockInfoUrl: row.w,
-        }));
-
-        updateState({ csvData: data });
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -152,15 +155,10 @@ const StickyHeadTable: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {state.csvData
-              .filter(
-                (row) =>
-                  row.ticker.includes(state.search.toLowerCase()) ||
-                  row.name.toLowerCase().includes(state.search.toLowerCase())
-              )
+            {portfolioData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
-                <StockTableRow
+                <PortfolioStockTableRow
                   key={row.ticker}
                   row={row}
                   onClick={() => handleRowClick(row)}
@@ -173,19 +171,16 @@ const StickyHeadTable: React.FC = () => {
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={
-          state.csvData.filter(
-            (row) =>
-              row.ticker.includes(state.search.toLowerCase()) ||
-              row.name.toLowerCase().includes(state.search.toLowerCase())
-          ).length
+          portfolioData.length
         }
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+
     </Paper>
   );
 };
 
-export default StickyHeadTable;
+export default PortfolioTable;
