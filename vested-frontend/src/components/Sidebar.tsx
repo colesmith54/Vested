@@ -35,7 +35,7 @@ const getColor = (value: string): string => {
   return colorMapping[floor] || "#cccccc";
 };
 
-const renderScore = (score: string) => {
+const renderScore = (score: string, big: boolean) => {
   const color = getColor(score);
 
   return (
@@ -44,9 +44,9 @@ const renderScore = (score: string) => {
         variant="h5"
         component="span"
         style={{
-          fontSize: "1.4em",
+          fontSize: big ? "2.8rem" : "1.4rem",
+          fontWeight: big ? "bold" : "normal",
           color: color,
-          fontWeight: "bold",
         }}
       >
         {score}
@@ -55,6 +55,9 @@ const renderScore = (score: string) => {
         variant="h6"
         component="span"
         style={{
+          fontSize: big ? "2.0rem" : "1rem",
+          fontWeight: big ? "bold" : "normal",
+          marginTop: big ? "0.6rem" : "0.4rem",
           marginLeft: "4px",
           color: "#555",
         }}
@@ -297,7 +300,8 @@ const Sidebar: React.FC = () => {
                   )}
                   {/* Use renderScore for displaying subScores */}
                   {renderScore(
-                    subScore.score === 0 ? "-" : subScore.score.toString()
+                    subScore.score === 0 ? "-" : subScore.score.toString(),
+                    false
                   )}
                 </Box>
               ))}
@@ -318,7 +322,10 @@ const Sidebar: React.FC = () => {
               }}
             >
               {/* Use renderScore for displaying overallScore */}
-              {renderScore(overallScore === 0 ? "-" : overallScore.toString())}
+              {renderScore(
+                overallScore === 0 ? "-" : overallScore.toString(),
+                true
+              )}
             </Box>
           </Grid>
         </Grid>
