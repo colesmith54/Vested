@@ -1,11 +1,14 @@
 /* src/styles/Header.module.css */
 
 .headerContainer {
+    width: 100%;
     display: flex;
     align-items: center;
+    overflow: hidden;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */  
     justify-content: space-between;
     background-color: #4caf50; /* Green background */
-    padding: 16px 24px;
+    padding: 16px 16px;
     width: 100%; /* Ensure it spans the full width */
     z-index: 1000; /* Keep if you have dropdowns or other overlapping elements */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for separation */
