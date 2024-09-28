@@ -1,14 +1,14 @@
 import './App.css'
-import Dashboard from './pages/Dashboard.tsx';
+import Info from './pages/Info.tsx';
+// import Portfolio from './pages/Portfolio.tsx';
+// import Search from './pages/Search.tsx';
 
 function App() {
-  // Use state
-  // const [count, setCount] = useState(0)
-
+  // const [count, setCount] = useState(0) // Use with glocal portfolio
   return (
     <>
       <h1>Venture</h1>
-      <Dashboard />
+      <Info />
     </>
   )
 }
