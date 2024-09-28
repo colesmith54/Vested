@@ -13,6 +13,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import styles from "../styles/Table.module.css";
 import { useGlobalState } from "../GlobalState.tsx";
 import ImageWithFallback from "./ImageWithFallback.tsx";
+import Portfolio from "../pages/Portfolio.tsx";
 
 interface StockRow {
   logo: string;
@@ -49,6 +50,7 @@ const getColor = (value: number): string => {
 
 const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
   const { state, updateState } = useGlobalState();
+  const { portfolioItems } = state;
 
   const [openDialog, setOpenDialog] = useState(false);
   const [portfolioAmount, setPortfolioAmount] = useState("");
@@ -64,14 +66,15 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
 
   const handleAddPortfolioSubmit = () => {
     updateState({
-      portfolioItems: [
-        ...state.portfolioItems,
-        {
-          ticker: row.ticker.toUpperCase(),
-          price: parseFloat(portfolioAmount),
-          options: [row.environmental, row.social, row.governance],
-        },
-      ],
+      portfolioItems: portfolioItems.map((item) => {
+        if (item.ticker === row.ticker.toUpperCase()) {
+          return {
+            ...item,
+            price: item.price + parseFloat(portfolioAmount),
+          };
+        }
+        return item;
+      })
     });
     handleDialogClose();
   };
