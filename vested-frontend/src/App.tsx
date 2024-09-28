@@ -1,5 +1,5 @@
-import './App.css'
-import Dashboard from './pages/Dashboard.tsx';
+import "./App.css";
+import Dashboard from "./pages/Dashboard.tsx";
 
 function App() {
   // Use state
@@ -7,10 +7,10 @@ function App() {
 
   return (
     <>
-      <h1>Venture</h1>
+      <h1>Vested</h1>
       <Dashboard />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
