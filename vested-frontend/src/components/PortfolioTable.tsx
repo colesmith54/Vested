@@ -95,18 +95,20 @@ const PortfolioTable: React.FC = () => {
         const tickers = state.portfolioItems.map((item) => item.ticker.toLowerCase());
         
         // Filter the csvData based on the tickers and add the amount field
-        const filtered_data = state.csvData
-          .filter((row) => row.ticker && tickers.includes(row.ticker.toLowerCase()))
+        const filtered_data = state.portfolioItems
+          // .filter((row) => row.ticker && tickers.includes(row.ticker.toLowerCase()))
           .map((row) => ({
             ...row,
-            amount: amountsMap[row.ticker.toLowerCase()] || 0, // Add dollar amount, defaulting to 0 if not found
+            amount: "$" + row.price || 0, // Add dollar amount, defaulting to 0 if not found
           }));
+
+
         
         result = filtered_data;
-        console.log("result: ", result);
+        console.log("filtered_data: ", filtered_data);
         
         // Update portfolio data with the new result
-        setPortfolioData(result);
+        setPortfolioData(filtered_data);
         
 
       } catch (error) {

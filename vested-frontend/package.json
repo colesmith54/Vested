@@ -10,10 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@devexpress/dx-react-chart": "^4.0.9",
+    "@devexpress/dx-react-chart-material-ui": "^4.0.9",
+    "@devexpress/dx-react-core": "^4.0.9",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.1",
     "@mui/material": "^6.1.1",
+    "@mui/x-charts": "^7.18.0",
+    "@mui/x-data-grid": "^7.18.0",
     "axios": "^1.7.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
