@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-import Sidebar from '../components/Sidebar.tsx';
-import Header from '../components/Header.tsx';
 import styles from '../styles/Dashboard.module.css';
-import DashboardCard from '../components/DashboardCard.tsx';
+import Header from '../components/Header';
 import { useGlobalState } from '../GlobalState.tsx';
 
 const Dashboard: React.FC = () => {
@@ -24,18 +22,8 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.dashboard}>
-      <Sidebar />
-      <div className={styles.mainContent}>
-        <Header />
-        <div className={styles.cardContainer}>
-          <DashboardCard title="Total Assets" value="$100,000" />
-          <DashboardCard title="Total Investments" value="$50,000" />
-          <DashboardCard title="Total Returns" value="$5,000" />
-          {/* Optional: You can render csvData here or pass it to a DashboardCard */}
-          {/* <pre>{JSON.stringify(state.csvData, null, 2)}</pre> */}
-        </div>
-      </div>
+    <div>
+      <Header />
     </div>
   );
 };

@@ -6,8 +6,8 @@ import csvParser from "csv-parser";
 interface CsvRow {
   t: string;
   n: string;
-  i: string;
   l: string;
+  w: string;
   e: number;
   s: number;
   g: number;
@@ -31,8 +31,8 @@ export const getAllCsvRows = (req: Request, res: Response): void => {
     const row: CsvRow = {
       t: data.ticker,
       n: data.name,
-      i: data.industry,
       l: data.logo,
+      w: data.weburl,
       e: Math.min(10, Math.round(data.environment_score / 60)),
       s: Math.min(10, Math.round(data.social_score / 40)),
       g: Math.min(10, Math.round(data.governance_score / 40)),
