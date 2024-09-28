@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import styles from "../styles/Sidebar.module.css";
+import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "../GlobalState";
 
 interface SubScoreItem {
@@ -25,45 +26,98 @@ const subScores: SubScoreItem[] = [
   { category: "Environmental", score: 75 },
 ];
 
+const colorMapping: { [key: number]: string } = {
+  0: "#e60000", // Red
+  1: "#ff4500", // Orange Red
+  2: "#ff8c00", // Dark Orange
+  3: "#ffa500", // Orange
+  4: "#ffd966", // Soft Yellow
+  5: "#ffd700", // Gold
+  6: "#a8d5ba", // Soft Green
+  7: "#7fff00", // Chartreuse
+  8: "#32cd32", // Lime Green
+  9: "#00ff00", // Lime
+  10: "#00e600", // Green
+};
+
+const formatPrice = (price: number): string => {
+  if (price >= 1000000) {
+    return `$${(price / 1000000).toFixed(1)}M`; // Convert to millions and add 'M'
+  } else if (price >= 1000) {
+    return `$${(price / 1000).toFixed(1)}K`; // Convert to thousands and add 'K'
+  } else {
+    return `$${price}`; // Display as is if below 1000
+  }
+};
+
+
 const Sidebar: React.FC = () => {
   const { state, removeStock } = useGlobalState();
   const { portfolioItems } = state;
+  const navigate = useNavigate();
 
+  console.log(portfolioItems);
+  
   return (
-    <Box className={styles.sidebar}>
-      <Typography variant="h5" className={styles.title}>
-        My Portfolio
-      </Typography>
-
-      <Box className={styles.portfolioList}>
+    <Box className={styles.sidebar} onClick={() => navigate('/portfolio')}>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h5" className={styles.title}>
+          My Portfolio
+        </Typography>
+      </Box>
+      <Box
+        className={styles.portfolioList}
+        >
         {portfolioItems.map((item, index) => (
-          <Card key={index} className={styles.card}>
+          <Card
+            key={index}
+            className={styles.card}
+            onClick={() => navigate(`/info/${item.ticker}`)}
+          >
             <CardContent className={styles.cardContent}>
               <Box className={styles.cardLine}>
                 <Typography variant="body1" className={styles.ticker}>
                   {item.ticker}
                 </Typography>
                 <Typography variant="body2" className={styles.price}>
-                  ${item.price}
+                  {formatPrice(item.price)} {/* Use the formatted price */}
                 </Typography>
                 <Box className={styles.options}>
                   {item.options.map(
-                    (
-                      option: string,
-                      optionIndex: React.Key | null | undefined
-                    ) => (
-                      <Box key={optionIndex} className={styles.optionBox}>
-                        {option.split("/")[0]}
-                      </Box>
-                    )
+                    (option: string, optionIndex: React.Key | null | undefined) => {
+                      // Extract the number from the option string
+                      const extractedValue = parseInt(option.split("/")[0], 10);
+
+                      // Check if the extracted value is a valid number and within the color mapping range
+                      const color = colorMapping[extractedValue] || '#cccccc'; // Default to grey if value is out of range or invalid
+                      return (
+                        <Box
+                          key={optionIndex}
+                          className={styles.optionBox}
+                          style={{
+                            backgroundColor: color,
+                            color: '#000',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            display: 'inline-block',
+                          }}
+                        >
+                          {option.split("/")[0]}
+                        </Box>
+                      );
+                    }
                   )}
                 </Box>
+
                 <IconButton
                   aria-controls={`menu-${item.ticker}`}
                   aria-haspopup="true"
-                  onClick={() => removeStock(item.ticker)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent the event from propagating to the parent Box
+                    removeStock(item.ticker);
+                  }}
                 >
-                  <RemoveIcon sx={{ color: "#ff6b6b" }} />
+                <RemoveIcon sx={{ color: "#ff6b6b" }} />
                 </IconButton>
               </Box>
             </CardContent>
