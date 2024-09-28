@@ -1,13 +1,17 @@
-import * as React from 'react';
+// src/components/StickyHeadTable.tsx
+
+import React from 'react';
 import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
+import MuiTable from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import { TablePagination } from '@mui/material';
+import TablePagination from '@mui/material/TablePagination';
+import styles from '../styles/Table.module.css';
+import { useNavigate } from 'react-router-dom';
 
 interface Column {
   id: 'name' | 'ticker' | 'amountBought' | 'environmental' | 'sustainable' | 'governance' | 'stockInfoUrl';
@@ -24,7 +28,6 @@ const columns: readonly Column[] = [
   { id: 'environmental', label: 'Environmental', minWidth: 170, align: 'right' },
   { id: 'sustainable', label: 'Sustainable', minWidth: 170, align: 'right' },
   { id: 'governance', label: 'Governance', minWidth: 170, align: 'right' },
-
   { id: 'stockInfoUrl', label: 'Profile', minWidth: 170, align: 'center' }, // New column for the button
 ];
 
@@ -51,15 +54,17 @@ function createData(
 
 const rows = [
   createData('Apple', 'AAPL', 132, 100, 100, 100),
-
+  // Add more rows as needed
 ];
 
-export default function StickyHeadTable() {
+const StickyHeadTable: React.FC = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const navigate = useNavigate(); // To navigate to the profile page
 
-//   const handleButtonClick = (stockInfoUrl: string) => {
-//   };
+  const handleButtonClick = (stockInfoUrl: string) => {
+    navigate(stockInfoUrl);
+  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -71,9 +76,9 @@ export default function StickyHeadTable() {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
+    <Paper className={styles.paper}>
+      <TableContainer className={styles.tableContainer}>
+        <MuiTable stickyHeader aria-label="sticky table" className={styles.table}>
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -81,6 +86,7 @@ export default function StickyHeadTable() {
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
+                  className={column.id === 'stockInfoUrl' ? undefined : styles.tableHeadCell}
                 >
                   {column.label}
                 </TableCell>
@@ -92,7 +98,7 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.ticker}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.ticker} className={styles.tableRow}>
                     {columns.map((column) => {
                       if (column.id === 'stockInfoUrl') {
                         return (
@@ -100,7 +106,8 @@ export default function StickyHeadTable() {
                             <Button
                               variant="contained"
                               color="primary"
-                            //   onClick={() => handleButtonClick(row.stockInfoUrl)}
+                              className={styles.viewProfileButton}
+                              onClick={() => handleButtonClick(row.stockInfoUrl)}
                             >
                               View Profile
                             </Button>
@@ -119,7 +126,7 @@ export default function StickyHeadTable() {
                 );
               })}
           </TableBody>
-        </Table>
+        </MuiTable>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
@@ -132,4 +139,6 @@ export default function StickyHeadTable() {
       />
     </Paper>
   );
-}
+};
+
+export default StickyHeadTable;

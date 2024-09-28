@@ -57,7 +57,7 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
         console.log(response.data);
         setData(response.data);
         setFilteredData(response.data);
-      } catch (err: any) {
+      } catch (err: unknown) {
         setError("Failed to fetch stock data.");
         console.error(err);
       } finally {
@@ -76,7 +76,7 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
       const slicedData = data.slice(-days > data.length ? 0 : -days);
       setFilteredData(slicedData);
     }
-  }, [timeWindow, data]);
+  }, [timeWindow, data, timeWindows]);
 
   const handleTimeWindowChange = (
     event: React.MouseEvent<HTMLElement>,

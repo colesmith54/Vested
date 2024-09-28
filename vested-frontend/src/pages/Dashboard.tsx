@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import styles from "../styles/Dashboard.module.css";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Table from "../components/Table";
-import { useGlobalState } from "../GlobalState.tsx";
+// src/pages/Dashboard.tsx
+
+import React, { useEffect } from 'react';
+import styles from '../styles/Dashboard.module.css';
+import Table from '../components/Table';
+import { useGlobalState } from '../GlobalState';
 
 const Dashboard: React.FC = () => {
   const { updateState } = useGlobalState();
@@ -23,12 +23,10 @@ const Dashboard: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [updateState]); // Added dependency
 
   return (
     <div className={styles.dashboardContainer}>
-      <Header />
-      <Sidebar />
       <Table />
     </div>
   );

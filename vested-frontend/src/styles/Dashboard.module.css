@@ -1,7 +1,15 @@
+/* src/styles/Dashboard.module.css */
 
 .dashboardContainer {
   display: flex;
-  height: 100vh;
-  background-color: #4caf50; /* Green background */
-  margin-top: 64px; /* Same height as the header */
+  flex-direction: column;
+  height: 100%; /* Fill the height provided by Layout */
+  width: 100%; /* Fill the width provided by Layout */
+  gap: 16px; /* Optional: spacing between elements */
+}
+
+@media (max-width: 600px) {
+  .dashboardContainer {
+    padding: 8px; /* Adjust padding for smaller screens */
+  }
 }

@@ -1,11 +1,12 @@
 import React from 'react';
 import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 
 const Info: React.FC = () => {
     return (
         <div>
         <Header />
-        <h1>Info</h1>
+        <Sidebar />
         </div>
     );
 }

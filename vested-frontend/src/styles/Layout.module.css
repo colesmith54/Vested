@@ -1,0 +1,21 @@
+/* src/styles/Layout.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+  }
+  
+  .body {
+    display: flex;
+    flex: 1;
+    overflow: hidden; /* Prevents the entire page from scrolling */
+  }
+  
+  .mainContent {
+    flex: 1;
+    padding: 24px; /* Adjust padding as needed */
+    overflow-y: auto; /* Allows scrolling within main content if necessary */
+    background-color: #fafafa; /* Optional: background color for main area */
+  }
+  

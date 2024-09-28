@@ -1,97 +1,96 @@
 /* src/styles/Sidebar.module.css */
 
 .sidebar {
-    width: 300px;
-    background-color: #f5f5f5;
-    padding: 16px; /* 2 * 8px */
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden; /* Prevents overflow if sidebar is fixed */
-  }
-  
-  .title {
-    margin-bottom: 16px;
-    font-size: 1.25rem; /* Corresponds to h6 */
-  }
-  
-  .portfolioList {
-    flex-grow: 1;
-    padding-right: 8px;
-    overflow-y: auto;
-  }
-  
-  .card {
-    margin-bottom: 16px;
-    background-color: #ffffff;
-  }
-  
-  .cardContent {
-    padding: 16px;
-  }
-  
-  .cardLine {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .ticker {
-    font-weight: bold;
-    font-size: 1rem; /* Corresponds to body1 */
-  }
-  
-  .price {
-    color: rgba(0, 0, 0, 0.54); /* text.secondary */
-    font-size: 0.875rem; /* body2 */
-  }
-  
-  .options {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .optionBox {
-    padding: 2px 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 12px;
-  }
-  
-  .divider {
-    margin: 16px 0;
-  }
-  
-  .footer {
-    padding: 16px 0;
-  }
-  
-  .subScores {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .subScoreItem {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .totalScore {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-  
-  .footerNumber {
-    font-size: 2.25rem; /* h3 */
-    margin: 0;
-  }
-  
-  .footerFraction {
-    font-size: 1rem; /* h6 */
-    margin-left: 4px;
-  }
-  
+  width: 300px;
+  background-color: #f5f5f5;
+  padding: 16px; /* 2 * 8px */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fill the available height */
+  overflow-y: auto; /* Enable internal scrolling if needed */
+}
+
+.title {
+  margin-bottom: 16px;
+  font-size: 1.25rem; /* Corresponds to h5 */
+}
+
+.portfolioList {
+  flex-grow: 1;
+  padding-right: 8px;
+  overflow-y: auto;
+}
+
+.card {
+  margin-bottom: 16px;
+  background-color: #ffffff;
+}
+
+.cardContent {
+  padding: 16px;
+}
+
+.cardLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticker {
+  font-weight: bold;
+  font-size: 1rem; /* Corresponds to body1 */
+}
+
+.price {
+  color: rgba(0, 0, 0, 0.54); /* text.secondary */
+  font-size: 0.875rem; /* body2 */
+}
+
+.options {
+  display: flex;
+  gap: 8px;
+}
+
+.optionBox {
+  padding: 2px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.divider {
+  margin: 16px 0;
+}
+
+.footer {
+  padding: 16px 0;
+}
+
+.subScores {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subScoreItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.totalScore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.footerNumber {
+  font-size: 2.25rem; /* h3 */
+  margin: 0;
+}
+
+.footerFraction {
+  font-size: 1rem; /* h6 */
+  margin-left: 4px;
+}
