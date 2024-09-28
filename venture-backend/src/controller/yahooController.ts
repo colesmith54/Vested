@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-const { yahooFinance, HistoricalQuote } = require("yahoo-finance2").default;
+import yahooFinance from "yahoo-finance2";
 
 interface StockPrice {
   date: string;
@@ -33,10 +33,7 @@ export const getStockPrices = async (
       period2: endDate,
       interval: "1d" as const,
     };
-    const result: (typeof HistoricalQuote)[] = await yahooFinance.historical(
-      ticker,
-      queryOptions
-    );
+    const result: any[] = await yahooFinance.historical(ticker, queryOptions);
 
     if (!result || result.length === 0) {
       res
@@ -45,32 +42,20 @@ export const getStockPrices = async (
       return;
     }
 
-    const stockPrices: StockPrice[] = result.map(
-      (quote: typeof HistoricalQuote) => ({
-        date: quote.date.toISOString().split("T")[0],
-        open: quote.open,
-        high: quote.high,
-        low: quote.low,
-        close: quote.close,
-        volume: quote.volume,
-      })
-    );
+    const stockPrices: StockPrice[] = result.map((quote: any) => ({
+      date: quote.date.toISOString().split("T")[0],
+      open: quote.open,
+      high: quote.high,
+      low: quote.low,
+      close: quote.close,
+      volume: quote.volume,
+    }));
 
     res.status(200).json({ ticker, stockPrices });
   } catch (error) {
-    if (yahooFinance.isError(error)) {
-      console.error(
-        `Yahoo Finance API Error for ticker "${ticker}":`,
-        error.message
-      );
-      res.status(400).json({
-        error: `Failed to fetch data for ticker "${ticker}". Please ensure the ticker is valid.`,
-      });
-    } else {
-      console.error("Unexpected Error:", error);
-      res
-        .status(500)
-        .json({ error: "Internal server error while fetching stock data." });
-    }
+    console.error("Unexpected Error:", error);
+    res
+      .status(500)
+      .json({ error: "Internal server error while fetching stock data." });
   }
 };
