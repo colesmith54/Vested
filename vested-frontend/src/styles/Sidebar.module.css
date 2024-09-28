@@ -89,6 +89,7 @@
 .subScoreItem {
   display: flex;
   justify-content: space-between;
+  padding-left: 25px;
 }
 
 .totalScore {
@@ -99,11 +100,11 @@
 }
 
 .footerNumber {
-  font-size: 2.25rem; /* h3 */
+  font-size: 1.5rem; /* h3 */
+  color: rgb(44, 190, 0);
   margin: 0;
 }
 
 .footerFraction {
   font-size: 1rem; /* h6 */
-  margin-left: 4px;
 }
