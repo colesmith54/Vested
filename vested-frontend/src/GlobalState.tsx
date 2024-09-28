@@ -5,6 +5,7 @@ interface GlobalState {
   count: number;
   user: string | null;
   csvData: any[];
+  portfolioItems: any[];
 }
 
 // Define the context value type
@@ -27,6 +28,10 @@ const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
     count: 0,
     user: null,
     csvData: [],
+    portfolioItems: [
+      { ticker: 'AAPL', price: 150, options: ['A', 'C', 'B'] },
+      { ticker: 'TSLA', price: 700, options: ['B', 'C', 'D'] },
+    ],
   });
 
   // Helper function to update state based on the previous state

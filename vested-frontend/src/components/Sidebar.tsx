@@ -10,6 +10,8 @@ import {
   Box,
 } from '@mui/material';
 import styles from '../styles/Sidebar.module.css';
+import { useGlobalState } from '../GlobalState';
+
 
 interface PortfolioItem {
   ticker: string;
@@ -23,12 +25,7 @@ interface SubScoreItem {
   score: number;
 }
 
-const portfolioItems: PortfolioItem[] = [
-  { ticker: 'AAPL', price: 150, options: ['A', 'C', 'B'] },
-  { ticker: 'GOOGL', price: 2800, options: ['A', 'D', 'E'] },
-  { ticker: 'TSLA', price: 700, options: ['B', 'C', 'D'] },
-  { ticker: 'AMZN', price: 3500, options: ['A', 'B', 'E'] },
-];
+
 
 const subScores: SubScoreItem[] = [
   { category: 'Economic', score: 72 },
@@ -37,6 +34,9 @@ const subScores: SubScoreItem[] = [
 ];
 
 const Sidebar: React.FC = () => {
+  const { state } = useGlobalState();
+  const { portfolioItems } = state;
+  
   return (
     <Box className={styles.sidebar}>
       <Typography variant="h5" className={styles.title}>
@@ -55,7 +55,7 @@ const Sidebar: React.FC = () => {
                     ${item.price}
                     </Typography>
                     <Box className={styles.options}>
-                    {item.options.map((option, optionIndex) => (
+                    {item.options.map((option: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, optionIndex: React.Key | null | undefined) => (
                         <Box key={optionIndex} className={styles.optionBox}>
                         {option}
                         </Box>
