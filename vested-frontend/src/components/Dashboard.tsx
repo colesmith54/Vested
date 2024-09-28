@@ -8,9 +8,9 @@ import Logo from '../assets/vest.png'; // Ensure the logo image is in src/assets
 
 const Dashboard: React.FC = () => {
   return (
+
     <Box className={styles.dashboardContainer}>
       {/* Sidebar */}
-      <Sidebar />
 
       {/* Main Content Area */}
       <Box className={styles.mainContent}>
