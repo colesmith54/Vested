@@ -30,22 +30,21 @@ interface StockTableRowProps {
 }
 
 const colorMapping: { [key: number]: string } = {
-  0: "#e60000", // Red
-  1: "#ff4500", // Orange Red
-  2: "#ff8c00", // Dark Orange
-  3: "#ffa500", // Orange
-  4: "#ffd966", // Soft Yellow
-  5: "#ffd700", // Gold
-  6: "#a8d5ba", // Soft Green
-  7: "#7fff00", // Chartreuse
-  8: "#32cd32", // Lime Green
-  9: "#00ff00", // Lime
-  10: "#00e600", // Green
+  1: "#e60000",
+  2: "#e60000",
+  3: "#ff8c00",
+  4: "#ff8c00",
+  5: "#ffd700",
+  6: "#ffd700",
+  7: "#a8dd00",
+  8: "#a8dd00",
+  9: "#00AF4D",
+  10: "#00AF4D",
 };
 
 const getColor = (value: number): string => {
   const floor = Math.floor(value);
-  return colorMapping[floor] || "#000000"; // Default to black if out of range
+  return colorMapping[floor] || "#000000";
 };
 
 const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
@@ -89,10 +88,12 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
           alignItems: "center",
         }}
       >
-        <span style={{ fontSize: "2.4em", color: color, fontWeight: "bold" }}>
+        <span style={{ fontSize: "2em", color: color, fontWeight: "bold" }}>
           {value.toFixed(1)}
         </span>
-        <span style={{ marginLeft: "4px", color: "#555", marginTop: "8px" }}>/10</span>
+        <span style={{ marginLeft: "4px", color: "#555", marginTop: "8px" }}>
+          /10
+        </span>
       </div>
     );
   };
