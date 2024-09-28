@@ -93,14 +93,13 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
         <DialogTitle>Add to Portfolio</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enter the amount in dollars to add to your portfolio for {row.name}.
+            Enter the amount in dollars for {row.name}.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id={`portfolio-amount-${row.ticker}`}
             label="Amount ($)"
-            type="number"
             fullWidth
             variant="standard"
             value={portfolioAmount}
