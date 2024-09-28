@@ -89,7 +89,6 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
       setFilteredData(data);
     } else {
       const days = timeWindows[timeWindow];
-      // Corrected slicing logic for clarity
       const startIndex = data.length > days ? data.length - days : 0;
       const slicedData = data.slice(startIndex);
       setFilteredData(slicedData);
@@ -146,26 +145,19 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
     );
   }
 
-  // Calculate Y-Axis domain manually with padding
   const prices = filteredData.map((d) => d.price);
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
   const priceRange = maxPrice - minPrice;
-  const padding = priceRange > 0 ? priceRange * 0.05 : 1; // Ensure padding is at least 1 if no range
+  const padding = priceRange > 0 ? priceRange * 0.05 : 1;
 
-  // Handle case where all prices are the same
   const adjustedMin = minPrice - padding;
   const adjustedMax = maxPrice + padding;
 
-  // Ensure that adjustedMin is less than adjustedMax
   const yDomain =
     adjustedMin < adjustedMax
       ? [adjustedMin, adjustedMax]
-      : [minPrice - 1, maxPrice + 1]; // Fallback padding
-
-  // Debugging: Log filteredData and yDomain
-  console.log("Filtered Data:", filteredData);
-  console.log("Y-Axis Domain:", yDomain);
+      : [minPrice - 1, maxPrice + 1];
 
   return (
     <Box>
@@ -181,7 +173,6 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
             minTickGap={20}
             tickFormatter={(dateString) => {
               const d = new Date(dateString);
-              // Format as MM/DD
               return `${d.getMonth() + 1}/${d.getDate()}`;
             }}
           />
