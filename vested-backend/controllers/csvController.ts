@@ -37,9 +37,9 @@ export const getAllCsvRows = (req: Request, res: Response): void => {
       n: data.name,
       l: data.logo,
       w: data.weburl,
-      e: Math.min(10, Math.round(data.environment_score / 60)),
-      s: Math.min(10, Math.round(data.social_score / 40)),
-      g: Math.min(10, Math.round(data.governance_score / 40)),
+      e: Math.min(10, parseFloat((data.environment_score / 60).toFixed(1))),
+      s: Math.min(10, parseFloat((data.social_score / 40).toFixed(1))),
+      g: Math.min(10, parseFloat((data.governance_score / 40).toFixed(1))),
     };
     results.push(row);
   });

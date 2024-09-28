@@ -128,6 +128,11 @@ const StickyHeadTable: React.FC = () => {
           </TableHead>
           <TableBody>
             {state.csvData
+              .filter(
+                (row) =>
+                  row.ticker.includes(state.search.toUpperCase()) ||
+                  row.name.toLowerCase().includes(state.search.toLowerCase())
+              )
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <StockTableRow key={row.ticker} row={row} />
