@@ -80,9 +80,9 @@ const StickyHeadTable: React.FC = () => {
           logo: row.l,
           name: row.n,
           ticker: row.t,
-          environmental: row.e,
-          social: row.s,
-          governance: row.g,
+          environmental: String(row.e),
+          social: String(row.s),
+          governance: String(row.g),
           stockInfoUrl: row.w,
         }));
 
@@ -154,7 +154,13 @@ const StickyHeadTable: React.FC = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={state.csvData.length}
+        count={
+          state.csvData.filter(
+            (row) =>
+              row.ticker.includes(state.search.toLowerCase()) ||
+              row.name.toLowerCase().includes(state.search.toLowerCase())
+          ).length
+        }
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

@@ -14,6 +14,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import styles from "../styles/Table.module.css";
 import { useGlobalState } from "../GlobalState.tsx";
+import ImageWithFallback from "./ImageWithFallback.tsx";
 
 interface StockRow {
   logo: string;
@@ -63,7 +64,7 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
     <>
       <TableRow hover tabIndex={-1} key={row.ticker} onClick={onClick}>
         <TableCell align="center">
-          <img
+          <ImageWithFallback
             src={row.logo}
             alt={`${row.name} Logo`}
             className={styles.logo}
