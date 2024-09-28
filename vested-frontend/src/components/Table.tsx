@@ -31,6 +31,7 @@ interface CsvRow {
   e: number;
   s: number;
   g: number;
+  url: string
 }
 
 interface Column {
@@ -61,6 +62,10 @@ const columns: readonly Column[] = [
   },
 ];
 
+const scaleToTen = (value: number, min: number, max: number): string => {
+  return String((((value - min) / (max - min)) * 10).toFixed(1));
+};
+
 const StickyHeadTable: React.FC = () => {
   const navigate = useNavigate();
   const [page, setPage] = React.useState(0);
@@ -76,14 +81,29 @@ const StickyHeadTable: React.FC = () => {
         );
 
         const result = await response.data;
-        const data: StockRow[] = result.map((row) => ({
+
+        const environmentalScores = result.map((row: any) => row.e);
+        const socialScores = result.map((row: any) => row.s);
+        const governanceScores = result.map((row: any) => row.g);
+
+        const minE = Math.min(...environmentalScores);
+        const maxE = Math.max(...environmentalScores);
+
+        const minS = Math.min(...socialScores);
+        const maxS = Math.max(...socialScores);
+
+        const minG = Math.min(...governanceScores);
+        const maxG = Math.max(...governanceScores);
+
+        const data: StockRow[] = result.map((row: any) => ({
           logo: row.l,
           name: row.n,
           ticker: row.t,
-          environmental: String(row.e),
-          social: String(row.s),
-          governance: String(row.g),
+          environmental: scaleToTen(row.e, minE, maxE),
+          social: scaleToTen(row.s, minS, maxS),
+          governance: scaleToTen(row.g, minG, maxG),
           stockInfoUrl: row.w,
+          weburl: row.url,
         }));
 
         updateState({ csvData: data });
@@ -107,8 +127,7 @@ const StickyHeadTable: React.FC = () => {
   };
 
   const handleRowClick = (row: StockRow) => {
-    const stockInfoUrl = `/info/${row.ticker}`;
-    navigate(stockInfoUrl);
+    navigate(`/info/${row.ticker}`, { state: { row: row} });
   };
 
   return (

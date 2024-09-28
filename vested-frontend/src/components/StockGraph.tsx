@@ -54,10 +54,27 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
           `https://vested-backend.vercel.app/api/yahoo/${ticker.toLowerCase()}`
         );
 
-        setData(response.data);
-        setFilteredData(response.data);
+        const sortedData = response.data.sort(
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+
+        if (sortedData.length === 0) {
+          throw new Error("No valid data points available.");
+        }
+
+        setData(sortedData);
+        setFilteredData(sortedData);
       } catch (err: unknown) {
-        setError("Failed to fetch stock data.");
+        if (axios.isAxiosError(err)) {
+          setError(
+            err.response?.data?.message ||
+              "Failed to fetch stock data from the server."
+          );
+        } else if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred.");
+        }
         console.error(err);
       } finally {
         setLoading(false);
@@ -72,7 +89,8 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
       setFilteredData(data);
     } else {
       const days = timeWindows[timeWindow];
-      const slicedData = data.slice(-days > data.length ? 0 : -days);
+      const startIndex = data.length > days ? data.length - days : 0;
+      const slicedData = data.slice(startIndex);
       setFilteredData(slicedData);
     }
   }, [timeWindow, data, timeWindows]);
@@ -112,6 +130,35 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
     );
   }
 
+  if (filteredData.length === 0) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="400px"
+      >
+        <Typography color="textSecondary">
+          No data available for this window.
+        </Typography>
+      </Box>
+    );
+  }
+
+  const prices = filteredData.map((d) => d.price);
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+  const priceRange = maxPrice - minPrice;
+  const padding = priceRange > 0 ? priceRange * 0.05 : 1;
+
+  const adjustedMin = minPrice - padding;
+  const adjustedMax = maxPrice + padding;
+
+  const yDomain =
+    adjustedMin < adjustedMax
+      ? [adjustedMin, adjustedMax]
+      : [minPrice - 1, maxPrice + 1];
+
   return (
     <Box>
       <Typography variant="h6" gutterBottom>
@@ -131,9 +178,10 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
           />
 
           <YAxis
-            domain={["dataMin", "dataMax"]}
+            domain={yDomain}
             tick={{ fontSize: 12 }}
             tickFormatter={(value) => value.toFixed(2)}
+            allowDataOverflow={false}
           />
           <Tooltip content={<CustomTooltip />} />
           <Line
@@ -153,7 +201,7 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
           aria-label="time window"
           color="primary"
         >
-          {["1y", "6m", "3m", "1m", "1w"].map((window) => (
+          {["1w", "1m", "3m", "6m", "1y"].map((window) => (
             <ToggleButton key={window} value={window} aria-label={window}>
               {window.toUpperCase()}
             </ToggleButton>

@@ -27,6 +27,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
       alt={alt}
       className={className}
       height={height}
+      style={{ maxWidth: "100px" }}
       onError={() => setIsError(true)}
       {...rest}
     />

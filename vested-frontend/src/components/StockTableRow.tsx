@@ -31,8 +31,9 @@ interface StockTableRowProps {
 }
 
 const colorMapping: { [key: number]: string } = {
-  1: "#e60000",
-  2: "#e60000",
+  0: "#ff6b6b",
+  1: "#ff6b6b",
+  2: "#ff6b6b",
   3: "#ff8c00",
   4: "#ff8c00",
   5: "#ffd700",
