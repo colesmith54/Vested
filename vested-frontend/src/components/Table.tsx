@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import { TablePagination } from "@mui/material";
 import { useGlobalState } from "../GlobalState.tsx";
 import axios from "axios";
-import StockTableRow from "./TableRow";
+import StockTableRow from "./StockTableRow.tsx";
 
 interface StockRow {
   logo: string;
