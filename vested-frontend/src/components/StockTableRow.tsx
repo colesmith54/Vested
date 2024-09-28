@@ -72,9 +72,9 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
         </TableCell>
         <TableCell align="left">{row.name}</TableCell>
         <TableCell align="left">{row.ticker.toUpperCase()}</TableCell>
-        <TableCell align="right">{row.environmental}</TableCell>
-        <TableCell align="right">{row.social}</TableCell>
-        <TableCell align="right">{row.governance}</TableCell>
+        <TableCell align="right">{`${row.environmental}/10`}</TableCell>
+        <TableCell align="right">{`${row.social}/10`}</TableCell>
+        <TableCell align="right">{`${row.governance}/10`}</TableCell>
         <TableCell align="center">
           <IconButton
             aria-controls={`menu-${row.ticker}`}

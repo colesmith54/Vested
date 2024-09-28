@@ -80,9 +80,9 @@ const StickyHeadTable: React.FC = () => {
           logo: row.l,
           name: row.n,
           ticker: row.t,
-          environmental: `${row.e}/10`,
-          social: `${row.s}/10`,
-          governance: `${row.g}/10`,
+          environmental: row.e,
+          social: row.s,
+          governance: row.g,
           stockInfoUrl: row.w,
         }));
 
