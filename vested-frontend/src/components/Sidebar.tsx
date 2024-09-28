@@ -63,7 +63,7 @@ const Sidebar: React.FC = () => {
                   aria-haspopup="true"
                   onClick={() => removeStock(item.ticker)}
                 >
-                  <RemoveIcon />
+                  <RemoveIcon sx={{ color: "#ff6b6b" }} />
                 </IconButton>
               </Box>
             </CardContent>
