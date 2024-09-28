@@ -1,5 +1,4 @@
 import styles from "../styles/Table.module.css";
-import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import MuiTable from "@mui/material/Table";
@@ -8,17 +7,19 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Button from "@mui/material/Button";
 import { TablePagination } from "@mui/material";
 import { useGlobalState } from "../GlobalState.tsx";
 import axios from "axios";
+import StockTableRow from "./TableRow";
 
 interface StockRow {
+  logo: string;
   name: string;
   ticker: string;
   environmental: string;
-  sustainable: string;
+  social: string;
   governance: string;
+  stockInfoUrl: string;
 }
 
 interface CsvRow {
@@ -32,34 +33,36 @@ interface CsvRow {
 }
 
 interface Column {
-  id: "name" | "ticker" | "environmental" | "sustainable" | "governance";
+  id: string;
   label: string;
   minWidth?: number;
-  align?: "right" | "center";
+  align?: "right" | "center" | "left";
   format?: (value: number) => string;
 }
 
 const columns: readonly Column[] = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "ticker", label: "Ticker", minWidth: 100 },
+  { id: "logo", label: "Logo", minWidth: 100, align: "center" },
+  { id: "name", label: "Name", minWidth: 170, align: "left" },
+  { id: "ticker", label: "Ticker", minWidth: 70, align: "left" },
   {
     id: "environmental",
     label: "Environmental",
-    minWidth: 170,
+    minWidth: 70,
     align: "right",
   },
-  { id: "sustainable", label: "Sustainable", minWidth: 170, align: "right" },
-  { id: "governance", label: "Governance", minWidth: 170, align: "right" },
+  { id: "social", label: "Social", minWidth: 70, align: "right" },
+  { id: "governance", label: "Governance", minWidth: 70, align: "right" },
+  {
+    id: "actions",
+    label: "Actions",
+    minWidth: 50,
+    align: "center",
+  },
 ];
 
 const StickyHeadTable: React.FC = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const navigate = useNavigate();
-
-  const handleButtonClick = (stockInfoUrl: string) => {
-    navigate(stockInfoUrl);
-  };
 
   const { state, updateState } = useGlobalState();
 
@@ -72,11 +75,13 @@ const StickyHeadTable: React.FC = () => {
 
         const result = await response.data;
         const data: StockRow[] = result.map((row) => ({
+          logo: row.l,
           name: row.n,
           ticker: row.t,
-          environmental: `${String(row.e)}/10`,
-          sustainable: `${String(row.s)}/10`,
-          governance: `${String(row.g)}/10`,
+          environmental: `${row.e}/10`,
+          social: `${row.s}/10`,
+          governance: `${row.g}/10`,
+          stockInfoUrl: row.w,
         }));
 
         updateState({ csvData: data });
@@ -86,7 +91,7 @@ const StickyHeadTable: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [updateState]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -124,26 +129,9 @@ const StickyHeadTable: React.FC = () => {
           <TableBody>
             {state.csvData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                console.log(row);
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={row.ticker}
-                  >
-                    {columns.map((column) => {
-                      const value = row[column.id as keyof StockRow];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+              .map((row) => (
+                <StockTableRow key={row.ticker} row={row} />
+              ))}
           </TableBody>
         </MuiTable>
       </TableContainer>

@@ -1,6 +1,6 @@
 // src/components/Sidebar.tsx
 
-import React from 'react';
+import React from "react";
 import {
   Typography,
   Card,
@@ -8,16 +8,9 @@ import {
   Grid,
   Divider,
   Box,
-} from '@mui/material';
-import styles from '../styles/Sidebar.module.css';
-import { useGlobalState } from '../GlobalState';
-
-
-interface PortfolioItem {
-  ticker: string;
-  price: number;
-  options: string[];
-}
+} from "@mui/material";
+import styles from "../styles/Sidebar.module.css";
+import { useGlobalState } from "../GlobalState";
 
 // Note that score is always between 0 and 100
 interface SubScoreItem {
@@ -25,18 +18,16 @@ interface SubScoreItem {
   score: number;
 }
 
-
-
 const subScores: SubScoreItem[] = [
-  { category: 'Economic', score: 72 },
-  { category: 'Social', score: 68 },
-  { category: 'Environmental', score: 75 },
+  { category: "Economic", score: 72 },
+  { category: "Social", score: 68 },
+  { category: "Environmental", score: 75 },
 ];
 
 const Sidebar: React.FC = () => {
   const { state } = useGlobalState();
   const { portfolioItems } = state;
-  
+
   return (
     <Box className={styles.sidebar}>
       <Typography variant="h5" className={styles.title}>
@@ -47,21 +38,37 @@ const Sidebar: React.FC = () => {
         {portfolioItems.map((item, index) => (
           <Card key={index} className={styles.card}>
             <CardContent className={styles.cardContent}>
-                <Box className={styles.cardLine}>
-                    <Typography variant="body1" className={styles.ticker}>
-                    {item.ticker}
-                    </Typography>
-                    <Typography variant="body2" className={styles.price}>
-                    ${item.price}
-                    </Typography>
-                    <Box className={styles.options}>
-                    {item.options.map((option: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, optionIndex: React.Key | null | undefined) => (
-                        <Box key={optionIndex} className={styles.optionBox}>
+              <Box className={styles.cardLine}>
+                <Typography variant="body1" className={styles.ticker}>
+                  {item.ticker}
+                </Typography>
+                <Typography variant="body2" className={styles.price}>
+                  ${item.price}
+                </Typography>
+                <Box className={styles.options}>
+                  {item.options.map(
+                    (
+                      option:
+                        | string
+                        | number
+                        | boolean
+                        | React.ReactElement<
+                            any,
+                            string | React.JSXElementConstructor<any>
+                          >
+                        | Iterable<React.ReactNode>
+                        | React.ReactPortal
+                        | null
+                        | undefined,
+                      optionIndex: React.Key | null | undefined
+                    ) => (
+                      <Box key={optionIndex} className={styles.optionBox}>
                         {option}
-                        </Box>
-                    ))}
-                    </Box>
+                      </Box>
+                    )
+                  )}
                 </Box>
+              </Box>
             </CardContent>
           </Card>
         ))}
