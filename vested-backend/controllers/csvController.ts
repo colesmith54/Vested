@@ -14,7 +14,7 @@ interface CsvRow {
 }
 
 export const getAllCsvRows = (req: Request, res: Response): void => {
-  const csvFilePath: string = path.join(__dirname, "../../data/data.csv");
+  const csvFilePath: string = path.join(__dirname, "../data/data.csv");
 
   if (!fs.existsSync(csvFilePath)) {
     res.status(404).json({ error: "CSV file not found." });
