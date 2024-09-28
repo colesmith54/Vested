@@ -51,7 +51,7 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
       setError(null);
       try {
         const response = await axios.get<StockDataPoint[]>(
-          `http://localhost:3000/api/yahoo/${ticker.toLowerCase()}`
+          `http://vested-backend.vercel.app/yahoo/${ticker.toLowerCase()}`
         );
 
         console.log(response.data);
