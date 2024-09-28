@@ -9,12 +9,10 @@ import Logo from '../assets/vestedLogo.png';
 const Header: React.FC = () => {
   return (
     <Box className={styles.headerContainer}>
-      {/* Logo on the Left */}
       <Box className={styles.logoContainer}>
         <img src={Logo} alt="Logo" className={styles.logo} />
       </Box>
 
-      {/* Search Bar and Navigation Links on the Right */}
       <Box className={styles.searchContainer}>
         {/* Search Bar */}
         <TextField
@@ -24,7 +22,6 @@ const Header: React.FC = () => {
           className={styles.searchBar}
         />
 
-        {/* Navigation Links */}
         <Box className={styles.navLinks}>
           <Link to="/" className={styles.link}>
             Dashboard
@@ -34,9 +31,6 @@ const Header: React.FC = () => {
           </Link>
           <Link to="/portfolio" className={styles.link}>
             Portfolio
-          </Link>
-          <Link to="/search" className={styles.link}>
-            Search
           </Link>
         </Box>
       </Box>

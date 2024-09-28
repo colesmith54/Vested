@@ -1,46 +1,6 @@
-/* src/styles/Dashboard.module.css */
 
 .dashboardContainer {
   display: flex;
   height: 100vh;
   background-color: #4caf50; /* Green background */
-}
-
-.mainContent {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: #4caf50; /* Ensure main content also has green background */
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  background-color: #388e3c; /* Darker green for the header */
-}
-
-.logoContainer {
-  flex: 1; /* Takes up available space on the left */
-}
-
-.logo {
-  height: 40px; /* Adjust as needed */
-}
-
-.searchContainer {
-  flex: 2; /* Takes up more space for the search bar */
-  display: flex;
-  justify-content: flex-end;
-}
-
-.searchBar {
-  width: 300px; /* Adjust the width as needed */
-}
-
-.content {
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }

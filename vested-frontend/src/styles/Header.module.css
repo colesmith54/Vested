@@ -6,6 +6,11 @@
     justify-content: space-between;
     background-color: #4caf50; /* Green background */
     padding: 16px 24px;
+    position: fixed; /* Fixes the header at the top */
+    top: 0; /* Positions the header at the very top */
+    width: 100%; /* Makes sure it takes up the full width */
+    z-index: 1000; /* Ensures it is above other elements */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for separation */
   }
   
   .logoContainer {
