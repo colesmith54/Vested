@@ -1,0 +1,46 @@
+/* src/styles/Header.module.css */
+
+.headerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #4caf50; /* Green background */
+    padding: 16px 24px;
+  }
+  
+  .logoContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 40px; /* Adjust as needed */
+  }
+  
+  .searchContainer {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+  }
+  
+  .searchBar {
+    width: 300px; /* Adjust the width as needed */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .headerContainer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .searchContainer {
+      width: 100%;
+      margin-top: 8px;
+    }
+  
+    .searchBar {
+      width: 100%;
+    }
+  }
+  

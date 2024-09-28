@@ -1,17 +1,28 @@
 // src/components/Header.tsx
-import React from 'react';
-import styles from '../styles/Dashboard.module.css';
-import { useGlobalState } from '../GlobalState.tsx';
 
+import React from 'react';
+import { Box, TextField } from '@mui/material';
+import styles from '../styles/Header.module.css';
+import Logo from '../assets/vestedLogo.png';
 
 const Header: React.FC = () => {
-  const { state, updateState } = useGlobalState();
-
   return (
-    <header className={styles.header}>
-      <h1>Dashboard</h1>
-      <button onClick={() => updateState({ count: state.count + 1 })}>Current global state is {state.count}</button>
-    </header>
+    <Box className={styles.headerContainer}>
+      {/* Logo */}  
+      <Box className={styles.logoContainer}>
+        <img src={Logo} alt="Logo" className={styles.logo} />
+      </Box>
+
+      {/* Search Bar */}
+      <Box className={styles.searchContainer}>
+        <TextField
+          label="Search"
+          variant="outlined"
+          size="small"
+          className={styles.searchBar}
+        />
+      </Box>
+    </Box>
   );
 };
 

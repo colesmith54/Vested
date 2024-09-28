@@ -1,16 +1,23 @@
 import "./App.css";
-import Dashboard from "./pages/Dashboard.tsx";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import Info from './pages/Info';
+import Portfolio from './pages/Portfolio';
+import Search from './pages/Search';
 import { GlobalStateProvider } from './GlobalState';
 
-
 function App() {
-  // Use state
-  // const [count, setCount] = useState(0)
-
   return (
     <GlobalStateProvider>
-      <h1>Vested</h1>
-      <Dashboard />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/info" element={<Info />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/search" element={<Search />} />
+          {/* Add more routes as needed */}
+        </Routes>
+      </Router>
     </GlobalStateProvider>
   );
 }

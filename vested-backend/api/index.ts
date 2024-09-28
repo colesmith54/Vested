@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { getCsvRowByTicker } from "../src/controllers/csvController";
-import { getStockPrices } from "../src/controllers/yahooController";
+import { getCsvRowByTicker } from "../controllers/csvController";
+import { getStockPrices } from "../controllers/yahooController";
 
 const app = express();
 
