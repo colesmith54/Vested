@@ -2,7 +2,7 @@
   "name": "vested-backend",
   "version": "1.0.0",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node dist/api/index.js",
     "build": "tsc"
   },
   "keywords": [],
