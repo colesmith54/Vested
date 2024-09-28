@@ -19,12 +19,30 @@
   
   .searchContainer {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
     flex: 1;
+    gap: 16px; /* Spacing between search bar and links */
   }
   
   .searchBar {
     width: 300px; /* Adjust the width as needed */
+  }
+  
+  .navLinks {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
   }
   
   /* Responsive Design */
@@ -36,11 +54,17 @@
   
     .searchContainer {
       width: 100%;
+      justify-content: space-between; /* Space between search bar and links */
       margin-top: 8px;
     }
   
     .searchBar {
       width: 100%;
+    }
+  
+    .navLinks {
+      justify-content: flex-start;
+      margin-top: 8px;
     }
   }
   
