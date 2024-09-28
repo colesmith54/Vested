@@ -89,10 +89,10 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
           alignItems: "center",
         }}
       >
-        <span style={{ fontSize: "1.5em", color: color, fontWeight: "bold" }}>
-          {score}
+        <span style={{ fontSize: "2.4em", color: color, fontWeight: "bold" }}>
+          {value.toFixed(1)}
         </span>
-        <span style={{ marginLeft: "4px", color: "#555" }}>/10</span>
+        <span style={{ marginLeft: "4px", color: "#555", marginTop: "8px" }}>/10</span>
       </div>
     );
   };
