@@ -175,6 +175,13 @@ const Sidebar: React.FC = () => {
       <Divider className={styles.divider} />
 
       <Box className={styles.footer}>
+        <Typography
+          variant="h6"
+          className={styles.footerTitle}
+          style={{ marginBottom: "10px", color: "#555" }}
+        >
+          Portfolio Score
+        </Typography>
         <Grid container spacing={2}>
           {/* Left Half: SubScores */}
           <Grid item xs={6}>
