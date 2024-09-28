@@ -1,76 +1,60 @@
-// src/controllers/csvController.ts
-
 import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
 import csvParser from "csv-parser";
 
 interface CsvRow {
-  ticker: string;
-  name: string;
-  currency: string;
-  exchange: string;
-  industry: string;
-  logo: string;
-  weburl: string;
-  environment_grade: string;
-  environment_level: string;
-  social_grade: string;
-  social_level: string;
-  governance_grade: string;
-  governance_level: string;
-  environment_score: string;
-  social_score: number;
-  governance_score: number;
-  total_score: number;
-  last_processing_date: string;
-  total_grade: number;
-  total_level: string;
-  cik: number;
+  t: string;
+  n: string;
+  i: string;
+  l: string;
+  e: number;
+  s: number;
+  g: number;
 }
 
-export const getCsvRowByTicker = (req: Request, res: Response): void => {
-  const ticker: string = req.params.ticker;
+export const getAllCsvRows = (req: Request, res: Response): void => {
+  const csvFilePath: string = path.join(__dirname, "../../data/data.csv");
 
-  if (!ticker || ticker.trim() === "") {
-    res
-      .status(400)
-      .json({ error: "Invalid ticker. It must be a non-empty string." });
+  if (!fs.existsSync(csvFilePath)) {
+    res.status(404).json({ error: "CSV file not found." });
     return;
   }
 
-  const csvFilePath: string = path.join(__dirname, "../../data/data.csv");
   const readStream: fs.ReadStream = fs.createReadStream(csvFilePath);
-  let found: boolean = false;
+  const results: CsvRow[] = [];
 
   const parser = csvParser();
   readStream.pipe(parser);
 
-  parser.on("data", (data: CsvRow) => {
-    if (data.ticker === ticker) {
-      found = true;
-      readStream.destroy();
-      res.status(200).json(data);
-    }
+  parser.on("data", (data: any) => {
+    const row: CsvRow = {
+      t: data.ticker,
+      n: data.name,
+      i: data.industry,
+      l: data.logo,
+      e: Math.min(10, Math.round(data.environment_score / 60)),
+      s: Math.min(10, Math.round(data.social_score / 40)),
+      g: Math.min(10, Math.round(data.governance_score / 40)),
+    };
+    results.push(row);
   });
 
   parser.on("end", () => {
-    if (!found) {
-      res.status(404).json({ error: `Ticker "${ticker}" not found.` });
-    }
+    res.status(200).json(results);
   });
 
   parser.on("error", (err: Error | NodeJS.ErrnoException) => {
-    console.error("Error reading CSV file:", err);
+    console.error("Error parsing CSV file:", err);
     if (!res.headersSent) {
       res
         .status(500)
-        .json({ error: "Internal server error while reading the CSV file." });
+        .json({ error: "Internal server error while parsing the CSV file." });
     }
   });
 
   readStream.on("error", (err: Error | NodeJS.ErrnoException) => {
-    console.error("Error with read stream:", err);
+    console.error("Error reading CSV file:", err);
     if (!res.headersSent) {
       res
         .status(500)
