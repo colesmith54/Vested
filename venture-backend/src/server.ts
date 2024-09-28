@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import homeRoutes from './routes/homeRoutes';
+import csvRoutes from './routes/csvRoutes';
 
 const app = express();
 const port: number = 3000;
@@ -11,6 +12,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use('/api/home', homeRoutes);
+app.use('/api/csv', csvRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
