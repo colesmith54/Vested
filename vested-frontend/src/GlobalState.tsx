@@ -14,7 +14,6 @@ interface GlobalStateContextType {
   state: GlobalState;
   updateState: (newState: Partial<GlobalState>) => void;
   removeStock: (ticker: string) => void;
-
 }
 
 // Create the context with an initial value (can be null initially)
@@ -33,10 +32,7 @@ const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
     count: 0,
     user: null,
     csvData: [],
-    portfolioItems: [
-      { ticker: "AAPL", price: 150, options: ["8/10", "4/10", "9/10"] },
-      { ticker: "TSLA", price: 700, options: ["7/10", "5/10", "2/10"] },
-    ],
+    portfolioItems: [],
     search: "",
   });
 
@@ -51,7 +47,9 @@ const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
   const removeStock = (ticker: string) => {
     setState((prevState) => ({
       ...prevState,
-      portfolioItems: prevState.portfolioItems.filter(item => item.ticker !== ticker),
+      portfolioItems: prevState.portfolioItems.filter(
+        (item) => item.ticker !== ticker
+      ),
     }));
   };
 

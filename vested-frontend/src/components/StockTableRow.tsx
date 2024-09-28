@@ -3,6 +3,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -67,15 +68,14 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
 
   const handleAddPortfolioSubmit = () => {
     updateState({
-      portfolioItems: portfolioItems.map((item) => {
-        if (item.ticker === row.ticker.toUpperCase()) {
-          return {
-            ...item,
-            price: item.price + parseFloat(portfolioAmount),
-          };
-        }
-        return item;
-      })
+      portfolioItems: [
+        ...portfolioItems,
+        {
+          ...row,
+          price: parseFloat(portfolioAmount),
+          options: [row.environmental, row.social, row.governance],
+        },
+      ],
     });
     handleDialogClose();
   };
@@ -127,7 +127,11 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
               handleAddToPortfolio();
             }}
           >
-            <AddIcon />
+            {state.portfolioItems.find((item) => item.ticker === row.ticker) ? (
+              <EditIcon />
+            ) : (
+              <AddIcon />
+            )}
           </IconButton>
         </TableCell>
       </TableRow>
@@ -144,8 +148,8 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
             id={`portfolio-amount-${row.ticker}`}
             label="Amount ($)"
             fullWidth
-            variant="standard"
             type="number"
+            variant="standard"
             value={portfolioAmount}
             onChange={(e) => setPortfolioAmount(e.target.value)}
             inputProps={{ min: "0", step: "0.01" }}

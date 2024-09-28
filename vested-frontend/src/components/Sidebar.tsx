@@ -74,7 +74,7 @@ const Sidebar: React.FC = () => {
             <CardContent className={styles.cardContent}>
               <Box className={styles.cardLine}>
                 <Typography variant="body1" className={styles.ticker}>
-                  {item.ticker}
+                  {item.ticker.toUpperCase()}
                 </Typography>
                 <Typography variant="body2" className={styles.price}>
                   {formatPrice(item.price)} {/* Use the formatted price */}
