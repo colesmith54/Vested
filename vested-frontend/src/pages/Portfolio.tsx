@@ -6,7 +6,6 @@ const Portfolio: React.FC = () => {
     <div>
       <Header />
       <h1>Portfolio</h1>
-      <StockGraph ticker="AAPL" />
     </div>
   );
 };

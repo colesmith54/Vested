@@ -1,10 +1,10 @@
 // src/components/Header.tsx
 
-import React from 'react';
-import { Box, TextField } from '@mui/material';
-import { Link } from 'react-router-dom';
-import styles from '../styles/Header.module.css';
-import Logo from '../assets/vestedLogo.png';
+import React from "react";
+import { Box, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
+import styles from "../styles/Header.module.css";
+import Logo from "../assets/vestedLogo.png";
 
 const Header: React.FC = () => {
   return (
@@ -14,7 +14,6 @@ const Header: React.FC = () => {
       </Box>
 
       <Box className={styles.searchContainer}>
-        {/* Search Bar */}
         <TextField
           label="Search"
           variant="outlined"

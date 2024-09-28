@@ -54,7 +54,6 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
           `http://vested-backend.vercel.app/yahoo/${ticker.toLowerCase()}`
         );
 
-        console.log(response.data);
         setData(response.data);
         setFilteredData(response.data);
       } catch (err: unknown) {

@@ -4,7 +4,6 @@
     /* Ensures the table container fills the available space */
     width: 100%;
     overflow-x: auto;
-    max-height: 440px; /* Adjust as needed */
   }
   
   .paper {
