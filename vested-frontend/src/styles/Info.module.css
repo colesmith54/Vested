@@ -42,3 +42,9 @@ h4, h6 {
         max-height: calc(100vh - 50px); /* Adjust this for smaller screens */
     }
 }
+
+.graphContainer {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px; /* Adjust as needed */
+}

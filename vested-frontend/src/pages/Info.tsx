@@ -1,51 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
-import { useGlobalState } from '../GlobalState';
-import { Typography, Box, Alert } from '@mui/material';
-import styles from '../styles/Info.module.css'; 
-
-interface CsvDataItem {
-    ticker: string;
-    name: string;
-    price: number;
-}
+// Info.tsx
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Box, Typography, Button, Alert } from '@mui/material';
+import StockGraph from '../components/StockGraph';
+import styles from '../styles/Info.module.css';
 
 const Info: React.FC = () => {
-    const { ticker } = useParams<{ ticker: string }>();
-    const { state } = useGlobalState();
-    const [csvItem, setCsvItem] = useState<CsvDataItem | null>(null);
+    const location = useLocation();
+    const row = location.state?.row;
+
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (ticker && state.csvData.length > 0) {
-            const foundItem = state.csvData.find(
-                (item: CsvDataItem) => item.ticker.toLowerCase() === ticker.toLowerCase()
-            );
-            
-            if (foundItem) {
-                setCsvItem(foundItem);
-            } else {
-                navigate('/not-found');
-            }
-        }
-    }, [ticker, state.csvData, navigate]);
-
-    if (!csvItem) {
+    if (!row) {
         return (
             <Box p={2}>
                 <Alert severity="warning">
-                    {ticker ? `No data found for ticker: ${ticker.toUpperCase()}` : 'Loading data...'}
+                    No data found. Please go back and select a valid row.
                 </Alert>
+                <Button variant="contained" color="primary" onClick={() => navigate(-1)}>
+                    Go Back
+                </Button>
             </Box>
         );
     }
 
     return (
         <div className={styles.infoContainer}>
-            <Typography variant="h4">
-                {csvItem.name} ({csvItem.ticker.toUpperCase()})
-            </Typography>
-            <Typography variant="h6">Price: ${csvItem.price}</Typography>
+            <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+                <Typography variant="h4">
+                    {row.name} ({row.ticker.toUpperCase()})
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => window.location.href = row.weburl}
+                >
+                    Visit Website
+                </Button>
+            </Box>
+            <Typography variant="h6">Environmental: {row.environmental}</Typography>
+            <Typography variant="h6">Social: {row.social}</Typography>
+            <Typography variant="h6">Governance: {row.governance}</Typography>
+            
+            <Box className={styles.graphContainer}>
+                <StockGraph ticker={row.ticker} />
+            </Box>
         </div>
     );
 };
