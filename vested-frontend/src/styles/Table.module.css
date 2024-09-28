@@ -8,7 +8,7 @@
   
   .paper {
     width: 100%;
-    overflow: hidden;
+    overflow: auto;
     /* Optional: Add any additional styles for the Paper component */
   }
   
