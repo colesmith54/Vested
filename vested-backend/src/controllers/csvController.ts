@@ -39,7 +39,7 @@ export const getCsvRowByTicker = (req: Request, res: Response): void => {
     return;
   }
 
-  const csvFilePath: string = path.join(__dirname, "../../data/data.csv");
+  const csvFilePath: string = path.join(__dirname, "../data/data.csv");
   const readStream: fs.ReadStream = fs.createReadStream(csvFilePath);
   let found: boolean = false;
 
