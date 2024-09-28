@@ -45,7 +45,7 @@ const renderScore = (score: string, big: boolean) => {
         component="span"
         style={{
           fontSize: big ? "2.8rem" : "1.4rem",
-          fontWeight: big ? "bold" : "normal",
+          fontWeight: "bold",
           color: color,
         }}
       >
@@ -56,8 +56,8 @@ const renderScore = (score: string, big: boolean) => {
         component="span"
         style={{
           fontSize: big ? "2.0rem" : "1rem",
-          fontWeight: big ? "bold" : "normal",
-          marginTop: big ? "0.6rem" : "0.4rem",
+          fontWeight: "bold",
+          marginTop: big ? "0.5rem" : "0.3rem",
           marginLeft: "4px",
           color: "#555",
         }}
