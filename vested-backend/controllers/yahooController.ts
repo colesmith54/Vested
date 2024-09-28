@@ -1,15 +1,6 @@
 import { Request, Response } from "express";
 import yahooFinance from "yahoo-finance2";
 
-interface StockPrice {
-  date: string;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
-}
-
 export const getStockPrices = async (
   req: Request,
   res: Response
@@ -26,7 +17,7 @@ export const getStockPrices = async (
   try {
     const endDate: Date = new Date();
     const startDate: Date = new Date();
-    startDate.setMonth(endDate.getMonth() - 3);
+    startDate.setFullYear(endDate.getFullYear() - 1);
 
     const queryOptions = {
       period1: startDate,
@@ -42,16 +33,7 @@ export const getStockPrices = async (
       return;
     }
 
-    const stockPrices: StockPrice[] = result.map((quote: any) => ({
-      date: quote.date.toISOString().split("T")[0],
-      open: quote.open,
-      high: quote.high,
-      low: quote.low,
-      close: quote.close,
-      volume: quote.volume,
-    }));
-
-    // res.status(200).json({ ticker, stockPrices }); No need to
+    const stockPrices: number[] = result.map((quote: any) => quote.close);
     res.status(200).json(stockPrices);
   } catch (error) {
     console.error("Unexpected Error:", error);
