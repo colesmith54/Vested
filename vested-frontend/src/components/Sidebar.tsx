@@ -15,18 +15,54 @@ import styles from "../styles/Sidebar.module.css";
 import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "../GlobalState";
 
-const colorMapping: { [key: number]: string } = {
-  0: "#ff6b6b",
-  1: "#ff6b6b",
-  2: "#ff6b6b",
-  3: "#ff8c00",
-  4: "#ff8c00",
-  5: "#ffd700",
-  6: "#ffd700",
-  7: "#a8dd00",
-  8: "#a8dd00",
-  9: "#00AF4D",
-  10: "#00AF4D",
+const colorMapping: { [key: string]: string } = {
+  "0": "#ff6b6b",
+  "1": "#ff6b6b",
+  "2": "#ff6b6b",
+  "3": "#ff8c00",
+  "4": "#ff8c00",
+  "5": "#ffd700",
+  "6": "#ffd700",
+  "7": "#a8dd00",
+  "8": "#a8dd00",
+  "9": "#00AF4D",
+  "10": "#00AF4D",
+  "-": "#cccccc",
+};
+
+const getColor = (value: string): string => {
+  const floor = Math.floor(parseInt(value));
+  return colorMapping[floor] || "#cccccc";
+};
+
+const renderScore = (score: string) => {
+  const color = getColor(score);
+
+  return (
+    <Box display="flex" justifyContent="center" alignItems="center">
+      <Typography
+        variant="h5"
+        component="span"
+        style={{
+          fontSize: "1.4em",
+          color: color,
+          fontWeight: "bold",
+        }}
+      >
+        {score}
+      </Typography>
+      <Typography
+        variant="h6"
+        component="span"
+        style={{
+          marginLeft: "4px",
+          color: "#555",
+        }}
+      >
+        /10
+      </Typography>
+    </Box>
+  );
 };
 
 const formatPrice = (price: number): string => {
@@ -259,9 +295,10 @@ const Sidebar: React.FC = () => {
                       />
                     </svg>
                   )}
-                  <Typography variant="h6" className={styles.scoreText}>
-                    {subScore.score === 0 ? "-" : subScore.score} / 10
-                  </Typography>
+                  {/* Use renderScore for displaying subScores */}
+                  {renderScore(
+                    subScore.score === 0 ? "-" : subScore.score.toString()
+                  )}
                 </Box>
               ))}
             </Box>
@@ -280,16 +317,8 @@ const Sidebar: React.FC = () => {
                 maxWidth: "200px",
               }}
             >
-              <Typography
-                variant="h4"
-                className={styles.footerNumber}
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "2rem",
-                }}
-              >
-                {overallScore === 0 ? "-" : overallScore} / 10
-              </Typography>
+              {/* Use renderScore for displaying overallScore */}
+              {renderScore(overallScore === 0 ? "-" : overallScore.toString())}
             </Box>
           </Grid>
         </Grid>
