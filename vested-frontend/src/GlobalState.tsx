@@ -4,6 +4,7 @@ import React, { createContext, useState, ReactNode, useContext } from 'react';
 interface GlobalState {
   count: number;
   user: string | null;
+  csvData: any[];
 }
 
 // Define the context value type
@@ -25,6 +26,7 @@ const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
   const [state, setState] = useState<GlobalState>({
     count: 0,
     user: null,
+    csvData: [],
   });
 
   // Helper function to update state based on the previous state
