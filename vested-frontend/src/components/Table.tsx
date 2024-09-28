@@ -31,7 +31,7 @@ interface CsvRow {
   e: number;
   s: number;
   g: number;
-  url: string
+  url: string;
 }
 
 interface Column {
@@ -103,7 +103,6 @@ const StickyHeadTable: React.FC = () => {
           social: scaleToTen(row.s, minS, maxS),
           governance: scaleToTen(row.g, minG, maxG),
           stockInfoUrl: row.w,
-          weburl: row.url,
         }));
 
         updateState({ csvData: data });
@@ -127,7 +126,7 @@ const StickyHeadTable: React.FC = () => {
   };
 
   const handleRowClick = (row: StockRow) => {
-    navigate(`/info/${row.ticker}`, { state: { row: row} });
+    navigate(`/info/${row.ticker}`, { state: { row: row } });
   };
 
   return (
