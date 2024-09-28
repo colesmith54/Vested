@@ -4,7 +4,7 @@ import TableCell from "@mui/material/TableCell";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -27,33 +27,17 @@ interface StockRow {
 
 interface StockTableRowProps {
   row: StockRow;
-  onClick: () => void; 
+  onClick: () => void;
 }
 
 const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
   const { state, updateState } = useGlobalState();
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
   const [openDialog, setOpenDialog] = useState(false);
   const [portfolioAmount, setPortfolioAmount] = useState("");
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
   const handleAddToPortfolio = () => {
     setOpenDialog(true);
-    handleMenuClose();
-  };
-
-  const handleVisitWebsite = () => {
-    window.open(row.stockInfoUrl, "_blank");
-    handleMenuClose();
   };
 
   const handleDialogClose = () => {
@@ -95,22 +79,13 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
           <IconButton
             aria-controls={`menu-${row.ticker}`}
             aria-haspopup="true"
-            onClick={handleMenuOpen}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToPortfolio();
+            }}
           >
-            <MoreVertIcon />
+            <AddIcon />
           </IconButton>
-          <Menu
-            id={`menu-${row.ticker}`}
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={handleAddToPortfolio}>
-              Add to your portfolio
-            </MenuItem>
-            <MenuItem onClick={handleVisitWebsite}>Visit website</MenuItem>
-          </Menu>
         </TableCell>
       </TableRow>
 
