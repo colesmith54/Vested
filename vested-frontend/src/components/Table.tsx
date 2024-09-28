@@ -11,6 +11,7 @@ import { TablePagination } from "@mui/material";
 import { useGlobalState } from "../GlobalState.tsx";
 import axios from "axios";
 import StockTableRow from "./StockTableRow.tsx";
+import { useNavigate } from "react-router-dom";
 
 interface StockRow {
   logo: string;
@@ -61,6 +62,7 @@ const columns: readonly Column[] = [
 ];
 
 const StickyHeadTable: React.FC = () => {
+  const navigate = useNavigate();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -104,6 +106,11 @@ const StickyHeadTable: React.FC = () => {
     setPage(0);
   };
 
+  const handleRowClick = (row: StockRow) => {
+    const stockInfoUrl = `/info/${row.ticker}`;
+    navigate(stockInfoUrl);
+  }
+
   return (
     <Paper className={styles.paper}>
       <TableContainer className={styles.tableContainer}>
@@ -130,7 +137,11 @@ const StickyHeadTable: React.FC = () => {
             {state.csvData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
-                <StockTableRow key={row.ticker} row={row} />
+                <StockTableRow
+                  key={row.ticker}
+                  row={row}
+                  onClick={() => handleRowClick(row)}
+                />
               ))}
           </TableBody>
         </MuiTable>

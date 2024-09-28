@@ -27,9 +27,10 @@ interface StockRow {
 
 interface StockTableRowProps {
   row: StockRow;
+  onClick: () => void; 
 }
 
-const StockTableRow: React.FC<StockTableRowProps> = ({ row }) => {
+const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
   const { state, updateState } = useGlobalState();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -76,7 +77,7 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row }) => {
 
   return (
     <>
-      <TableRow hover tabIndex={-1} key={row.ticker}>
+      <TableRow hover tabIndex={-1} key={row.ticker} onClick={onClick}>
         <TableCell align="center">
           <img
             src={row.logo}
