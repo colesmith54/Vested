@@ -49,3 +49,5 @@ const Info: React.FC = () => {
         </div>
     );
 };
+
+export default Info;
