@@ -55,8 +55,8 @@ const columns: readonly Column[] = [
   { id: "social", label: "Social", minWidth: 70, align: "right" },
   { id: "governance", label: "Governance", minWidth: 70, align: "right" },
   {
-    id: "add",
-    label: "Add",
+    id: "action",
+    label: "Add/Edit",
     minWidth: 50,
     align: "center",
   },

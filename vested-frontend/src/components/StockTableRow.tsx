@@ -66,17 +66,31 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
     setPortfolioAmount("");
   };
 
-  const handleAddPortfolioSubmit = () => {
-    updateState({
-      portfolioItems: [
-        ...portfolioItems,
-        {
-          ...row,
-          price: parseFloat(portfolioAmount),
-          options: [row.environmental, row.social, row.governance],
-        },
-      ],
-    });
+  const handleAddPortfolioSubmit = (edit: boolean = false) => {
+    if (!edit) {
+      updateState({
+        portfolioItems: [
+          ...portfolioItems,
+          {
+            ...row,
+            price: parseFloat(portfolioAmount),
+            options: [row.environmental, row.social, row.governance],
+          },
+        ],
+      });
+    } else {
+      updateState({
+        portfolioItems: portfolioItems.map((item) =>
+          item.ticker === row.ticker
+            ? {
+                ...item,
+                price: parseFloat(portfolioAmount),
+                options: [row.environmental, row.social, row.governance],
+              }
+            : item
+        ),
+      });
+    }
     handleDialogClose();
   };
 
@@ -137,10 +151,18 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
       </TableRow>
 
       <Dialog open={openDialog} onClose={handleDialogClose}>
-        <DialogTitle>Add to Portfolio</DialogTitle>
+        <DialogTitle>
+          <DialogTitle>
+            {state.portfolioItems.find((item) => item.ticker === row.ticker)
+              ? "Edit Portfolio Item"
+              : "Add to Portfolio"}
+          </DialogTitle>
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enter the amount in dollars for {row.name}.
+            {state.portfolioItems.find((item) => item.ticker === row.ticker)
+              ? `Edit the amount in dollars for ${row.name}.`
+              : `Enter the amount in dollars for ${row.name}.`}
           </DialogContentText>
           <TextField
             autoFocus
@@ -158,10 +180,16 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
         <DialogActions>
           <Button onClick={handleDialogClose}>Cancel</Button>
           <Button
-            onClick={handleAddPortfolioSubmit}
+            onClick={() =>
+              handleAddPortfolioSubmit(
+                state.portfolioItems.find((item) => item.ticker === row.ticker)
+              )
+            }
             disabled={!portfolioAmount || parseFloat(portfolioAmount) <= 0}
           >
-            Add
+            {state.portfolioItems.find((item) => item.ticker === row.ticker)
+              ? "Edit"
+              : "Add"}
           </Button>
         </DialogActions>
       </Dialog>
