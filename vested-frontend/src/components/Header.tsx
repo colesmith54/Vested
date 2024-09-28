@@ -13,13 +13,17 @@ const Header: React.FC = () => {
         <img src={Logo} alt="Logo" className={styles.logo} />
       </Box>
 
-      <Box className={styles.searchContainer}>
-        <TextField
+      <TextField
           label="Search"
           variant="outlined"
           size="small"
           className={styles.searchBar}
         />
+
+        
+      <Box className={styles.searchContainer}>
+        {/* Search Bar */}
+
 
         <Box className={styles.navLinks}>
           <Link to="/" className={styles.link}>

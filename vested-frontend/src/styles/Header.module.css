@@ -7,7 +7,7 @@
     overflow: hidden;
     box-sizing: border-box; /* Include padding and border in the element's total width and height */  
     justify-content: space-between;
-    background-color: #4caf50; /* Green background */
+    background-color: #90CA8F; /* Green background */
     padding: 16px 16px;
     width: 100%; /* Ensure it spans the full width */
     z-index: 1000; /* Keep if you have dropdowns or other overlapping elements */
@@ -22,6 +22,8 @@
 
 .logo {
   height: 40px; /* Adjust as needed */
+  margin-left: 20px;
+  margin-right: 60px;
 }
 
 .searchContainer {
@@ -34,6 +36,7 @@
 
 .searchBar {
   width: 300px; /* Adjust the width as needed */
+  margin-left: 300px;
 }
 
 .navLinks {
