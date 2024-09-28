@@ -109,7 +109,7 @@ const StickyHeadTable: React.FC = () => {
   const handleRowClick = (row: StockRow) => {
     const stockInfoUrl = `/info/${row.ticker}`;
     navigate(stockInfoUrl);
-  }
+  };
 
   return (
     <Paper className={styles.paper}>
@@ -137,7 +137,7 @@ const StickyHeadTable: React.FC = () => {
             {state.csvData
               .filter(
                 (row) =>
-                  row.ticker.includes(state.search.toUpperCase()) ||
+                  row.ticker.includes(state.search.toLowerCase()) ||
                   row.name.toLowerCase().includes(state.search.toLowerCase())
               )
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
