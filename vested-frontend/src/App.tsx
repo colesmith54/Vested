@@ -15,8 +15,8 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="info/:ticker" element={<Info />} />
-            <Route path="portfolio" element={<Portfolio />} />
           </Route>
+          <Route path="portfolio" element={<Portfolio />} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
       </Router>
