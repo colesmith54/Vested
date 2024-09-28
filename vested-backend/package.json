@@ -15,6 +15,7 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
     "express": "^4.21.0",
     "yahoo-finance2": "^2.12.4"
