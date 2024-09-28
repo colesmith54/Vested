@@ -27,6 +27,7 @@ const subScores: SubScoreItem[] = [
 ];
 
 const colorMapping: { [key: number]: string } = {
+  0: "#ff6b6b",
   1: "#ff6b6b",
   2: "#ff6b6b",
   3: "#ff8c00",
