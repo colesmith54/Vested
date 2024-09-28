@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode, useContext } from "react";
+import React, { createContext, useState, ReactNode, useContext } from 'react';
 
 // Define the structure of the state
 interface GlobalState {
@@ -6,19 +6,17 @@ interface GlobalState {
   user: string | null;
   csvData: any[];
   portfolioItems: any[];
-  search: string;
 }
 
 // Define the context value type
 interface GlobalStateContextType {
   state: GlobalState;
   updateState: (newState: Partial<GlobalState>) => void;
+  removeStock: (ticker: string) => void;
 }
 
 // Create the context with an initial value (can be null initially)
-const GlobalStateContext = createContext<GlobalStateContextType | undefined>(
-  undefined
-);
+const GlobalStateContext = createContext<GlobalStateContextType | undefined>(undefined);
 
 // Define the provider props to accept children
 interface GlobalStateProviderProps {
@@ -32,10 +30,9 @@ const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
     user: null,
     csvData: [],
     portfolioItems: [
-      { ticker: "AAPL", price: 150, options: ["8/10", "4/10", "9/10"] },
-      { ticker: "TSLA", price: 700, options: ["7/10", "5/10", "2/10"] },
+      { ticker: 'AAPL', price: 150, options: ['A', 'C', 'B'] },
+      { ticker: 'TSLA', price: 700, options: ['B', 'C', 'D'] },
     ],
-    search: "",
   });
 
   // Helper function to update state based on the previous state
@@ -45,9 +42,14 @@ const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
       ...newState,
     }));
   };
-
+  const removeStock = (ticker: string) => {
+    setState((prevState) => ({
+      ...prevState,
+      portfolioItems: prevState.portfolioItems.filter(item => item.ticker !== ticker),
+    }));
+  };
   return (
-    <GlobalStateContext.Provider value={{ state, updateState }}>
+    <GlobalStateContext.Provider value={{ state, updateState, removeStock }}>
       {children}
     </GlobalStateContext.Provider>
   );
@@ -57,7 +59,7 @@ const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
 const useGlobalState = () => {
   const context = useContext(GlobalStateContext);
   if (!context) {
-    throw new Error("useGlobalState must be used within a GlobalStateProvider");
+    throw new Error('useGlobalState must be used within a GlobalStateProvider');
   }
   return context;
 };
