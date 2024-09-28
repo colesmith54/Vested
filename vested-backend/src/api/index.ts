@@ -5,7 +5,6 @@ import { getCsvRowByTicker } from "../controllers/csvController";
 import { getStockPrices } from "../controllers/yahooController";
 
 const app = express();
-const PORT = 3000;
 
 app.use(express.json());
 app.use(cors());

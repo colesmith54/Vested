@@ -49,8 +49,8 @@ export const getCsvRowByTicker = (req: Request, res: Response): void => {
   parser.on("data", (data: CsvRow) => {
     if (data.ticker === ticker) {
       found = true;
+      readStream.destroy();
       res.status(200).json(data);
-      parser.destroy();
     }
   });
 
@@ -62,6 +62,15 @@ export const getCsvRowByTicker = (req: Request, res: Response): void => {
 
   parser.on("error", (err: Error | NodeJS.ErrnoException) => {
     console.error("Error reading CSV file:", err);
+    if (!res.headersSent) {
+      res
+        .status(500)
+        .json({ error: "Internal server error while reading the CSV file." });
+    }
+  });
+
+  readStream.on("error", (err: Error | NodeJS.ErrnoException) => {
+    console.error("Error with read stream:", err);
     if (!res.headersSent) {
       res
         .status(500)
