@@ -1,10 +1,11 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import Info from "./pages/Info";
-import Portfolio from "./pages/Portfolio";
-import Layout from "./components/Layout";
-import { GlobalStateProvider } from "./GlobalState";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import Info from './pages/Info';
+import Portfolio from './pages/Portfolio';
+import Layout from './components/Layout';
+import NotFound from "./pages/NotFound";
+import { GlobalStateProvider } from './GlobalState';
 
 function App() {
   return (
@@ -13,9 +14,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
-            <Route path="info" element={<Info />} />
+            <Route path="info/:ticker" element={<Info />} />
           </Route>
           <Route path="portfolio" element={<Portfolio />} />
+          <Route path="*" element={<NotFound/>} />
         </Routes>
       </Router>
     </GlobalStateProvider>
