@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import yahooFinance from "yahoo-finance2";
 
+interface StockDataPoint {
+  date: string;
+  price: number;
+}
+
 export const getStockPrices = async (
   req: Request,
   res: Response
@@ -24,7 +29,7 @@ export const getStockPrices = async (
       period2: endDate,
       interval: "1d" as const,
     };
-    const result: any[] = await yahooFinance.historical(ticker, queryOptions); // Note underlying API is depreciated
+    const result: any[] = await yahooFinance.historical(ticker, queryOptions);
 
     if (!result || result.length === 0) {
       res
@@ -33,7 +38,11 @@ export const getStockPrices = async (
       return;
     }
 
-    const stockPrices: number[] = result.map((quote: any) => quote.close);
+    const stockPrices: StockDataPoint[] = result.map((quote: any) => ({
+      date: quote.date.toISOString().split("T")[0],
+      price: quote.close.toFixed(2),
+    }));
+
     res.status(200).json(stockPrices);
   } catch (error) {
     console.error("Unexpected Error:", error);
