@@ -12,6 +12,7 @@ interface CsvDataItem {
 
 const Info: React.FC = () => {
     const { ticker } = useParams<{ ticker: string }>();
+
     const { state } = useGlobalState();
     const [csvItem, setCsvItem] = useState<CsvDataItem | null>(null);
     const navigate = useNavigate();
@@ -24,6 +25,7 @@ const Info: React.FC = () => {
             
             if (foundItem) {
                 setCsvItem(foundItem);
+                console.log('Found item:', foundItem);
             } else {
                 navigate('/not-found');
             }
@@ -40,6 +42,7 @@ const Info: React.FC = () => {
         );
     }
 
+    console.log("csvItem", csvItem);
     return (
         <div className={styles.infoContainer}>
             <Typography variant="h4">

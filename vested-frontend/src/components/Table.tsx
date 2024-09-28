@@ -99,6 +99,11 @@ const StickyHeadTable: React.FC = () => {
     setPage(0);
   };
 
+  const handleRowClick = (row: StockRow) => {
+    const stockInfoUrl = `/info/${row.ticker}`;
+    navigate(stockInfoUrl);
+  }
+
   return (
     <Paper className={styles.paper}>
       <TableContainer className={styles.tableContainer}>
@@ -132,6 +137,7 @@ const StickyHeadTable: React.FC = () => {
                     role="checkbox"
                     tabIndex={-1}
                     key={row.ticker}
+                    onClick={() => handleRowClick(row)}
                   >
                     {columns.map((column) => {
                       const value = row[column.id as keyof StockRow];
