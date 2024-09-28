@@ -2,8 +2,69 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Typography, Button, Alert } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LaunchIcon from "@mui/icons-material/Launch";
 import StockGraph from "../components/StockGraph";
 import styles from "../styles/Info.module.css";
+import ImageWithFallback from "../components/ImageWithFallback";
+
+const colorMapping: { [key: number]: string } = {
+  0: "#ff6b6b",
+  1: "#ff6b6b",
+  2: "#ff6b6b",
+  3: "#ff8c00",
+  4: "#ff8c00",
+  5: "#ffd700",
+  6: "#ffd700",
+  7: "#a8dd00",
+  8: "#a8dd00",
+  9: "#00AF4D",
+  10: "#00AF4D",
+};
+
+const getColor = (value: number): string => {
+  const floor = Math.floor(value);
+  return colorMapping[floor] || "#000000";
+};
+
+const renderScore = (score: string) => {
+  const value = parseFloat(score);
+  if (isNaN(value)) {
+    return (
+      <Typography variant="h6" style={{ color: "red" }}>
+        N/A
+      </Typography>
+    );
+  }
+  const color = getColor(value);
+
+  return (
+    <Box display="flex" justifyContent="center" alignItems="center">
+      <Typography
+        variant="h5"
+        component="span"
+        style={{
+          fontSize: "2em",
+          color: color,
+          fontWeight: "bold",
+        }}
+      >
+        {value.toFixed(1)}
+      </Typography>
+      <Typography
+        variant="h6"
+        component="span"
+        style={{
+          marginTop: "1.2rem",
+          marginLeft: "4px",
+          color: "#555",
+        }}
+      >
+        /10
+      </Typography>
+    </Box>
+  );
+};
 
 const Info: React.FC = () => {
   const location = useLocation();
@@ -23,6 +84,8 @@ const Info: React.FC = () => {
           variant="contained"
           color="primary"
           onClick={() => navigate(-1)}
+          startIcon={<ArrowBackIcon />}
+          sx={{ mt: 2 }}
         >
           Go Back
         </Button>
@@ -32,30 +95,83 @@ const Info: React.FC = () => {
 
   return (
     <div className={styles.infoContainer}>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        width="100%"
-      >
-        <Typography variant="h4">
+      {/* Header Section */}
+      <Box display="flex" alignItems="center" width="100%">
+        <ImageWithFallback
+          src={row.logo}
+          alt={row.name}
+          style={{
+            marginRight: "40px",
+            width: "80px",
+            height: "80px",
+            objectFit: "contain",
+          }}
+        />
+        <Typography variant="h4" style={{ color: "black" }}>
           {row.name} ({row.ticker.toUpperCase()})
         </Typography>
+      </Box>
+
+      {/* Buttons Section */}
+      <Box
+        display="flex"
+        justifyContent="flex-start"
+        alignItems="center"
+        mt={2}
+        mb={4}
+        gap={2}
+      >
         <Button
           variant="contained"
-          color="primary"
-          onClick={() => (window.location.href = row.stockInfoUrl)}
+          sx={{ backgroundColor: "#90CA8F" }}
+          onClick={() => navigate(-1)}
+          startIcon={<ArrowBackIcon />}
         >
-          Visit Website
+          Back
         </Button>
+        {row.stockInfoUrl && (
+          <Button
+            variant="outlined"
+            color="primary"
+            sx={{ color: "#90CA8F", borderColor: "#90CA8F" }}
+            href={row.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            startIcon={<LaunchIcon />}
+            onClick={() => window.open(row.stockInfoUrl, "_blank")}
+          >
+            Visit Website
+          </Button>
+        )}
       </Box>
-      <Typography variant="h6">Environmental: {row.environmental}</Typography>
-      <Typography variant="h6">Social: {row.social}</Typography>
-      <Typography variant="h6">Governance: {row.governance}</Typography>
 
-      <Box className={styles.graphContainer}>
-        <StockGraph ticker={row.ticker} />
-      </Box>
+      {/* Main Content */}
+      <div style={{ display: "flex", alignItems: "flex-start", width: "100%" }}>
+        <div style={{ flex: "0 0 70%" }}>
+          <Box className={styles.graphContainer}>
+            <StockGraph ticker={row.ticker} />
+          </Box>
+        </div>
+        <div
+          style={{ flex: "0 0 30%", paddingLeft: "40px", textAlign: "left" }}
+        >
+          <Typography variant="h5" style={{ color: "black" }}>
+            Environmental: {renderScore(row.environmental)}
+          </Typography>
+          <Typography
+            variant="h5"
+            style={{ color: "black", marginTop: "24px" }}
+          >
+            Social: {renderScore(row.social)}
+          </Typography>
+          <Typography
+            variant="h5"
+            style={{ color: "black", marginTop: "24px" }}
+          >
+            Governance: {renderScore(row.governance)}
+          </Typography>
+        </div>
+      </div>
     </div>
   );
 };
