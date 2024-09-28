@@ -9,6 +9,8 @@ const Info: React.FC = () => {
   const location = useLocation();
   const row = location.state?.row;
 
+  console.log("Row", location.state);
+
   const navigate = useNavigate();
 
   if (!row) {

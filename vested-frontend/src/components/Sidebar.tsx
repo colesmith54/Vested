@@ -69,7 +69,10 @@ const Sidebar: React.FC = () => {
           <Card
             key={index}
             className={styles.card}
-            onClick={() => navigate(`/info/${item.ticker}`)}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/info/${item.ticker}`, { state: { row: item } }); // NOTE: Need to do this!!
+            }}
           >
             <CardContent className={styles.cardContent}>
               <Box className={styles.cardLine}>
