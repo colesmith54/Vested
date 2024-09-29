@@ -60,7 +60,6 @@ const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
   );
 };
 
-// Helper hook to use the GlobalStateContext (optional but good practice)
 const useGlobalState = () => {
   const context = useContext(GlobalStateContext);
   if (!context) {

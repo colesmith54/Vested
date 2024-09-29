@@ -20,7 +20,6 @@ interface StockRow {
   social: string;
   governance: string;
   stockInfoUrl: string;
-  amount: string;
 }
 
 interface Column {
@@ -53,36 +52,10 @@ const columns: readonly Column[] = [
 ];
 
 const PortfolioTable: React.FC = () => {
-  const [portfolioData, setPortfolioData] = useState<StockRow[]>([]);
-
   const navigate = useNavigate();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
   const { state } = useGlobalState();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Filter the csvData based on the tickers and add the amount field
-        const filtered_data = state.portfolioItems
-          // .filter((row) => row.ticker && tickers.includes(row.ticker.toLowerCase()))
-          .map((row) => ({
-            ...row,
-            amount: "$" + row.price || 0, // Add dollar amount, defaulting to 0 if not found
-          }));
-
-        console.log("filtered_data: ", filtered_data);
-
-        // Update portfolio data with the new result
-        setPortfolioData(filtered_data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -122,7 +95,7 @@ const PortfolioTable: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {portfolioData
+            {state.portfolioItems
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <PortfolioStockTableRow
@@ -137,7 +110,7 @@ const PortfolioTable: React.FC = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={portfolioData.length}
+        count={state.portfolioItems.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

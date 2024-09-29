@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import IconButton from "@mui/material/IconButton";
-import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -15,20 +14,8 @@ import styles from "../styles/Table.module.css";
 import { useGlobalState } from "../GlobalState.tsx";
 import ImageWithFallback from "./ImageWithFallback.tsx";
 
-interface StockRow {
-  logo: string;
-  name: string;
-  ticker: string;
-  amount: string;
-
-  environmental: string; // e.g., "3.5/10"
-  social: string; // e.g., "4.2/10"
-  governance: string; // e.g., "2.8/10"
-  stockInfoUrl: string;
-}
-
 interface PortfolioStockTableRowProps {
-  row: StockRow;
+  row: any;
   onClick: () => void;
 }
 
@@ -61,7 +48,7 @@ const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
   const [openDialog, setOpenDialog] = useState(false);
   const [portfolioAmount, setPortfolioAmount] = useState("");
 
-  const handleAddToPortfolio = () => {
+  const handleEditPortfolio = () => {
     setOpenDialog(true);
   };
 
@@ -70,16 +57,17 @@ const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
     setPortfolioAmount("");
   };
 
-  const handleAddPortfolioSubmit = () => {
+  const handleEditPortfolioSubmit = () => {
     updateState({
-      portfolioItems: [
-        ...portfolioItems,
-        {
-          ...row,
-          price: parseFloat(portfolioAmount),
-          options: [row.environmental, row.social, row.governance],
-        },
-      ],
+      portfolioItems: portfolioItems.map((item) =>
+        item.ticker === row.ticker
+          ? {
+              ...item,
+              price: parseFloat(portfolioAmount),
+              options: [row.environmental, row.social, row.governance],
+            }
+          : item
+      ),
     });
     handleDialogClose();
   };
@@ -119,7 +107,7 @@ const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
         </TableCell>
         <TableCell align="left">{row.name}</TableCell>
         <TableCell align="left">{row.ticker.toUpperCase()}</TableCell>
-        <TableCell align="left">{row.amount}</TableCell>
+        <TableCell align="left">{`\$${row.price}`}</TableCell>
 
         <TableCell align="right">{renderScore(row.environmental)}</TableCell>
         <TableCell align="right">{renderScore(row.social)}</TableCell>
@@ -130,23 +118,19 @@ const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
             aria-haspopup="true"
             onClick={(e) => {
               e.stopPropagation();
-              handleAddToPortfolio();
+              handleEditPortfolio();
             }}
           >
-            {state.portfolioItems.find((item) => item.ticker === row.ticker) ? (
-              <EditIcon />
-            ) : (
-              <AddIcon />
-            )}
+            <EditIcon />
           </IconButton>
         </TableCell>
       </TableRow>
 
       <Dialog open={openDialog} onClose={handleDialogClose}>
-        <DialogTitle>Add to Portfolio</DialogTitle>
+        <DialogTitle>Edit Portfoilo Item</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enter the amount in dollars for {row.name}.
+            {`Edit the amount in dollars for ${row.name}.`}
           </DialogContentText>
           <TextField
             autoFocus
@@ -164,7 +148,7 @@ const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
         <DialogActions>
           <Button onClick={handleDialogClose}>Cancel</Button>
           <Button
-            onClick={handleAddPortfolioSubmit}
+            onClick={handleEditPortfolioSubmit}
             disabled={!portfolioAmount || parseFloat(portfolioAmount) <= 0}
           >
             Add
