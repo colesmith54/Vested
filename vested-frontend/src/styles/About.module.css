@@ -1,70 +1,153 @@
 /* src/styles/About.module.css */
 
 .container {
-    position: relative; /* Establishes a positioning context */
     min-height: 100vh;
-    background: linear-gradient(135deg, #ffffff, #81c784); /* Gradient background */
+    background: linear-gradient(135deg, #b2ff59, #81c784, #81d4fa); /* Smooth gradient background */
     padding: 24px;
     box-sizing: border-box;
-    overflow: hidden; /* Ensures pseudo-element doesn't overflow */
-  }
-  
-  .container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/assets/vest.png');
-    background-repeat: repeat;
-    background-size: 100px 100px; /* Adjust pattern size as needed */
-    opacity: 0.1; /* Adjust opacity for subtlety */
-    z-index: 0; /* Places it behind the content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .content {
-    position: relative; /* Stacks above the pseudo-element */
-    z-index: 1; /* Higher z-index to appear above background */
+    width: 100%;
+    max-width: 1200px;
   }
   
   .paper {
-    background: rgba(255, 255, 255, 0.9); /* Slightly opaque white for contrast */
+    background: rgba(255, 255, 255, 0.9); /* Slightly opaque white for readability */
     padding: 32px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; /* Rounded corners for a soft look */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   }
   
   .title {
     margin-bottom: 16px;
-    color: #4caf50;
+    background: linear-gradient(90deg, #ff8a80, #ff5252);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Gradient text */
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
   }
   
   .missionBox {
-    background-color: #e8f5e9;
-    padding: 24px;
-    border-left: 5px solid #4caf50;
+    background: #f1f8e9; /* Light green background */
+    padding: 16px;
+    border-left: 6px solid #4caf50; /* Simple left border */
     border-radius: 4px;
-    margin-bottom: 24px;
+    margin: 24px 0;
+    color: #1b5e20;
+    font-family: 'Roboto', sans-serif;
   }
   
   .divider {
-    margin: 24px 0;
-  }
-  
-  .contact {
-    text-align: center;
-    margin-top: 24px;
-  }
-  
-  .email {
-    color: #4caf50;
-    text-decoration: none;
+    margin: 24px ;
+    border-top: 1px solid #4caf50; /* Simple green line */
+    opacity: 0.6;
   }
   
   .shoutout {
     text-align: center;
     margin-top: 24px;
-    color: #888;
+    color: #8e24aa; /* Purple text */
+    font-style: italic;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  
+  /* ESG Section Styling */
+  .esgSection {
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  
+  .sectionTitle {
+    margin-bottom: 16px;
+    color: #000; /* Solid color for better readability */
+    font-weight: bold;
+    font-size: 28px;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .esgCard {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    background: #e3f2fd; /* Light blue background */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .esgCard:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  }
+  
+  .cardTitle {
+    margin-bottom: 8px;
+    color: #000; /* Solid color */
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .cardContent {
+    font-size: 14px;
+    color: #424242; /* Dark gray for text */
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 600px) {
+    .title {
+      font-size: 24px;
+    }
+  
+    .sectionTitle {
+      font-size: 24px;
+    }
+  
+    .cardTitle {
+      font-size: 18px;
+    }
+  
+    .cardContent {
+      font-size: 13px;
+    }
+  
+    .missionBox {
+      padding: 12px;
+      border-left: 4px solid #4caf50;
+    }
+  }
+  
+
+
+
+  .image-container {
+    position: relative;
+    display: inline-block; /* Adjust as needed */
+    width: 50px; /* Set the width of the container */
+    height: 50px; /* Set the height of the container */
+    overflow: hidden; /* Ensure that the image doesn't overflow the container */
+  }
+  
+  .small-logo {
+    width: 100%; /* Make the image fill the container */
+    height: 100%; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the container */
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 100;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(187, 10, 10, 0.5); /* Semi-transparent overlay color */
+    pointer-events: none; /* Allows clicks to pass through */
   }
   
