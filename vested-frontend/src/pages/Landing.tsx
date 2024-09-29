@@ -24,8 +24,8 @@ const Landing: React.FC = () => {
             src={Logo}
             alt="Logo"
             style={{
-              width: "200px", // Adjust width as needed
-              height: "auto", // Maintain aspect ratio
+              width: "200px",
+              height: "auto",
             }}
           />
         </div>
@@ -33,7 +33,7 @@ const Landing: React.FC = () => {
         <div style={{ margin: 40 }}>
           <TypeAnimation
             style={{ color: "black", fontSize: 70, fontFamily: "PTSerif-Bold" }}
-            sequence={["Invest in the future of humanity"]}
+            sequence={["I'm Vested. Are you?"]}
             wrapper="span"
             speed={50}
           />
@@ -57,7 +57,7 @@ const Landing: React.FC = () => {
               fontFamily: "PTSerif-Italic",
             }}
           >
-            That's why Vested gives you access to real-time data on which top
+            That's why Vested connects you to real-time data on which top
             companies uplift communities through:
           </Typography>
 
@@ -181,7 +181,7 @@ const Landing: React.FC = () => {
           <Typography
             style={{ color: "black", fontSize: 50, fontFamily: "PTSerif-Bold" }}
           >
-            So as your investments grow, the world grows along.
+            So as your investments grow, the world grows too.
           </Typography>
         </div>
 
@@ -189,13 +189,13 @@ const Landing: React.FC = () => {
           variant="contained"
           sx={{
             backgroundColor: "#086300",
-            fontFamily: "PTSerif", // Set font family
-            fontSize: "20px", // Adjust font size to be bigger
-            padding: "6px 18px", // Increase padding for a bigger button
-            color: "white", // Text color
-            textTransform: "none", // Prevent text from being uppercase
+            fontFamily: "PTSerif",
+            fontSize: "20px",
+            padding: "6px 18px",
+            color: "white",
+            textTransform: "none",
             "&:hover": {
-              backgroundColor: "#064b00", // Darker shade on hover
+              backgroundColor: "#064b00",
             },
           }}
           onClick={() => {

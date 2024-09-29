@@ -1,167 +1,191 @@
-/* src/styles/About.module.css */
-
 .container {
-    min-height: 100vh;
-    background: #4caf5020;
-    padding: 24px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .content {
-    width: 100%;
-    max-width: 1200px;
-  }
-  
-  .paper {
-    background: rgba(255, 255, 255, 0.9); /* Slightly opaque white for readability */
-    padding: 32px;
-    border-radius: 12px; /* Rounded corners for a soft look */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  }
-  
-  .title {
-    margin-bottom: 16px;
-    background: linear-gradient(90deg, #4caf50, #4caf50);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; /* Gradient text */
-    font-weight: bold;
-    font-family: 'Poppins', sans-serif;
-    font-size: 32px;
-  }
-  
-  .missionBox {
-    background: #f1f8e9; /* Light green background */
-    padding: 16px;
-    border-left: 6px solid #4caf50; /* Simple left border */
-    border-radius: 4px;
-    margin: 24px 0;
-    color: #1b5e20;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  .divider {
-    margin: 24px ;
-    border-top: 1px solid #4caf50; /* Simple green line */
-    opacity: 0.6;
-  }
-  
-  .shoutout {
-    text-align: center;
-    margin-top: 24px;
-    color: #8e24aa; /* Purple text */
-    font-style: italic;
-    font-family: 'Courier New', Courier, monospace;
-  }
-  
-  /* ESG Section Styling */
-  .esgSection {
-    margin-bottom: 32px;
-    text-align: center;
-  }
-  
-  .sectionTitle {
-    margin-bottom: 16px;
-    color: #000; /* Solid color for better readability */
-    font-weight: bold;
-    font-size: 28px;
-    font-family: 'Poppins', sans-serif;
-  }
+  min-height: 100vh;
+  background: #4caf5020;
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  /* Specific ESG Card Backgrounds */
+.content {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.paper {
+  background: rgba(255, 255, 255, 0.9);
+  /* Slightly opaque white for readability */
+  padding: 32px;
+  border-radius: 12px;
+  /* Rounded corners for a soft look */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow for depth */
+}
+
+.title {
+  margin-bottom: 16px;
+  background: linear-gradient(90deg, #4caf50, #4caf50);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Gradient text */
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+}
+
+.missionBox {
+  background: #f1f8e9;
+  /* Light green background */
+  padding: 16px;
+  border-left: 6px solid #4caf50;
+  /* Simple left border */
+  border-radius: 4px;
+  margin: 24px 0;
+  color: #1b5e20;
+  font-family: 'Roboto', sans-serif;
+}
+
+.divider {
+  margin: 24px;
+  border-top: 1px solid #4caf50;
+  /* Simple green line */
+  opacity: 0.6;
+}
+
+.shoutout {
+  text-align: center;
+  margin-top: 24px;
+  color: #8e24aa;
+  /* Purple text */
+  font-style: italic;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* ESG Section Styling */
+.esgSection {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.sectionTitle {
+  margin-bottom: 16px;
+  color: #000;
+  /* Solid color for better readability */
+  font-weight: bold;
+  font-size: 28px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Specific ESG Card Backgrounds */
 .esgCardEnvironmental {
-    background-image: url('/assets/environmental.jpg'); /* Path to Environmental image */
+  background-image: url('/assets/environmental.jpg');
+  /* Path to Environmental image */
+}
+
+.esgCardSocial {
+  background-image: url('/assets/social.jpg');
+  /* Path to Social image */
+}
+
+.esgCardGovernance {
+  background-image: url('/assets/governance.jpg');
+  /* Path to Governance image */
+}
+
+
+.esgCard {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background: #e3f2fd;
+  /* Light blue background */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.esgCard:hover {
+  transform: translateY(-2px);
+  /* Slight lift on hover */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  /* Enhanced shadow on hover */
+}
+
+.cardTitle {
+  margin-bottom: 8px;
+  color: #000;
+  /* Solid color */
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.cardContent {
+  font-size: 14px;
+  color: #424242;
+  /* Dark gray for text */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .title {
+    font-size: 24px;
   }
-  
-  .esgCardSocial {
-    background-image: url('/assets/social.jpg'); /* Path to Social image */
+
+  .sectionTitle {
+    font-size: 24px;
   }
-  
-  .esgCardGovernance {
-    background-image: url('/assets/governance.jpg'); /* Path to Governance image */
-  }
-  
-  
-  .esgCard {
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 24px;
-    background: #e3f2fd; /* Light blue background */
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .esgCard:hover {
-    transform: translateY(-2px); /* Slight lift on hover */
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
-  }
-  
+
   .cardTitle {
-    margin-bottom: 8px;
-    color: #000; /* Solid color */
-    font-weight: bold;
-    font-size: 20px;
+    font-size: 18px;
   }
-  
+
   .cardContent {
-    font-size: 14px;
-    color: #424242; /* Dark gray for text */
+    font-size: 13px;
   }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 600px) {
-    .title {
-      font-size: 24px;
-    }
-  
-    .sectionTitle {
-      font-size: 24px;
-    }
-  
-    .cardTitle {
-      font-size: 18px;
-    }
-  
-    .cardContent {
-      font-size: 13px;
-    }
-  
-    .missionBox {
-      padding: 12px;
-      border-left: 4px solid #4caf50;
-    }
+
+  .missionBox {
+    padding: 12px;
+    border-left: 4px solid #4caf50;
   }
-  
+}
 
 
 
-  .image-container {
-    position: relative;
-    display: inline-block; /* Adjust as needed */
-    width: 50px; /* Set the width of the container */
-    height: 50px; /* Set the height of the container */
-    overflow: hidden; /* Ensure that the image doesn't overflow the container */
-  }
-  
-  .small-logo {
-    width: 100%; /* Make the image fill the container */
-    height: 100%; /* Maintain aspect ratio */
-    object-fit: cover; /* Cover the container */
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 100;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(187, 10, 10, 0.5); /* Semi-transparent overlay color */
-    pointer-events: none; /* Allows clicks to pass through */
-  }
-  
+
+.image-container {
+  position: relative;
+  display: inline-block;
+  /* Adjust as needed */
+  width: 50px;
+  /* Set the width of the container */
+  height: 50px;
+  /* Set the height of the container */
+  overflow: hidden;
+  /* Ensure that the image doesn't overflow the container */
+}
+
+.small-logo {
+  width: 100%;
+  /* Make the image fill the container */
+  height: 100%;
+  /* Maintain aspect ratio */
+  object-fit: cover;
+  /* Cover the container */
+}
+
+.overlay {
+  position: absolute;
+  top: 100;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(187, 10, 10, 0.5);
+  /* Semi-transparent overlay color */
+  pointer-events: none;
+  /* Allows clicks to pass through */
+}

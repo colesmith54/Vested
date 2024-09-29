@@ -100,12 +100,9 @@ const Portfolio: React.FC = () => {
             Be relatively brief, and do not include anything else in your request. Your response should start with a [ character. Maximum of 350 characters per description.`;
 
       const result = await model.generateContent(prompt);
-      // console.log(result.response.text());
       const geminiResponse = result.response.text();
-      console.log("gem response: ", geminiResponse);
 
       const data = JSON.parse(geminiResponse);
-      console.log("Data", data);
       updateState({ gptResponse: data });
     } catch (err: any) {
       setError("Failed to fetch data from server.");
@@ -160,17 +157,6 @@ const Portfolio: React.FC = () => {
         });
       });
 
-      const averageSubScores = categories.map((category) => ({
-        category,
-        score: totalAmountInvested
-          ? parseFloat(
-              (
-                totalCategoryWeightedScores[category] / totalAmountInvested
-              ).toFixed(1)
-            )
-          : 0,
-      }));
-
       const overallScore = totalAmountInvested
         ? parseFloat(
             (
@@ -183,10 +169,6 @@ const Portfolio: React.FC = () => {
           )
         : 0;
 
-      console.log("Average SubScores:", averageSubScores);
-      console.log("Overall ESG Score:", overallScore);
-
-      // Set the calculated overall ESG score
       setEsgScore(overallScore);
     } else {
       setEsgScore(0);

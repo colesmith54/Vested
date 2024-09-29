@@ -62,8 +62,15 @@ const columns: readonly Column[] = [
   },
 ];
 
-const scaleToTen = (value: number, min: number, max: number): string => {
-  return String((((value - min) / (max - min)) * 10).toFixed(1));
+const rankToTen = (sortedValues: number[], value: number): string => {
+  const total = sortedValues.length;
+
+  const firstIndex = sortedValues.findIndex((v) => v === value);
+  const lastIndex = sortedValues.lastIndexOf(value);
+  const averageRank = (firstIndex + lastIndex) / 2;
+
+  const score = (averageRank / (total - 1)) * 10;
+  return score.toFixed(1);
 };
 
 const StickyHeadTable: React.FC = () => {
@@ -80,29 +87,26 @@ const StickyHeadTable: React.FC = () => {
           `https://vested-backend.vercel.app/api/csv`
         );
 
-        const result = await response.data;
-        console.log(result);
+        const result = response.data;
 
-        const environmentalScores = result.map((row: any) => row.e);
-        const socialScores = result.map((row: any) => row.s);
-        const governanceScores = result.map((row: any) => row.g);
+        // Extract scores for each category
+        const environmentalScores = [...result.map((row) => row.e)].sort(
+          (a, b) => a - b
+        );
+        const socialScores = [...result.map((row) => row.s)].sort(
+          (a, b) => a - b
+        );
+        const governanceScores = [...result.map((row) => row.g)].sort(
+          (a, b) => a - b
+        );
 
-        const minE = Math.min(...environmentalScores);
-        const maxE = Math.max(...environmentalScores);
-
-        const minS = Math.min(...socialScores);
-        const maxS = Math.max(...socialScores);
-
-        const minG = Math.min(...governanceScores);
-        const maxG = Math.max(...governanceScores);
-
-        const data: StockRow[] = result.map((row: any) => ({
+        const data: StockRow[] = result.map((row) => ({
           logo: row.l,
           name: row.n,
           ticker: row.t,
-          environmental: scaleToTen(row.e, minE, maxE),
-          social: scaleToTen(row.s, minS, maxS),
-          governance: scaleToTen(row.g, minG, maxG),
+          environmental: rankToTen(environmentalScores, row.e),
+          social: rankToTen(socialScores, row.s),
+          governance: rankToTen(governanceScores, row.g),
           stockInfoUrl: row.w,
         }));
 
@@ -113,7 +117,7 @@ const StickyHeadTable: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [updateState]);
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -156,7 +160,9 @@ const StickyHeadTable: React.FC = () => {
             {state.csvData
               .filter(
                 (row) =>
-                  row.ticker.includes(state.search.toLowerCase()) ||
+                  row.ticker
+                    .toLowerCase()
+                    .includes(state.search.toLowerCase()) ||
                   row.name.toLowerCase().includes(state.search.toLowerCase())
               )
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -176,7 +182,7 @@ const StickyHeadTable: React.FC = () => {
         count={
           state.csvData.filter(
             (row) =>
-              row.ticker.includes(state.search.toLowerCase()) ||
+              row.ticker.toLowerCase().includes(state.search.toLowerCase()) ||
               row.name.toLowerCase().includes(state.search.toLowerCase())
           ).length
         }

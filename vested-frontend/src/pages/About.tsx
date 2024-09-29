@@ -1,13 +1,22 @@
-import React from 'react';
-import { Typography, Container, Paper, Divider, Box, Grid, Card, CardContent } from '@mui/material';
-import styles from '../styles/About.module.css';
+import React from "react";
+import {
+  Typography,
+  Container,
+  Paper,
+  Divider,
+  Box,
+  Grid,
+  Card,
+  CardContent,
+} from "@mui/material";
+import styles from "../styles/About.module.css";
 import Header from "../components/Header";
 
 const About: React.FC = () => {
   return (
     <>
       <Header />
-      <Divider color="black"/>
+      <Divider color="black" />
       <div className={styles.container}>
         <Container maxWidth="lg" className={styles.content}>
           {/* ESG Cards Section */}
@@ -45,9 +54,7 @@ const About: React.FC = () => {
 
               {/* Social Card */}
               <Grid item xs={12} md={4}>
-                <Card
-                  className={`${styles.esgCard} ${styles.esgCardSocial}`}
-                >
+                <Card className={`${styles.esgCard} ${styles.esgCardSocial}`}>
                   <CardContent className={styles.cardContentWrapper}>
                     <Typography
                       variant="h5"
@@ -94,9 +101,12 @@ const About: React.FC = () => {
               About Us
             </Typography>
             <Typography variant="body1" gutterBottom>
-              Welcome to Vested. Investing responsibly is tough, but we make it as easy, and as good, as investing in yourself.
-              We help you track the environmental impact of your investments by not only highlighting companies' ESG impact, but
-              encouraging investment into our shared future though nonprofit donations and detailed environmental articles.
+              Welcome to Vested! We empower new investors with the data to make
+              informed decisions about which companies to invest in based on
+              their community impact and outreach efforts. By integrating
+              sustainability metrics, recent news, real-time stock data, and
+              Gemini-powered recommendations, we provide an educational platform
+              for our users to invest in companies that align with their values.
             </Typography>
 
             <Divider className={styles.divider} />
@@ -106,7 +116,8 @@ const About: React.FC = () => {
                 Our Mission
               </Typography>
               <Typography variant="body1">
-                Our mission is to make responsible investing easy. We strive to provide users with an accurate perception of the companies they choose to support.
+                Our mission is to connect new investors with companies that
+                serve the community.
               </Typography>
             </Box>
 
@@ -119,22 +130,20 @@ const About: React.FC = () => {
               <Typography variant="body1" gutterBottom>
                 Abbhinav Sriram, Cole Smith, Sam Cohen, Ricky Zhang
               </Typography>
-              <Typography variant="body2">
-                Go Shellhacks!
-              </Typography>
+              <Typography variant="body2">Go Shellhacks!</Typography>
             </Box>
 
             <Divider className={styles.divider} />
 
             <Typography variant="body2" className={styles.shoutout}>
-              Shoutout to Alistair King, who provided us with the starter dataset for this project.
+              Shoutout to Alistair King, who provided us with the starter
+              dataset for this project.
             </Typography>
 
             <Typography variant="body2" className={styles.shoutout}>
-              Please keep in mind that this is not financial advice. We are not financial advisors
-              and investing in stocks always carries risk. Please do your own research before purchasing
-              any stocks.
-
+              Please keep in mind that this is not financial advice. We are not
+              financial advisors and investing in stocks always carries risk.
+              Please do your own research before purchasing any stocks.
             </Typography>
           </Paper>
         </Container>

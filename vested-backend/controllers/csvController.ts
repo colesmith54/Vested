@@ -32,7 +32,6 @@ export const getAllCsvRows = (req: Request, res: Response): void => {
   readStream.pipe(parser);
 
   parser.on("data", (data: any) => {
-    console.log(data);
     const row: CsvRow = {
       t: data.ticker,
       n: data.name,
