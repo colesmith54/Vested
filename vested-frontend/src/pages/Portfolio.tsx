@@ -79,6 +79,11 @@ const Portfolio: React.FC = () => {
     }
   }, [portfolioItems]);
 
+  const valueFormatter = (item: { value: number }): string => {
+    return `$${item.value}`;
+  };
+  
+
   return (
     <div>
       <Header />
@@ -97,6 +102,7 @@ const Portfolio: React.FC = () => {
                     additionalRadius: -30,
                     color: "gray",
                   },
+                  valueFormatter
                 },
               ]}
               width={600}
