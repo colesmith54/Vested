@@ -1,4 +1,3 @@
-// src/components/About.tsx
 
 import React from 'react';
 import { Typography, Container, Paper, Divider, Box } from '@mui/material';

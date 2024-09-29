@@ -1,17 +1,70 @@
 // src/components/Portfolio.tsx
 
-import Header from "../components/Header";
 import React, { useEffect, useState } from "react";
-import { Box, Divider, Typography } from "@mui/material";
+import Header from "../components/Header";
+import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Typography } from "@mui/material";
 import styles from "../styles/Portfolio.module.css";
 import PortfolioTable from "../components/PortfolioTable";
 import { PieChart } from "@mui/x-charts";
 import { useGlobalState } from "../GlobalState";
 import GaugeComponent from "../components/GaugeComponent";
+import axios from "axios";
+
+export interface Nonprofit {
+  nonprofitOrganizationName: string;
+  description: string;
+  link: string;
+}
 
 const Portfolio: React.FC = () => {
-  const { state } = useGlobalState();
+  const { state, updateState } = useGlobalState();
   const { portfolioItems } = state;
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Function to generate response from OpenAI
+  const generateResponse = async () => {
+    const namesString = portfolioItems.map((item) => item.name).join("\n");
+
+    const apiKey = import.meta.env.VITE_OPENAI;
+
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.post(
+        'https://api.openai.com/v1/chat/completions',
+        {
+          model: 'gpt-3.5-turbo', // or 'gpt-4'
+          messages: [{ role: 'user', content: `${namesString}  \n provide an array of JSONs of size 3, each with 'nonprofitOrganizationName', 'description', and 'link' fields that relate to the provided companies and their missions.` }],
+          max_tokens: 500,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
+          },
+        }
+      );
+
+      const data = JSON.parse(response.data.choices[0].message.content);
+      console.log("Data", data);
+      updateState({ gptResponse: data });
+    } catch (err: any) {
+      setError("Failed to fetch data from server.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // useEffect to call generateResponse on component mount and when portfolioItems change
+  useEffect(() => {
+    if (portfolioItems.length > 0) {
+      generateResponse();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [portfolioItems]);
 
   // Prepare chart data based on portfolio items
   const chartData = portfolioItems.map((item, index) => ({
@@ -21,11 +74,8 @@ const Portfolio: React.FC = () => {
     tooltip: `${item.name}: ${item.price} USD`, // Custom tooltip value to be shown on hover
   }));
 
-
-
-  // console.log("state", state);
-
-  const [value, setValue] = useState(0);
+  // Calculate ESG Score
+  const [esgScore, setEsgScore] = useState(0);
 
   useEffect(() => {
     if (portfolioItems.length > 0) {
@@ -51,6 +101,7 @@ const Portfolio: React.FC = () => {
           }
         });
       });
+
       const averageSubScores = categories.map((category) => ({
         category,
         score: totalAmountInvested
@@ -61,14 +112,14 @@ const Portfolio: React.FC = () => {
             )
           : 0,
       }));
+
       const overallScore = totalAmountInvested
         ? parseFloat(
             (
               categories.reduce(
                 (acc, category) => acc + totalCategoryWeightedScores[category],
                 0
-              ) /
-              (totalAmountInvested * categories.length)
+              ) / (totalAmountInvested * categories.length)
             ).toFixed(1)
           )
         : 0;
@@ -77,20 +128,26 @@ const Portfolio: React.FC = () => {
       console.log("Overall ESG Score:", overallScore);
 
       // Set the calculated overall ESG score
-      setValue(overallScore);
+      setEsgScore(overallScore);
     }
   }, [portfolioItems]);
 
+  // Formatter for chart values
   const valueFormatter = (item: { value: number }): string => {
     return `$${item.value}`;
   };
-  
 
   return (
     <div>
       <Header />
       <div className={styles.infoContainer}>
-        <h1 style={{ color: "black", alignSelf: "center" }}>My Portfolio</h1>
+        <Typography
+          variant="h4"
+          component="h1"
+          style={{ color: "black", textAlign: "center", marginBottom: "24px" }}
+        >
+          My Portfolio
+        </Typography>
 
         <Box className={styles.chartGaugeContainer}>
           <Box className={styles.leftContent}>
@@ -104,7 +161,7 @@ const Portfolio: React.FC = () => {
                     additionalRadius: -30,
                     color: "gray",
                   },
-                  valueFormatter
+                  valueFormatter,
                 },
               ]}
               width={600}
@@ -116,20 +173,60 @@ const Portfolio: React.FC = () => {
 
           {/* GaugeComponent */}
           <Box className={styles.rightContent}>
-            <Typography variant="h5" gutterBottom style={{ color: "#4caf50" }}>
+            <Typography
+              variant="h5"
+              gutterBottom
+              style={{ color: "#4caf50" }}
+            >
               Your ESG Score
             </Typography>
-            <GaugeComponent value={value} />
+            <GaugeComponent value={esgScore} />
             <Typography
               variant="h6"
               style={{ marginTop: "8px", color: "#4caf50" }}
             >
-              {value === 0 ? "-" : value} / 10
+              {esgScore === 0 ? "-" : esgScore} / 10
             </Typography>
           </Box>
         </Box>
+
         {/* Portfolio Table */}
         <PortfolioTable />
+
+        {/* Display Loading, Error, and GPT Response */}
+        <Box className={styles.gptResponseContainer} marginBottom={4}>
+          {loading && <Typography>Loading response...</Typography>}
+          {error && <Typography style={{ color: "red" }}>{error}</Typography>}
+          {state.gptResponse && Array.isArray(state.gptResponse) && (
+            <Box className={styles.gptResponseBox}>
+              <Typography variant="h6" gutterBottom>
+                Suggested Nonprofits:
+              </Typography>
+              <Grid container spacing={2}>
+                {state.gptResponse.map((nonprofit: Nonprofit, index: number) => (
+                  <Grid item xs={12} sm={6} md={4} key={index}>
+                    <Card variant="outlined" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                      <CardContent>
+                        <Typography variant="h6" style={{ color: "#4caf50" }}>
+                          {nonprofit.nonprofitOrganizationName}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {nonprofit.description}
+                        </Typography>
+                      </CardContent>
+                      <CardActions style={{ marginTop: "auto" }}>
+                        <Button size="small" color="primary" href={nonprofit.link} target="_blank" rel="noopener noreferrer">
+                          Learn More
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          )}
+        </Box>
+
       </div>
     </div>
   );

@@ -5,9 +5,6 @@ import { useGlobalState } from "../GlobalState";
 
 const OpenAIRequest = () => {
   const { state, updateState } = useGlobalState();
-
-  
-
   const generateResponse = async () => {
     const namesString = state.portfolioItems.map(item => item.name).join('\n');
 
@@ -17,7 +14,7 @@ const OpenAIRequest = () => {
         'https://api.openai.com/v1/chat/completions',
         {
           model: 'gpt-3.5-turbo', // or 'gpt-4'
-          messages: [{ role: 'user', content: `${namesString}  \n provide a list of 3 nonprofit organizations that align with the companies' mission and community efforts. Format your answer as JSON with 'name' and 'description' fields, and include a brief explanation of how each nonprofit aligns with the companies' values.` }],
+          messages: [{ role: 'user', content: `${namesString}  \n provide an array of JSONs of size 3, each with 'nonprofitOrganizationName' and  'description' fields that relate to the provided companies and their missions.` }],
           max_tokens: 500,
         },
         {
@@ -28,10 +25,8 @@ const OpenAIRequest = () => {
         }
       );
 
-      console.log("gptresponse: ", response.data.choices[0].text);
-      updateState({ gptResponse: response.data.choices[0].text });
-
-
+      const data = JSON.parse(response.data.choices[0].text);
+      updateState({ gptResponse: data });
     } catch (error) {
       console.error(error);
     }
