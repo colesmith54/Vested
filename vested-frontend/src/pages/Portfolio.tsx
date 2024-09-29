@@ -79,6 +79,7 @@ const Portfolio: React.FC = () => {
   const [esgScore, setEsgScore] = useState(0);
 
   useEffect(() => {
+    console.log("Portfolio Items:", portfolioItems);
     if (portfolioItems.length > 0) {
       // Initialize total weighted scores and total amount invested
       const totalCategoryWeightedScores: { [key: string]: number } = {
@@ -162,6 +163,7 @@ const Portfolio: React.FC = () => {
                     additionalRadius: -30,
                     color: "gray",
                   },
+                  valueFormatter,
                   valueFormatter,
                 },
               ]}
