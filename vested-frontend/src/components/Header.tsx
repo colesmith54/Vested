@@ -60,7 +60,7 @@ const Header: React.FC = () => {
       <Box className={styles.searchContainer}>
         <Box className={styles.navLinks}>
           <Link to="/about" className={styles.link}>
-          About
+            About
           </Link>
           <Link to="/portfolio" className={styles.link}>
             Portfolio
@@ -76,9 +76,9 @@ const Header: React.FC = () => {
               <path
                 d="M80.6562 41.4375V68.25H8.34375V41.4375M44.5 53.625V43.875M55.625 19.5C55.625 19.5 55.625 9.75 44.5 9.75C33.375 9.75 33.375 19.5 33.375 19.5M5.5625 19.5H83.4375V39C83.4375 39 66.75 48.75 44.5 48.75C22.25 48.75 5.5625 39 5.5625 39V19.5Z"
                 stroke="black"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </Link>
