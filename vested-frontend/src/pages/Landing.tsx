@@ -43,7 +43,7 @@ const Landing: React.FC = () => {
                     </Typography>
 
                     <Typography style={{ color: "black", fontSize: 22, fontFamily: "PTSerif-Italic", }}>
-                        That's why Vested gives you access to real-time data on which top companies uplift communities and support the common good through:
+                        That's why Vested gives you access to real-time data on which top companies uplift communities through:
                     </Typography>
 
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", marginTop: 50, gap: "360px" }}>
