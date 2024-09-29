@@ -124,3 +124,30 @@
     }
   }
   
+
+
+
+  .image-container {
+    position: relative;
+    display: inline-block; /* Adjust as needed */
+    width: 50px; /* Set the width of the container */
+    height: 50px; /* Set the height of the container */
+    overflow: hidden; /* Ensure that the image doesn't overflow the container */
+  }
+  
+  .small-logo {
+    width: 100%; /* Make the image fill the container */
+    height: 100%; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the container */
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 100;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(187, 10, 10, 0.5); /* Semi-transparent overlay color */
+    pointer-events: none; /* Allows clicks to pass through */
+  }
+  
