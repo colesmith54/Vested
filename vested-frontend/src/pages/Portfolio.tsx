@@ -15,7 +15,6 @@ import PortfolioTable from "../components/PortfolioTable";
 import { PieChart } from "@mui/x-charts";
 import { useGlobalState } from "../GlobalState";
 import GaugeComponent from "../components/GaugeComponent";
-import axios from "axios";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export interface Nonprofit {
@@ -87,23 +86,23 @@ const Portfolio: React.FC = () => {
   // Function to generate response from OpenAI
   const generateResponse = async () => {
     const namesString = portfolioItems.map((item) => item.name).join("\n");
-    const apiKey = import.meta.env.VITE_OPENAI;
 
     try {
       setLoading(true);
       setError(null);
 
-      const genAI = new GoogleGenerativeAI("AIzaSyCAE1w1geaOlMWLbkTdoVqC1ToDOyfMfOk");
+      const genAI = new GoogleGenerativeAI(
+        "AIzaSyCAE1w1geaOlMWLbkTdoVqC1ToDOyfMfOk"
+      );
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      
+
       const prompt = `${namesString}  \n please provide an array of JSONs of size 3 independent nonprofits, each with 'nonprofitOrganizationName', 'description', and 'link' fields that relate to the missions of provided companies.
             Be relatively brief, and do not include anything else in your request. Your response should start with a [ character. Maximum of 350 characters per description.`;
-      
+
       const result = await model.generateContent(prompt);
       // console.log(result.response.text());
       const geminiResponse = result.response.text();
       console.log("gem response: ", geminiResponse);
-
 
       const data = JSON.parse(geminiResponse);
       console.log("Data", data);
