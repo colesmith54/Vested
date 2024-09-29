@@ -1,8 +1,15 @@
-// src/components/Portfolio.tsx
-
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
 import styles from "../styles/Portfolio.module.css";
 import PortfolioTable from "../components/PortfolioTable";
 import { PieChart } from "@mui/x-charts";
@@ -33,17 +40,22 @@ const Portfolio: React.FC = () => {
       setLoading(true);
       setError(null);
       const response = await axios.post(
-        'https://api.openai.com/v1/chat/completions',
+        "https://api.openai.com/v1/chat/completions",
         {
-          model: 'gpt-3.5-turbo', // or 'gpt-4'
-          messages: [{ role: 'user', content: `${namesString}  \n please provide an array of JSONs of size 3, each with 'nonprofitOrganizationName', 'description', and 'link' fields that relate to the provided companies and their missions.
-            Be relatively brief, and do not include anything else in your request. Maximum of 350 characters per description.` }],
+          model: "gpt-3.5-turbo", // or 'gpt-4'
+          messages: [
+            {
+              role: "user",
+              content: `${namesString}  \n please provide an array of JSONs of size 3, each with 'nonprofitOrganizationName', 'description', and 'link' fields that relate to the provided companies and their missions.
+            Be relatively brief, and do not include anything else in your request. Maximum of 350 characters per description.`,
+            },
+          ],
           max_tokens: 500,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
           },
         }
       );
@@ -121,7 +133,8 @@ const Portfolio: React.FC = () => {
               categories.reduce(
                 (acc, category) => acc + totalCategoryWeightedScores[category],
                 0
-              ) / (totalAmountInvested * categories.length)
+              ) /
+              (totalAmountInvested * categories.length)
             ).toFixed(1)
           )
         : 0;
@@ -164,7 +177,6 @@ const Portfolio: React.FC = () => {
                     color: "gray",
                   },
                   valueFormatter,
-                  valueFormatter,
                 },
               ]}
               width={600}
@@ -176,11 +188,7 @@ const Portfolio: React.FC = () => {
 
           {/* GaugeComponent */}
           <Box className={styles.rightContent}>
-            <Typography
-              variant="h5"
-              gutterBottom
-              style={{ color: "#4caf50" }}
-            >
+            <Typography variant="h5" gutterBottom style={{ color: "#4caf50" }}>
               Your ESG Score
             </Typography>
             <GaugeComponent value={esgScore} />
@@ -196,52 +204,117 @@ const Portfolio: React.FC = () => {
         {/* Portfolio Table */}
         <PortfolioTable />
 
-        <Box className={styles.gptResponseContainer} marginBottom={4}>
-          {loading && <Typography>Loading Suggested Nonprofits...</Typography>}
-          {!loading && !error && state.gptResponse && Array.isArray(state.gptResponse) && (
-            <Box className={styles.gptResponseBox} style={{ position: "relative" }}>
-              {/* Close button */}
-              <Box
-                onClick={() => updateState({ gptResponse: null })} // Replace with your close logic
-                style={{
-                  position: "absolute",
-                  top: "8px",
-                  right: "8px",
-                  cursor: "pointer",
-                  fontSize: "32px",
-                  color: "#999",
-                }}
-              >
-                &times;
-              </Box>
-              <Typography variant="h6" color="#1290c4" gutterBottom>
-                Suggested Nonprofits:
-              </Typography>
+        {/* Remove the Suggested Nonprofits section from here */}
+      </div>
+
+      {/* Suggested Nonprofits Pop-up */}
+      {loading && (
+        <Box
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            backgroundColor: "white",
+            zIndex: 1000,
+            padding: "16px",
+            textAlign: "center",
+            overflowX: "hidden", // Added to prevent horizontal scroll
+            boxSizing: "border-box",
+          }}
+        >
+          <Typography>Loading Suggested Nonprofits...</Typography>
+        </Box>
+      )}
+      {!loading &&
+        !error &&
+        state.gptResponse &&
+        Array.isArray(state.gptResponse) && (
+          <Box
+            className={styles.gptResponseContainer}
+            style={{
+              position: "fixed",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              maxHeight: "50vh",
+              overflowY: "auto",
+              overflowX: "hidden", // Added to prevent horizontal scroll
+              backgroundColor: "white",
+              zIndex: 1000,
+              padding: "16px",
+              boxSizing: "border-box", // Ensures padding is included in width
+            }}
+          >
+            {/* Close button */}
+            <Box
+              onClick={() => updateState({ gptResponse: null })}
+              style={{
+                position: "absolute",
+                top: "6px",
+                right: "16px",
+                cursor: "pointer",
+                fontSize: "32px",
+                color: "#999",
+              }}
+            >
+              &times;
+            </Box>
+            <Typography variant="h6" color="#1290c4" gutterBottom>
+              Suggested Nonprofits:
+            </Typography>
+            {/* Wrap Grid in a Box with padding */}
+            <Box
+              style={{
+                padding: "0 16px", // Adjusts for Grid's negative margins
+                boxSizing: "border-box",
+              }}
+            >
               <Grid container spacing={2}>
-                {state.gptResponse.map((nonprofit: Nonprofit, index: number) => (
-                  <Grid item xs={12} sm={6} md={4} key={index}>
-                    <Card variant="outlined" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-                      <CardContent style={{ paddingBottom: "8px" }}>
-                        <Typography variant="h6" style={{ color: "#4caf50" }}>
-                          {nonprofit.nonprofitOrganizationName}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {nonprofit.description}
-                        </Typography>
-                      </CardContent>
-                      <CardActions style={{ justifyContent: "center", paddingTop: "0" }}>
-                        <Button size="small" color="primary" href={nonprofit.link} target="_blank" rel="noopener noreferrer">
-                          Learn More
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
+                {state.gptResponse.map(
+                  (nonprofit: Nonprofit, index: number) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                      <Card
+                        variant="outlined"
+                        style={{
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          // Removed marginLeft and marginRight
+                        }}
+                      >
+                        <CardContent style={{ paddingBottom: "8px" }}>
+                          <Typography variant="h6" style={{ color: "#4caf50" }}>
+                            {nonprofit.nonprofitOrganizationName}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {nonprofit.description}
+                          </Typography>
+                        </CardContent>
+                        <CardActions
+                          style={{
+                            justifyContent: "center",
+                            paddingTop: "0",
+                          }}
+                        >
+                          <Button
+                            size="small"
+                            color="primary"
+                            href={nonprofit.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Learn More
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  )
+                )}
               </Grid>
             </Box>
-          )}
-        </Box>
-      </div>
+          </Box>
+        )}
     </div>
   );
 };
