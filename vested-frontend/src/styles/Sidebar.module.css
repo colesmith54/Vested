@@ -15,7 +15,7 @@
   font-size: 1.25rem; /* Corresponds to h5 */
   padding: 8px 16px; /* Adds padding inside the element */
   cursor: pointer;
-  background-image: radial-gradient(circle, #87e9ff, #c9d9ff); /* Radial gradient */
+  background-image: radial-gradient(circle, #80AA6C, #90CA8F); /* Radial gradient */
   border-radius: 8px; /* Rounded corners */
   color: #000000; /* Text color for better contrast */
   transition: background 0.3s, transform 0.3s; /* Smooth animations for background and scale */
@@ -23,7 +23,7 @@
 
 /* Hover effect with a slightly different radial gradient */
 .title:hover {
-  background-image: radial-gradient(circle, #9db7df, #73e7fe);
+  background-image: radial-gradient(circle, #90CA8F, #80AA6C);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
