@@ -1,5 +1,5 @@
 // Info.tsx
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Typography, Button, Alert } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -7,6 +7,16 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import StockGraph from "../components/StockGraph";
 import styles from "../styles/Info.module.css";
 import ImageWithFallback from "../components/ImageWithFallback";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import { useGlobalState } from "../GlobalState.tsx";
 
 const colorMapping: { [key: number]: string } = {
   0: "#ff6b6b",
@@ -67,12 +77,52 @@ const renderScore = (score: string) => {
 };
 
 const Info: React.FC = () => {
+  const { state, updateState } = useGlobalState();
   const location = useLocation();
   const row = location.state?.row;
 
-  console.log("Row", location.state);
+  const { portfolioItems } = state;
+  const [openDialog, setOpenDialog] = useState(false);
+  const [portfolioAmount, setPortfolioAmount] = useState("");
 
   const navigate = useNavigate();
+
+  const handleAddToPortfolio = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+    setPortfolioAmount("");
+  };
+
+  const handleAddPortfolioSubmit = (edit: boolean = false) => {
+    if (!edit) {
+      updateState({
+        portfolioItems: [
+          ...portfolioItems,
+          {
+            ...row,
+            price: parseFloat(portfolioAmount),
+            options: [row.environmental, row.social, row.governance],
+          },
+        ],
+      });
+    } else {
+      updateState({
+        portfolioItems: portfolioItems.map((item) =>
+          item.ticker === row.ticker
+            ? {
+                ...item,
+                price: parseFloat(portfolioAmount),
+                options: [row.environmental, row.social, row.governance],
+              }
+            : item
+        ),
+      });
+    }
+    handleDialogClose();
+  };
 
   if (!row) {
     return (
@@ -143,7 +193,65 @@ const Info: React.FC = () => {
             Visit Website
           </Button>
         )}
+        <IconButton
+          aria-controls={`menu-${row.ticker}`}
+          aria-haspopup="true"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleAddToPortfolio();
+          }}
+        >
+          {state.portfolioItems.find((item) => item.ticker === row.ticker) ? (
+            <EditIcon />
+          ) : (
+            <AddIcon />
+          )}
+        </IconButton>
       </Box>
+
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>
+          <DialogTitle>
+            {state.portfolioItems.find((item) => item.ticker === row.ticker)
+              ? "Edit Portfolio Item"
+              : "Add to Portfolio"}
+          </DialogTitle>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {state.portfolioItems.find((item) => item.ticker === row.ticker)
+              ? `Edit the amount in dollars for ${row.name}.`
+              : `Enter the amount in dollars for ${row.name}.`}
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id={`portfolio-amount-${row.ticker}`}
+            label="Amount ($)"
+            fullWidth
+            type="number"
+            variant="standard"
+            value={portfolioAmount}
+            onChange={(e) => setPortfolioAmount(e.target.value)}
+            inputProps={{ min: "0", step: "0.01" }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>Cancel</Button>
+          <Button
+            onClick={() =>
+              handleAddPortfolioSubmit(
+                state.portfolioItems.find((item) => item.ticker === row.ticker)
+              )
+            }
+            disabled={!portfolioAmount || parseFloat(portfolioAmount) <= 0}
+          >
+            {state.portfolioItems.find((item) => item.ticker === row.ticker)
+              ? "Edit"
+              : "Add"}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Main Content */}
       <div style={{ display: "flex", alignItems: "flex-start", width: "100%" }}>
