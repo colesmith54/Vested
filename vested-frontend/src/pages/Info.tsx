@@ -325,7 +325,7 @@ const Info: React.FC = () => {
 
       {tabIndex === 1 && (
         <Box sx={{ width: "100%" }}>
-          <News ticker={row.ticker} />
+          <News name={row.name} />
         </Box>
       )}
     </div>

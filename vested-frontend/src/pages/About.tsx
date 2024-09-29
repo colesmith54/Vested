@@ -1,7 +1,5 @@
-// src/components/About.tsx
-
 import React from 'react';
-import { Typography, Container, Paper, Divider, Box } from '@mui/material';
+import { Typography, Container, Paper, Divider, Box, Grid, Card, CardContent } from '@mui/material';
 import styles from '../styles/About.module.css';
 import Header from "../components/Header";
 
@@ -10,15 +8,66 @@ const About: React.FC = () => {
     <>
       <Header />
       <div className={styles.container}>
-        <Container maxWidth="md" className={styles.content}>
+        <Container maxWidth="lg" className={styles.content}>
+          {/* ESG Cards Section */}
+          <Box className={styles.esgSection} marginBottom={4}>
+            <Typography variant="h4" component="h2" className={styles.sectionTitle} gutterBottom>
+              What is ESG?
+            </Typography>
+            <Grid container spacing={4}>
+              {/* Environmental Card */}
+              <Grid item xs={12} md={4}>
+                <Card className={styles.esgCard}>
+                  <CardContent>
+                    <Typography variant="h5" className={styles.cardTitle} gutterBottom>
+                      Environmental
+                    </Typography>
+                    <Typography variant="body2">
+                      Focuses on the impact of companies on the planet. This includes carbon emissions, waste management, and resource conservation.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              {/* Social Card */}
+              <Grid item xs={12} md={4}>
+                <Card className={styles.esgCard}>
+                  <CardContent>
+                    <Typography variant="h5" className={styles.cardTitle} gutterBottom>
+                      Social
+                    </Typography>
+                    <Typography variant="body2">
+                      Covers a company's relationships with employees, suppliers, customers, and the communities in which it operates.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              {/* Governance Card */}
+              <Grid item xs={12} md={4}>
+                <Card className={styles.esgCard}>
+                  <CardContent>
+                    <Typography variant="h5" className={styles.cardTitle} gutterBottom>
+                      Governance
+                    </Typography>
+                    <Typography variant="body2">
+                      Deals with a company's leadership, executive pay, audits, internal controls, and shareholder rights.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Box>
+
+          {/* About Us Section */}
           <Paper elevation={3} className={styles.paper}>
             <Typography variant="h3" component="h1" className={styles.title}>
               About Us
             </Typography>
             <Typography variant="body1" gutterBottom>
-              Welcome to Vested. Investing responsibly is tough, but we make it as easy as vest.
-              We help you track the environmental impact of your investments by making information available at your fingertips,
-              and donating profits to relevant charities.
+              Welcome to Vested. Investing responsibly is tough, but we make it as easy, and as good, as investing in yourself.
+              We help you track the environmental impact of your investments by not only highlighting companies' ESG impact, but
+              encouraging investment into our shared future though nonprofit donations and detailed environmental articles.
             </Typography>
 
             <Divider className={styles.divider} />
@@ -39,29 +88,17 @@ const About: React.FC = () => {
                 Our Team
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Our team consists of experienced undergraduates studying computer science at the University of Florida: Abhinav Sriram, Cole Smith, Sam Cohen, and Ricky Zhang
+                Abhinav Sriram, Cole Smith, Sam Cohen, Ricky Zhang
               </Typography>
-              <Typography variant="body1">
-                Each member brings unique skills and perspectives to the table, making us stronger as a team. With our balance in frontend, backend and design, we are able to create a seamless Shellhacks experience.
+              <Typography variant="body2">
+                Go Shellhacks!
               </Typography>
             </Box>
 
             <Divider className={styles.divider} />
 
-            <Box className={styles.contact}>
-              <Typography variant="h4" gutterBottom>
-                Contact Us
-              </Typography>
-              <Typography variant="body1">
-                Have any questions or want to get in touch? Reach out to us at{' '}
-                <a href="mailto:info@vested.com" className={styles.email}>
-                  info@vested.com
-                </a>
-              </Typography>
-            </Box>
-
             <Typography variant="body2" className={styles.shoutout}>
-              Shoutout to Alastor King
+              Shoutout to Alistair King, who provided us with the starter dataset for this project.
             </Typography>
           </Paper>
         </Container>

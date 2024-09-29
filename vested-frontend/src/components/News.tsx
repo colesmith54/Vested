@@ -24,20 +24,21 @@ interface HeadlinesResponse {
 }
 
 interface NewsProps {
-  ticker: string;
+  name: string;
 }
 
-const News: React.FC<NewsProps> = ({ ticker }) => {
+const News: React.FC<NewsProps> = ({ name }) => {
   const [news, setNews] = useState<Article[]>([]); // Explicitly define the type for news articles
   const [loading, setLoading] = useState(true); // Initialize state for loading
   const [error, setError] = useState<Error | null>(null); // Initialize state for error
+  const apiKey = import.meta.env.VITE_NEWS;
 
   useEffect(() => {
     const fetchNews = async () => {
-      const newsAPI = new NewsAPI("c6c5184927704d47addddae65a2d5fc8");
+      const newsAPI = new NewsAPI(apiKey);
       try {
         const headlines: HeadlinesResponse = await newsAPI.getEverything({
-          q: ticker,
+          q: `"${name}" Finance`,
           language: "en",
           sortBy: "relevancy",
           pageSize: 20,
@@ -53,7 +54,7 @@ const News: React.FC<NewsProps> = ({ ticker }) => {
     };
 
     fetchNews();
-  }, [ticker]);
+  }, [name]);
 
   if (loading) {
     return <div>Loading...</div>;

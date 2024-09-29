@@ -52,7 +52,7 @@ const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
   row,
   onClick,
 }) => {
-  const { state, updateState } = useGlobalState();
+  const { state, updateState, removeStock } = useGlobalState();
   const { portfolioItems } = state;
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -156,6 +156,15 @@ const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
           />
         </DialogContent>
         <DialogActions>
+          <Button
+            onClick={() => removeStock(row.ticker)}
+            sx={{
+              color: "#ff6b6b",
+              ":hover": { backgroundColor: "rgba(255, 107, 107, 0.35)" },
+            }}
+          >
+            Remove
+          </Button>
           <Button onClick={handleDialogClose}>Cancel</Button>
           <Button
             onClick={handleEditPortfolioSubmit}
