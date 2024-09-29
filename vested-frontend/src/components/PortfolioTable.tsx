@@ -84,7 +84,7 @@ const PortfolioTable: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleChangePage = (newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 

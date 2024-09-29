@@ -95,7 +95,10 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
     }
   }, [timeWindow, data, timeWindows]);
 
-  const handleTimeWindowChange = (newWindow: string | null) => {
+  const handleTimeWindowChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newWindow: string | null
+  ) => {
     if (newWindow !== null) {
       setTimeWindow(newWindow);
     }
