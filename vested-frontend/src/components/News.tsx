@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import NewsAPI from "ts-newsapi";
+import axios from "axios";
 import { Grid } from "@mui/material";
 import NewsCard from "./NewsCard";
 
@@ -31,22 +31,17 @@ const News: React.FC<NewsProps> = ({ name }) => {
   const [news, setNews] = useState<Article[]>([]); // Explicitly define the type for news articles
   const [loading, setLoading] = useState(true); // Initialize state for loading
   const [error, setError] = useState<Error | null>(null); // Initialize state for error
-  const apiKey = import.meta.env.VITE_NEWS;
 
   useEffect(() => {
     const fetchNews = async () => {
-      const newsAPI = new NewsAPI(apiKey);
+      const headlines = await axios.get<any>(
+        `https://vested-backend.vercel.app/api/news/${name}`
+      );
+
       try {
-        const headlines: HeadlinesResponse = await newsAPI.getEverything({
-          q: `"${name}" Finance`,
-          language: "en",
-          sortBy: "relevancy",
-          pageSize: 20,
-          page: 1,
-        });
-        console.log(headlines);
-        setNews(headlines.articles); // Update state with fetched news articles
-        setLoading(false); // Update loading state
+        const data = headlines.data as HeadlinesResponse;
+        setNews(data.articles);
+        setLoading(false);
       } catch (err) {
         setError(err as Error); // Update error state
         setLoading(false); // Update loading state
