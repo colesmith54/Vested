@@ -6,11 +6,8 @@ import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
 import { GlobalStateProvider } from "./GlobalState";
 import News from "./components/News";
-<<<<<<< HEAD
 import About from "./pages/About";
-=======
 import Info from "./pages/Info";
->>>>>>> 7cd0e805716de7228724848dc6d632184da8206c
 function App() {
   return (
     <GlobalStateProvider>
@@ -25,7 +22,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
-    </GlobalStateProvider >
+    </GlobalStateProvider>
   );
 }
 
