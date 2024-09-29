@@ -38,8 +38,8 @@ const GaugeComponent: React.FC<GaugeComponentProps> = ({ value }) => {
   }, [value]);
 
   return (
-    <div style={{ width: "200px", height: "160px", margin: "auto" }}>
-      <canvas ref={gaugeRef} width="200" height="160"></canvas>
+    <div style={{ width: "240px", height: "160px", margin: "auto" }}>
+      <canvas ref={gaugeRef} width="240" height="160"></canvas>
     </div>
   );
 };
