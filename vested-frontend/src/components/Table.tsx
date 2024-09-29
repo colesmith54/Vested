@@ -81,6 +81,7 @@ const StickyHeadTable: React.FC = () => {
         );
 
         const result = await response.data;
+        console.log(result);
 
         const environmentalScores = result.map((row: any) => row.e);
         const socialScores = result.map((row: any) => row.s);
