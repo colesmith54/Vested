@@ -58,7 +58,15 @@ const Header: React.FC = () => {
 
       <Box className={styles.searchContainer}>
         <Box className={styles.navLinks}>
-          <Link to="/" className={styles.link}>
+          <Link
+            to="/"
+            className={styles.link}
+            style={{
+              marginLeft: "8px",
+              marginRight: "20px",
+              verticalAlign: "middle",
+            }}
+          >
             Dashboard
           </Link>
           <Link to="/portfolio" className={styles.link}>

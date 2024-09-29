@@ -7,15 +7,13 @@
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  height: 100%; /* Fill the available height */
-  overflow-y: auto; /* Enable internal scrolling if needed */
 }
 
 .title {
   font-size: 1.25rem; /* Corresponds to h5 */
   padding: 8px 16px; /* Adds padding inside the element */
   cursor: pointer;
-  background-image: radial-gradient(circle, #80AA6C, #90CA8F); /* Radial gradient */
+  background-image: radial-gradient(circle, #90CA8F, #90E08F);
   border-radius: 8px; /* Rounded corners */
   color: #000000; /* Text color for better contrast */
   transition: background 0.3s, transform 0.3s; /* Smooth animations for background and scale */
@@ -23,7 +21,7 @@
 
 /* Hover effect with a slightly different radial gradient */
 .title:hover {
-  background-image: radial-gradient(circle, #90CA8F, #80AA6C);
+  background-image: radial-gradient(circle, #90E08F, #90CA8F);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

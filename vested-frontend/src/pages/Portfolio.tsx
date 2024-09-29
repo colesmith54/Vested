@@ -86,7 +86,6 @@ const Portfolio: React.FC = () => {
   // Function to generate response from OpenAI
   const generateResponse = async () => {
     const namesString = portfolioItems.map((item) => item.name).join("\n");
-
     const apiKey = import.meta.env.VITE_OPENAI;
 
     try {
@@ -197,6 +196,8 @@ const Portfolio: React.FC = () => {
 
       // Set the calculated overall ESG score
       setEsgScore(overallScore);
+    } else {
+      setEsgScore(0);
     }
   }, [portfolioItems]);
 
