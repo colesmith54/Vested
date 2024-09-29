@@ -8,9 +8,15 @@ import { GlobalStateProvider } from "./GlobalState";
 import News from "./components/News";
 import About from "./pages/About";
 import Info from "./pages/Info";
+import './fonts/font.css'; // Import the fonts CSS file
+import { useGlobalState } from "./GlobalState";
+
+
 function App() {
+
   return (
     <GlobalStateProvider>
+      
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -22,7 +28,8 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
-    </GlobalStateProvider>
+
+    </GlobalStateProvider >
   );
 }
 

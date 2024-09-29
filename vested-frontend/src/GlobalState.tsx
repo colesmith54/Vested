@@ -8,6 +8,7 @@ interface GlobalState {
   portfolioItems: any[];
   search: string;
   gptResponse: string;
+  isLanding: boolean;
 }
 
 // Define the context value type
@@ -36,6 +37,7 @@ const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
     portfolioItems: [],
     search: "",
     gptResponse: "",
+    isLanding: true,
   });
 
   // Helper function to update state based on the previous state
