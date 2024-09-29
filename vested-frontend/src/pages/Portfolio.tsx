@@ -135,7 +135,7 @@ const Portfolio: React.FC = () => {
   const chartData = portfolioItems.map((item, index) => ({
     id: index,
     value: item.price,
-    label: `${item.name}`,
+    label: `${item.ticker.toUpperCase()}`,
     tooltip: `${item.name}: ${item.price} USD`, // Custom tooltip value to be shown on hover
   }));
 
@@ -272,7 +272,7 @@ const Portfolio: React.FC = () => {
             boxSizing: "border-box",
           }}
         >
-          <Typography>Loading Suggested Nonprofits...</Typography>
+          <Typography>Loading AI-Suggested Initiatives...</Typography>
         </Box>
       )}
       {!loading &&
@@ -310,7 +310,7 @@ const Portfolio: React.FC = () => {
               &times;
             </Box>
             <Typography variant="h6" color="#1290c4" gutterBottom>
-              Suggested Nonprofits:
+              AI-Suggested Initiatives:
             </Typography>
             {/* Wrap Grid in a Box with padding */}
             <Box
