@@ -61,7 +61,7 @@ const About: React.FC = () => {
             </Box>
 
             <Typography variant="body2" className={styles.shoutout}>
-              Shoutout to Alastor King
+              Shoutout to Alistair King, who provided us with the starter dataset for this project.
             </Typography>
           </Paper>
         </Container>
