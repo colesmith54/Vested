@@ -7,6 +7,7 @@ interface GlobalState {
   csvData: any[];
   portfolioItems: any[];
   search: string;
+  gptResponse: string;
 }
 
 // Define the context value type
@@ -34,6 +35,7 @@ const GlobalStateProvider = ({ children }: GlobalStateProviderProps) => {
     csvData: [],
     portfolioItems: [],
     search: "",
+    gptResponse: "",
   });
 
   // Helper function to update state based on the previous state

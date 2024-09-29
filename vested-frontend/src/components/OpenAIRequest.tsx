@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useGlobalState } from "../GlobalState";
+
 
 const OpenAIRequest = () => {
-  const [response, setResponse] = useState('');
+  const { state, updateState } = useGlobalState();
+
+  
 
   const generateResponse = async () => {
+    const namesString = state.portfolioItems.map(item => item.name).join('\n');
+
     const apiKey = import.meta.env.VITE_OPENAI;
     try {
       const response = await axios.post(
         'https://api.openai.com/v1/chat/completions',
         {
           model: 'gpt-3.5-turbo', // or 'gpt-4'
-          messages: [{ role: 'user', content: 'What are some good nonprofits?' }],
-          max_tokens: 50,
+          messages: [{ role: 'user', content: `${namesString}  \n provide a list of 3 nonprofit organizations that align with the companies' mission and community efforts. Format your answer as JSON with 'name' and 'description' fields, and include a brief explanation of how each nonprofit aligns with the companies' values.` }],
+          max_tokens: 500,
         },
         {
           headers: {
@@ -22,7 +28,10 @@ const OpenAIRequest = () => {
         }
       );
 
-      setResponse(response.data.choices[0].text);
+      console.log("gptresponse: ", response.data.choices[0].text);
+      updateState({ gptResponse: response.data.choices[0].text });
+
+
     } catch (error) {
       console.error(error);
     }
@@ -31,7 +40,6 @@ const OpenAIRequest = () => {
   return (
     <div>
       <button onClick={generateResponse}>Generate Response</button>
-      <p>{response}</p>
     </div>
   );
 };

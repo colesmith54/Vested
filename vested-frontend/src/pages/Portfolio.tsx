@@ -21,6 +21,8 @@ const Portfolio: React.FC = () => {
     tooltip: `${item.name}: ${item.price} USD`, // Custom tooltip value to be shown on hover
   }));
 
+
+
   // console.log("state", state);
 
   const [value, setValue] = useState(0);
