@@ -5,18 +5,13 @@ import Portfolio from "./pages/Portfolio";
 import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
 import { GlobalStateProvider } from "./GlobalState";
-import News from "./components/News";
 import About from "./pages/About";
 import Info from "./pages/Info";
-import './fonts/font.css'; // Import the fonts CSS file
-import { useGlobalState } from "./GlobalState";
-
+import "./fonts/font.css"; // Import the fonts CSS file
 
 function App() {
-
   return (
     <GlobalStateProvider>
-      
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -28,8 +23,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
-
-    </GlobalStateProvider >
+    </GlobalStateProvider>
   );
 }
 

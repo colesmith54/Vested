@@ -5,7 +5,6 @@ import { useGlobalState } from "../GlobalState";
 import styles from "../styles/Header.module.css";
 import Logo from "../assets/vestedLogoCropped.png";
 import { useNavigate } from "react-router-dom";
-import InfoIcon from "@mui/icons-material/Info";
 
 const Header: React.FC = () => {
   const { state, updateState } = useGlobalState();

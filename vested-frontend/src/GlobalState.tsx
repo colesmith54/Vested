@@ -7,7 +7,7 @@ interface GlobalState {
   csvData: any[];
   portfolioItems: any[];
   search: string;
-  gptResponse: string;
+  gptResponse: string | null;
   isLanding: boolean;
 }
 
