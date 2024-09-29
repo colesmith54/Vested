@@ -129,6 +129,13 @@ const About: React.FC = () => {
             <Typography variant="body2" className={styles.shoutout}>
               Shoutout to Alistair King, who provided us with the starter dataset for this project.
             </Typography>
+
+            <Typography variant="body2" className={styles.shoutout}>
+              Please keep in mind that this is not financial advice. We are not financial advisors
+              and investing in stocks always carries risk. Please do your own research before purchasing
+              any stocks.
+
+            </Typography>
           </Paper>
         </Container>
       </div>

@@ -24,7 +24,7 @@
   
   .title {
     margin-bottom: 16px;
-    background: linear-gradient(90deg, #ff8a80, #ff5252);
+    background: linear-gradient(90deg, #4caf50, #4caf50);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; /* Gradient text */
     font-weight: bold;
