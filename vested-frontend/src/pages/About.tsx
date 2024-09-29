@@ -39,10 +39,10 @@ const About: React.FC = () => {
                 Our Team
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Our team consists of experienced professionals in computer science and finance. Abhinav Sriram, Cole Smith, Sam Cohen, Ricky Zhang are the GOATs.
+                Our team consists of experienced undergraduates studying computer science at the University of Florida: Abhinav Sriram, Cole Smith, Sam Cohen, and Ricky Zhang
               </Typography>
               <Typography variant="body1">
-                Each team member brings unique skills and perspectives to the table, making us stronger as a team. With our balance in frontend, backend and design, we are able to create a seamless Shellhacks experience.
+                Each member brings unique skills and perspectives to the table, making us stronger as a team. With our balance in frontend, backend and design, we are able to create a seamless Shellhacks experience.
               </Typography>
             </Box>
 

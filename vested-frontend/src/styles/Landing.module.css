@@ -1,10 +1,10 @@
-/* src/styles/About.module.css */
+/* src/styles/Landing.module.css */
 
 .container {
     position: relative; /* Establishes a positioning context */
     min-height: 100vh;
     background: linear-gradient(135deg, #ffffff, #81c784); /* Gradient background */
-    padding: 24px;
+    /* padding: 24px; */
     box-sizing: border-box;
     overflow: hidden; /* Ensures pseudo-element doesn't overflow */
   }
@@ -68,19 +68,16 @@
     color: #888;
   }
   
-
-
-
   .image-container {
     position: relative;
     display: inline-block; /* Adjust as needed */
     width: 50px; /* Set the width of the container */
-    height: 50px; /* Set the height of the container */
+    height: 10px; /* Set the height of the container */
     overflow: hidden; /* Ensure that the image doesn't overflow the container */
   }
   
   .small-logo {
-    width: 100%; /* Make the image fill the container */
+    width: 50%; /* Make the image fill the container */
     height: 100%; /* Maintain aspect ratio */
     object-fit: cover; /* Cover the container */
   }
