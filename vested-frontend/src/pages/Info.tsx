@@ -266,7 +266,7 @@ const Info: React.FC = () => {
       {/* Tabs Section */}
       <Tabs
         value={tabIndex}
-        onChange={(e, newValue) => setTabIndex(newValue)}
+        onChange={(_e, newValue) => setTabIndex(newValue)}
         sx={{
           marginBottom: 2,
           "& .MuiTabs-indicator": {
