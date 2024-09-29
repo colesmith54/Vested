@@ -1,4 +1,4 @@
-import { Gauge } from "gaugejs";
+import Gauge from "gaugejs";
 import React, { useEffect, useRef } from "react";
 
 interface GaugeComponentProps {
