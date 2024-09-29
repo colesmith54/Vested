@@ -7,12 +7,16 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { TablePagination } from "@mui/material";
+import { TablePagination, TableSortLabel } from "@mui/material";
 import { useGlobalState } from "../GlobalState.tsx";
 import axios from "axios";
 import StockTableRow from "./StockTableRow.tsx";
 import { useNavigate } from "react-router-dom";
 
+// Define the possible order directions
+type Order = "asc" | "desc";
+
+// Define the structure of a stock row
 interface StockRow {
   logo: string;
   name: string;
@@ -23,6 +27,7 @@ interface StockRow {
   stockInfoUrl: string;
 }
 
+// Define the structure of a CSV row from the backend
 interface CsvRow {
   t: string;
   n: string;
@@ -34,14 +39,17 @@ interface CsvRow {
   url: string;
 }
 
+// Define the structure of a table column
 interface Column {
   id: string;
   label: string;
   minWidth?: number;
   align?: "right" | "center" | "left";
+  sortable?: boolean; // Add a sortable property
   format?: (value: number) => string;
 }
 
+// Define the columns, marking score columns as sortable
 const columns: readonly Column[] = [
   { id: "logo", label: "Logo", minWidth: 100, align: "center" },
   { id: "name", label: "Name", minWidth: 170, align: "left" },
@@ -51,9 +59,22 @@ const columns: readonly Column[] = [
     label: "Environmental",
     minWidth: 70,
     align: "right",
+    sortable: true, // Make sortable
   },
-  { id: "social", label: "Social", minWidth: 70, align: "right" },
-  { id: "governance", label: "Governance", minWidth: 70, align: "right" },
+  {
+    id: "social",
+    label: "Social",
+    minWidth: 70,
+    align: "right",
+    sortable: true, // Make sortable
+  },
+  {
+    id: "governance",
+    label: "Governance",
+    minWidth: 70,
+    align: "right",
+    sortable: true, // Make sortable
+  },
   {
     id: "action",
     label: "Add/Edit",
@@ -62,6 +83,7 @@ const columns: readonly Column[] = [
   },
 ];
 
+// Utility function to convert rank to a score out of 10
 const rankToTen = (sortedValues: number[], value: number): string => {
   const total = sortedValues.length;
 
@@ -73,10 +95,51 @@ const rankToTen = (sortedValues: number[], value: number): string => {
   return score.toFixed(1);
 };
 
+// Comparator function for sorting
+const getComparator = (order: Order, orderBy: string) => {
+  return order === "desc"
+    ? (a: StockRow, b: StockRow) => descendingComparator(a, b, orderBy)
+    : (a: StockRow, b: StockRow) => -descendingComparator(a, b, orderBy);
+};
+
+// Descending comparator
+const descendingComparator = (a: StockRow, b: StockRow, orderBy: string) => {
+  let aValue: number = parseFloat(a[orderBy as keyof StockRow] as string);
+  let bValue: number = parseFloat(b[orderBy as keyof StockRow] as string);
+
+  if (bValue < aValue) {
+    return -1;
+  }
+  if (bValue > aValue) {
+    return 1;
+  }
+  return 0;
+};
+
+// Function to sort an array stably
+const stableSort = (
+  array: StockRow[],
+  comparator: (a: StockRow, b: StockRow) => number
+) => {
+  const stabilizedThis = array.map(
+    (el, index) => [el, index] as [StockRow, number]
+  );
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+};
+
 const StickyHeadTable: React.FC = () => {
   const navigate = useNavigate();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  // **Initialize sorting state without default sorting**
+  const [order, setOrder] = React.useState<Order>("desc"); // Default value can be 'asc' or 'desc'; it will be set upon sorting
+  const [orderBy, setOrderBy] = React.useState<string>(""); // No column sorted initially
 
   const { state, updateState } = useGlobalState();
 
@@ -89,7 +152,7 @@ const StickyHeadTable: React.FC = () => {
 
         const result = response.data;
 
-        // Extract scores for each category
+        // Extract scores for each category and sort them
         const environmentalScores = [...result.map((row) => row.e)].sort(
           (a, b) => a - b
         );
@@ -119,10 +182,12 @@ const StickyHeadTable: React.FC = () => {
     fetchData();
   }, [updateState]);
 
+  // Handle page change
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
+  // Handle rows per page change
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -130,9 +195,31 @@ const StickyHeadTable: React.FC = () => {
     setPage(0);
   };
 
+  // Handle row click
   const handleRowClick = (row: StockRow) => {
     navigate(`/info/${row.ticker}`, { state: { row: row } });
   };
+
+  // Handle sort request
+  const handleRequestSort = (property: string) => {
+    if (orderBy !== property) {
+      // If clicking a new column, sort descending first
+      setOrder("desc");
+      setOrderBy(property);
+    } else {
+      // If clicking the same column, toggle the sort order
+      const isAsc = order === "asc";
+      setOrder(isAsc ? "desc" : "asc");
+    }
+  };
+
+  // Prepare sorted data
+  const sortedData = React.useMemo(() => {
+    if (orderBy) {
+      return stableSort(state.csvData, getComparator(order, orderBy));
+    }
+    return state.csvData;
+  }, [state.csvData, order, orderBy]);
 
   return (
     <Paper className={styles.paper}>
@@ -150,14 +237,28 @@ const StickyHeadTable: React.FC = () => {
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                   className={styles.tableHeadCell}
+                  sortDirection={orderBy === column.id ? order : false}
                 >
-                  {column.label}
+                  {column.sortable ? (
+                    <TableSortLabel
+                      active={orderBy === column.id}
+                      direction={orderBy === column.id ? order : "desc"} // When active, show current order; else, default to 'desc' for hint
+                      onClick={() => handleRequestSort(column.id)}
+                      // Set the direction to 'desc' if not active, to indicate the next sort direction
+                      // Material-UI automatically toggles the direction when active
+                      // This ensures that initial sort upon clicking an unsorted column is descending
+                    >
+                      {column.label}
+                    </TableSortLabel>
+                  ) : (
+                    column.label
+                  )}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {state.csvData
+            {sortedData
               .filter(
                 (row) =>
                   row.ticker
