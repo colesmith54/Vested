@@ -69,6 +69,20 @@
     font-size: 28px;
     font-family: 'Poppins', sans-serif;
   }
+
+  /* Specific ESG Card Backgrounds */
+.esgCardEnvironmental {
+    background-image: url('/assets/environmental.jpg'); /* Path to Environmental image */
+  }
+  
+  .esgCardSocial {
+    background-image: url('/assets/social.jpg'); /* Path to Social image */
+  }
+  
+  .esgCardGovernance {
+    background-image: url('/assets/governance.jpg'); /* Path to Governance image */
+  }
+  
   
   .esgCard {
     min-height: 200px;
