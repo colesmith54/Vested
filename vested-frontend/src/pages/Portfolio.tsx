@@ -16,6 +16,7 @@ import { PieChart } from "@mui/x-charts";
 import { useGlobalState } from "../GlobalState";
 import GaugeComponent from "../components/GaugeComponent";
 import axios from "axios";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export interface Nonprofit {
   nonprofitOrganizationName: string;
@@ -91,28 +92,20 @@ const Portfolio: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.post(
-        "https://api.openai.com/v1/chat/completions",
-        {
-          model: "gpt-3.5-turbo", // or 'gpt-4'
-          messages: [
-            {
-              role: "user",
-              content: `${namesString}  \n please provide an array of JSONs of size 3, each with 'nonprofitOrganizationName', 'description', and 'link' fields that relate to the provided companies and their missions.
-            Be relatively brief, and do not include anything else in your request. Maximum of 350 characters per description.`,
-            },
-          ],
-          max_tokens: 500,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`,
-          },
-        }
-      );
 
-      const data = JSON.parse(response.data.choices[0].message.content);
+      const genAI = new GoogleGenerativeAI("AIzaSyCAE1w1geaOlMWLbkTdoVqC1ToDOyfMfOk");
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      
+      const prompt = `${namesString}  \n please provide an array of JSONs of size 3 independent nonprofits, each with 'nonprofitOrganizationName', 'description', and 'link' fields that relate to the missions of provided companies.
+            Be relatively brief, and do not include anything else in your request. Your response should start with a [ character. Maximum of 350 characters per description.`;
+      
+      const result = await model.generateContent(prompt);
+      // console.log(result.response.text());
+      const geminiResponse = result.response.text();
+      console.log("gem response: ", geminiResponse);
+
+
+      const data = JSON.parse(geminiResponse);
       console.log("Data", data);
       updateState({ gptResponse: data });
     } catch (err: any) {
