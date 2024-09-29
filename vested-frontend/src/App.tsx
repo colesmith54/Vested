@@ -6,6 +6,7 @@ import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
 import { GlobalStateProvider } from "./GlobalState";
 import News from "./components/News";
+import About from "./pages/About";
 function App() {
   return (
     <GlobalStateProvider>
@@ -16,10 +17,11 @@ function App() {
             <Route path="info/:ticker" element={<News />} />
           </Route>
           <Route path="portfolio" element={<Portfolio />} />
+          <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
-    </GlobalStateProvider>
+    </GlobalStateProvider >
   );
 }
 
