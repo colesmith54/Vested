@@ -23,6 +23,59 @@ export interface Nonprofit {
   link: string;
 }
 
+const colorMapping: { [key: string]: string } = {
+  "0": "#ff6b6b",
+  "1": "#ff6b6b",
+  "2": "#ff6b6b",
+  "3": "#ff8c00",
+  "4": "#ff8c00",
+  "5": "#ffd700",
+  "6": "#ffd700",
+  "7": "#a8dd00",
+  "8": "#a8dd00",
+  "9": "#00AF4D",
+  "10": "#00AF4D",
+  "-": "#cccccc",
+};
+
+const getColor = (value: string): string => {
+  const floor = Math.floor(parseInt(value));
+  return colorMapping[floor] || "#cccccc";
+};
+
+const renderScore = (score: string, big: boolean) => {
+  const color = getColor(score);
+
+  return (
+    <Box display="flex" justifyContent="center" alignItems="center">
+      <Typography
+        variant="h5"
+        component="span"
+        style={{
+          fontSize: big ? "2.8rem" : "1.4rem",
+          fontWeight: "bold",
+          color: color,
+        }}
+      >
+        {score}
+      </Typography>
+      <Typography
+        variant="h6"
+        component="span"
+        style={{
+          fontSize: big ? "2.0rem" : "1rem",
+          fontWeight: "bold",
+          marginTop: big ? "0.5rem" : "0.3rem",
+          marginLeft: "4px",
+          color: "#555",
+        }}
+      >
+        /10
+      </Typography>
+    </Box>
+  );
+};
+
 const Portfolio: React.FC = () => {
   const { state, updateState } = useGlobalState();
   const { portfolioItems } = state;
@@ -192,12 +245,7 @@ const Portfolio: React.FC = () => {
               Your ESG Score
             </Typography>
             <GaugeComponent value={esgScore} />
-            <Typography
-              variant="h6"
-              style={{ marginTop: "8px", color: "#4caf50" }}
-            >
-              {esgScore === 0 ? "-" : esgScore} / 10
-            </Typography>
+            {renderScore(esgScore === 0 ? "-" : esgScore.toString(), true)}
           </Box>
         </Box>
 
