@@ -3,7 +3,7 @@
 .tableContainer {
   /* Ensures the table container fills the available space */
   width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden;
 }
 
 .tableContainer::-webkit-scrollbar {

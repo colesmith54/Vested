@@ -20,7 +20,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ title, source, image, url }) => {
       <CardActionArea href={url} target="_blank" rel="noopener noreferrer">
         <CardMedia component="img" height="140" image={image} alt={title} />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h6" component="div">
             {title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">

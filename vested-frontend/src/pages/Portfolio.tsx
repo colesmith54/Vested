@@ -36,7 +36,8 @@ const Portfolio: React.FC = () => {
         'https://api.openai.com/v1/chat/completions',
         {
           model: 'gpt-3.5-turbo', // or 'gpt-4'
-          messages: [{ role: 'user', content: `${namesString}  \n provide an array of JSONs of size 3, each with 'nonprofitOrganizationName', 'description', and 'link' fields that relate to the provided companies and their missions.` }],
+          messages: [{ role: 'user', content: `${namesString}  \n please provide an array of JSONs of size 3, each with 'nonprofitOrganizationName', 'description', and 'link' fields that relate to the provided companies and their missions.
+            Be relatively brief, and do not include anything else in your request. Maximum of 350 characters per description.` }],
           max_tokens: 500,
         },
         {
@@ -64,7 +65,7 @@ const Portfolio: React.FC = () => {
       generateResponse();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [portfolioItems]);
+  }, []);
 
   // Prepare chart data based on portfolio items
   const chartData = portfolioItems.map((item, index) => ({
@@ -144,7 +145,7 @@ const Portfolio: React.FC = () => {
         <Typography
           variant="h4"
           component="h1"
-          style={{ color: "black", textAlign: "center", marginBottom: "24px" }}
+          style={{ color: "black", textAlign: "center" }}
         >
           My Portfolio
         </Typography>
@@ -193,20 +194,32 @@ const Portfolio: React.FC = () => {
         {/* Portfolio Table */}
         <PortfolioTable />
 
-        {/* Display Loading, Error, and GPT Response */}
         <Box className={styles.gptResponseContainer} marginBottom={4}>
-          {loading && <Typography>Loading response...</Typography>}
-          {error && <Typography style={{ color: "red" }}>{error}</Typography>}
-          {state.gptResponse && Array.isArray(state.gptResponse) && (
-            <Box className={styles.gptResponseBox}>
-              <Typography variant="h6" gutterBottom>
+          {loading && <Typography>Loading Suggested Nonprofits...</Typography>}
+          {!loading && !error && state.gptResponse && Array.isArray(state.gptResponse) && (
+            <Box className={styles.gptResponseBox} style={{ position: "relative" }}>
+              {/* Close button */}
+              <Box
+                onClick={() => updateState({ gptResponse: null })} // Replace with your close logic
+                style={{
+                  position: "absolute",
+                  top: "8px",
+                  right: "8px",
+                  cursor: "pointer",
+                  fontSize: "32px",
+                  color: "#999",
+                }}
+              >
+                &times;
+              </Box>
+              <Typography variant="h6" color="#1290c4" gutterBottom>
                 Suggested Nonprofits:
               </Typography>
               <Grid container spacing={2}>
                 {state.gptResponse.map((nonprofit: Nonprofit, index: number) => (
                   <Grid item xs={12} sm={6} md={4} key={index}>
                     <Card variant="outlined" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-                      <CardContent>
+                      <CardContent style={{ paddingBottom: "8px" }}>
                         <Typography variant="h6" style={{ color: "#4caf50" }}>
                           {nonprofit.nonprofitOrganizationName}
                         </Typography>
@@ -214,7 +227,7 @@ const Portfolio: React.FC = () => {
                           {nonprofit.description}
                         </Typography>
                       </CardContent>
-                      <CardActions style={{ marginTop: "auto" }}>
+                      <CardActions style={{ justifyContent: "center", paddingTop: "0" }}>
                         <Button size="small" color="primary" href={nonprofit.link} target="_blank" rel="noopener noreferrer">
                           Learn More
                         </Button>
@@ -226,7 +239,6 @@ const Portfolio: React.FC = () => {
             </Box>
           )}
         </Box>
-
       </div>
     </div>
   );

@@ -5,9 +5,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center; /* Center align items horizontally */
-    padding: 24px;
-    margin: 16px;
-    border-radius: 8px;
+    padding: 8px;
+    margin: 4px;
+    border-radius: 2px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: auto;
@@ -21,8 +21,8 @@
     align-items: center;
     justify-content: space-around; /* Adjust space between PieChart and GaugeComponent */
     gap: 40px; /* Space between PieChart and Gauge */
-    margin-top: 20px; /* Space from the header */
-    margin-bottom: 40px; /* Space before the table */
+    margin-top: 10px; /* Space from the header */
+    margin-bottom: 10px; /* Space before the table */
     width: 100%; /* Take full width to center the content */
     max-width: 1200px; /* Max width for the container */
     padding: 20px;
