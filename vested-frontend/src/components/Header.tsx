@@ -57,6 +57,9 @@ const Header: React.FC = () => {
 
       <Box className={styles.searchContainer}>
         <Box className={styles.navLinks}>
+          <Link to="/" className={styles.link}>
+            Dashboard
+          </Link>
           <Link to="/about" className={styles.link}>
             About
           </Link>
