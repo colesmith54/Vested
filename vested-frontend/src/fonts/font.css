@@ -11,3 +11,10 @@
     src: url('./PTSerif-Regular.ttf') format('truetype');
     /* You can add more font weights and styles here if needed */
   }
+
+
+  @font-face {
+    font-family: 'PTSerif-Italic';
+    src: url('./PTSerif-Italic.ttf') format('truetype');
+    /* You can add more font weights and styles here if needed */
+  }
