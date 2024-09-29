@@ -88,60 +88,60 @@ const Sidebar: React.FC = () => {
   // Define categories
   const categories: Array<string> = ["Environmental", "Social", "Governance"];
 
-  // Initialize total weighted scores and total amount invested
-  const totalCategoryWeightedScores: { [key: string]: number } = {
-    Environmental: 0,
-    Social: 0,
-    Governance: 0,
-  };
-  let totalAmountInvested = 0;
+    // Initialize total weighted scores and total amount invested
+    const totalCategoryWeightedScores: { [key: string]: number } = {
+      Environmental: 0,
+      Social: 0,
+      Governance: 0,
+    };
+    let totalAmountInvested = 0;
 
-  // Iterate over portfolio items to accumulate weighted scores
-  portfolioItems.forEach((item) => {
-    // Calculate amount invested for the item
-    // Assuming each item has an 'amountInvested' property
-    // If not, calculate it using 'item.price * item.quantity' if 'quantity' exists
-    const amountInvested = item.amountInvested
-      ? item.amountInvested
-      : item.price; // Replace with 'item.price * item.quantity' if applicable
+    // Iterate over portfolio items to accumulate weighted scores
+    portfolioItems.forEach((item) => {
+      // Calculate amount invested for the item
+      // Assuming each item has an 'amountInvested' property
+      // If not, calculate it using 'item.price * item.quantity' if 'quantity' exists
+      const amountInvested = item.amountInvested
+        ? item.amountInvested
+        : item.price; // Replace with 'item.price * item.quantity' if applicable
 
-    // Accumulate total amount invested
-    totalAmountInvested += amountInvested;
+      // Accumulate total amount invested
+      totalAmountInvested += amountInvested;
 
-    // Iterate over each category score in the item's options
-    item.options.forEach((option: string, index: number) => {
-      const extractedValue = parseFloat(option.split("/")[0]);
-      if (!isNaN(extractedValue) && categories[index]) {
-        totalCategoryWeightedScores[categories[index]] +=
-          extractedValue * amountInvested;
-      }
+      // Iterate over each category score in the item's options
+      item.options.forEach((option: string, index: number) => {
+        const extractedValue = parseFloat(option.split("/")[0]);
+        if (!isNaN(extractedValue) && categories[index]) {
+          totalCategoryWeightedScores[categories[index]] +=
+            extractedValue * amountInvested;
+        }
+      });
     });
-  });
 
-  // Calculate weighted average subScores
-  const averageSubScores = categories.map((category) => ({
-    category,
-    score: totalAmountInvested
-      ? parseFloat(
-          (totalCategoryWeightedScores[category] / totalAmountInvested).toFixed(
-            1
+    // Calculate weighted average subScores
+    const averageSubScores = categories.map((category) => ({
+      category,
+      score: totalAmountInvested
+        ? parseFloat(
+            (totalCategoryWeightedScores[category] / totalAmountInvested).toFixed(
+              1
+            )
           )
-        )
-      : 0,
-  }));
+        : 0,
+    }));
 
-  // Calculate overall weighted score
-  const overallScore = totalAmountInvested
-    ? parseFloat(
-        (
-          categories.reduce(
-            (acc, category) => acc + totalCategoryWeightedScores[category],
-            0
-          ) /
-          (totalAmountInvested * categories.length)
-        ).toFixed(1)
-      )
-    : 0;
+    // Calculate overall weighted score
+    const overallScore = totalAmountInvested
+      ? parseFloat(
+          (
+            categories.reduce(
+              (acc, category) => acc + totalCategoryWeightedScores[category],
+              0
+            ) /
+            (totalAmountInvested * categories.length)
+          ).toFixed(1)
+        )
+      : 0;
 
   return (
     <Box className={styles.sidebar} onClick={() => navigate("/portfolio")}>
