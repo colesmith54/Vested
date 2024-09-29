@@ -10,7 +10,7 @@
     border-radius: 8px; /* Rounded corners */
     background-color: #ffffff; /* White background */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    overflow: auto; /* Enables scrolling for overflow content */
+    overflow: hidden; /* Enables scrolling for overflow content */
     max-height: calc(100vh - 100px); /* Adjust this to prevent overflow outside the viewport */
 }
 

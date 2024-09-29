@@ -1,33 +1,54 @@
 /* src/styles/PortfolioTable.module.css */
 
 .tableContainer {
-    /* Ensures the table container fills the available space */
-    width: 100%;
-    overflow-x: auto;
-  }
+  /* Ensures the table container fills the available space */
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tableContainer::-webkit-scrollbar {
+  width: 8px;
+  /* You can adjust this size */
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  /* Light background, default appearance */
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  /* Light gray thumb */
+  border-radius: 4px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #a0a0a0;
+  /* Slightly darker gray on hover */
+}
   
-  .paper {
-    width: 100%;
-    overflow: auto;
-    /* Optional: Add any additional styles for the Paper component */
-  }
-  
-  .table {
-    min-width: 650px; /* Ensures the table has a minimum width */
-  }
-  
-  .tableHeadCell {
-    background-color: #4caf50; /* Green background for header cells */
-    color: white; /* White text color */
-    font-weight: bold;
-  }
-  
-  .tableRow:hover {
-    background-color: #f1f1f1; /* Hover effect for rows */
-  }
-  
-  .viewProfileButton {
-    /* Styles for the "View Profile" button */
-    text-transform: none; /* Prevents uppercase transformation */
-  }
+.paper {
+  width: 100%;
+  overflow: auto;
+  /* Optional: Add any additional styles for the Paper component */
+}
+
+.table {
+  min-width: 650px; /* Ensures the table has a minimum width */
+}
+
+.tableHeadCell {
+  background-color: #4caf50; /* Green background for header cells */
+  color: white; /* White text color */
+  font-weight: bold;
+}
+
+.tableRow:hover {
+  background-color: #f1f1f1; /* Hover effect for rows */
+}
+
+.viewProfileButton {
+  /* Styles for the "View Profile" button */
+  text-transform: none; /* Prevents uppercase transformation */
+}
   
