@@ -1,17 +1,12 @@
 import Header from "../components/Header";
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Box, Typography, Button, Alert } from '@mui/material';
-import StockGraph from '../components/StockGraph';
-import styles from '../styles/Portfolio.module.css';
+import React from "react";
+import styles from "../styles/Portfolio.module.css";
 import PortfolioTable from "../components/PortfolioTable";
-import { PieChart } from '@mui/x-charts';
+import { PieChart } from "@mui/x-charts";
 import { useGlobalState } from "../GlobalState";
 
-
-
 const Portfolio: React.FC = () => {
-  const { state, updateState } = useGlobalState();
+  const { state } = useGlobalState();
 
   console.log("Port items: ", state.portfolioItems);
   const chartData = state.portfolioItems.map((item, index) => ({
@@ -26,27 +21,22 @@ const Portfolio: React.FC = () => {
     <div>
       <Header />
       <div className={styles.infoContainer}>
-      <h1 style={{color: "black", alignSelf: "center"}}>My Portfolio</h1>
+        <h1 style={{ color: "black", alignSelf: "center" }}>My Portfolio</h1>
 
-  <PieChart
-    series={[
-      {
-        data: chartData,
-        highlightScope: { fade: 'global', highlight: 'item' },
-        faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-        
-      },
-    
-    ]}
-    // width={400}
-    height={200}
-  />
+        <PieChart
+          series={[
+            {
+              data: chartData,
+              highlightScope: { fade: "global", highlight: "item" },
+              faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
+            },
+          ]}
+          // width={400}
+          height={200}
+        />
 
-
-      <PortfolioTable />
-      
-
-    </div>
+        <PortfolioTable />
+      </div>
     </div>
   );
 };

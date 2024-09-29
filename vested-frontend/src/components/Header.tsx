@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, TextField, InputAdornment } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useGlobalState } from "../GlobalState";
@@ -13,7 +13,13 @@ const Header: React.FC = () => {
   return (
     <Box className={styles.headerContainer}>
       <Box className={styles.logoContainer}>
-        <img src={Logo} alt="Logo" className={styles.logo} onClick={() => navigate('/')} style={{ cursor: 'pointer' }}/>
+        <img
+          src={Logo}
+          alt="Logo"
+          className={styles.logo}
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+        />
       </Box>
 
       <TextField
@@ -59,7 +65,7 @@ const Header: React.FC = () => {
               height="24"
               viewBox="0 0 89 78"
               fill="none"
-              style={{ marginLeft: '8px', verticalAlign: 'middle' }} // Add margin to create space between text and SVG
+              style={{ marginLeft: "8px", verticalAlign: "middle" }} // Add margin to create space between text and SVG
             >
               {/* Remove the rect element to eliminate the surrounding rectangle */}
               <path
