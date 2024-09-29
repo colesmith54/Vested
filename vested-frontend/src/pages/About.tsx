@@ -7,23 +7,37 @@ const About: React.FC = () => {
   return (
     <>
       <Header />
+      <Divider color="black"/>
       <div className={styles.container}>
         <Container maxWidth="lg" className={styles.content}>
           {/* ESG Cards Section */}
           <Box className={styles.esgSection} marginBottom={4}>
-            <Typography variant="h4" component="h2" className={styles.sectionTitle} gutterBottom>
+            <Typography
+              variant="h4"
+              component="h2"
+              className={styles.sectionTitle}
+              gutterBottom
+            >
               What is ESG?
             </Typography>
             <Grid container spacing={4}>
               {/* Environmental Card */}
               <Grid item xs={12} md={4}>
-                <Card className={styles.esgCard}>
-                  <CardContent>
-                    <Typography variant="h5" className={styles.cardTitle} gutterBottom>
+                <Card
+                  className={`${styles.esgCard} ${styles.esgCardEnvironmental}`}
+                >
+                  <CardContent className={styles.cardContentWrapper}>
+                    <Typography
+                      variant="h5"
+                      className={styles.cardTitle}
+                      gutterBottom
+                    >
                       Environmental
                     </Typography>
-                    <Typography variant="body2">
-                      Focuses on the impact of companies on the planet. This includes carbon emissions, waste management, and resource conservation.
+                    <Typography variant="body2" className={styles.cardContent}>
+                      Focuses on the impact of companies on the planet. This
+                      includes carbon emissions, waste management, and resource
+                      conservation.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -31,13 +45,21 @@ const About: React.FC = () => {
 
               {/* Social Card */}
               <Grid item xs={12} md={4}>
-                <Card className={styles.esgCard}>
-                  <CardContent>
-                    <Typography variant="h5" className={styles.cardTitle} gutterBottom>
+                <Card
+                  className={`${styles.esgCard} ${styles.esgCardSocial}`}
+                >
+                  <CardContent className={styles.cardContentWrapper}>
+                    <Typography
+                      variant="h5"
+                      className={styles.cardTitle}
+                      gutterBottom
+                    >
                       Social
                     </Typography>
-                    <Typography variant="body2">
-                      Covers a company's relationships with employees, suppliers, customers, and the communities in which it operates.
+                    <Typography variant="body2" className={styles.cardContent}>
+                      Covers a company's relationships with employees,
+                      suppliers, customers, and the communities in which it
+                      operates.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -45,13 +67,20 @@ const About: React.FC = () => {
 
               {/* Governance Card */}
               <Grid item xs={12} md={4}>
-                <Card className={styles.esgCard}>
-                  <CardContent>
-                    <Typography variant="h5" className={styles.cardTitle} gutterBottom>
+                <Card
+                  className={`${styles.esgCard} ${styles.esgCardGovernance}`}
+                >
+                  <CardContent className={styles.cardContentWrapper}>
+                    <Typography
+                      variant="h5"
+                      className={styles.cardTitle}
+                      gutterBottom
+                    >
                       Governance
                     </Typography>
-                    <Typography variant="body2">
-                      Deals with a company's leadership, executive pay, audits, internal controls, and shareholder rights.
+                    <Typography variant="body2" className={styles.cardContent}>
+                      Deals with a company's leadership, executive pay, audits,
+                      internal controls, and shareholder rights.
                     </Typography>
                   </CardContent>
                 </Card>
@@ -88,7 +117,7 @@ const About: React.FC = () => {
                 Our Team
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Abhinav Sriram, Cole Smith, Sam Cohen, Ricky Zhang
+                Abbhinav Sriram, Cole Smith, Sam Cohen, Ricky Zhang
               </Typography>
               <Typography variant="body2">
                 Go Shellhacks!
@@ -99,6 +128,13 @@ const About: React.FC = () => {
 
             <Typography variant="body2" className={styles.shoutout}>
               Shoutout to Alistair King, who provided us with the starter dataset for this project.
+            </Typography>
+
+            <Typography variant="body2" className={styles.shoutout}>
+              Please keep in mind that this is not financial advice. We are not financial advisors
+              and investing in stocks always carries risk. Please do your own research before purchasing
+              any stocks.
+
             </Typography>
           </Paper>
         </Container>
