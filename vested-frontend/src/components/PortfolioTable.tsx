@@ -1,5 +1,5 @@
 import styles from "../styles/PortfolioTable.module.css";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Paper from "@mui/material/Paper";
 import MuiTable from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";

@@ -1,18 +1,16 @@
 // src/components/Portfolio.tsx
 
 import Header from "../components/Header";
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Box, Divider, Typography } from '@mui/material';
-import StockGraph from '../components/StockGraph';
-import styles from '../styles/Portfolio.module.css';
+import React, { useEffect, useState } from "react";
+import { Box, Divider, Typography } from "@mui/material";
+import styles from "../styles/Portfolio.module.css";
 import PortfolioTable from "../components/PortfolioTable";
 import { PieChart } from "@mui/x-charts";
 import { useGlobalState } from "../GlobalState";
 import GaugeComponent from "../components/GaugeComponent";
 
 const Portfolio: React.FC = () => {
-  const { state, updateState } = useGlobalState();
+  const { state } = useGlobalState();
   const { portfolioItems } = state;
 
   // Prepare chart data based on portfolio items
@@ -22,7 +20,7 @@ const Portfolio: React.FC = () => {
     label: `${item.name}`,
     tooltip: `${item.name}: ${item.price} USD`, // Custom tooltip value to be shown on hover
   }));
-  
+
   // console.log("state", state);
 
   const [value, setValue] = useState(0);
@@ -37,16 +35,17 @@ const Portfolio: React.FC = () => {
       };
       let totalAmountInvested = 0;
 
-      const categories = ['Environmental', 'Social', 'Governance'];
+      const categories = ["Environmental", "Social", "Governance"];
       portfolioItems.forEach((item) => {
         const amountInvested = item.amountInvested
           ? item.amountInvested
           : item.price;
         totalAmountInvested += amountInvested;
         item.options.forEach((option: string, index: number) => {
-          const extractedValue = parseFloat(option.split('/')[0]);
+          const extractedValue = parseFloat(option.split("/")[0]);
           if (!isNaN(extractedValue) && categories[index]) {
-            totalCategoryWeightedScores[categories[index]] += extractedValue * amountInvested;
+            totalCategoryWeightedScores[categories[index]] +=
+              extractedValue * amountInvested;
           }
         });
       });
@@ -54,7 +53,9 @@ const Portfolio: React.FC = () => {
         category,
         score: totalAmountInvested
           ? parseFloat(
-              (totalCategoryWeightedScores[category] / totalAmountInvested).toFixed(1)
+              (
+                totalCategoryWeightedScores[category] / totalAmountInvested
+              ).toFixed(1)
             )
           : 0,
       }));
@@ -78,28 +79,31 @@ const Portfolio: React.FC = () => {
     }
   }, [portfolioItems]);
 
-  
   return (
     <div>
       <Header />
       <div className={styles.infoContainer}>
-          <h1 style={{  color: "black", alignSelf: "center"  }}>My Portfolio</h1>
+        <h1 style={{ color: "black", alignSelf: "center" }}>My Portfolio</h1>
 
         <Box className={styles.chartGaugeContainer}>
           <Box className={styles.leftContent}>
             <PieChart
-            series={[
-              {
-                data: chartData,
-                highlightScope: { fade: "global", highlight: "item" },
-                faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
-              },
-            ]}
-            width={600}
-            height={200}
-          />
+              series={[
+                {
+                  data: chartData,
+                  highlightScope: { fade: "global", highlight: "item" },
+                  faded: {
+                    innerRadius: 30,
+                    additionalRadius: -30,
+                    color: "gray",
+                  },
+                },
+              ]}
+              width={600}
+              height={200}
+            />
           </Box>
-          
+
           <Divider orientation="vertical" flexItem />
 
           {/* GaugeComponent */}
@@ -108,8 +112,11 @@ const Portfolio: React.FC = () => {
               Your ESG Score
             </Typography>
             <GaugeComponent value={value} />
-            <Typography variant="h6" style={{ marginTop: '8px', color: "#4caf50" }}>
-              {value === 0 ? '-' : value} / 10
+            <Typography
+              variant="h6"
+              style={{ marginTop: "8px", color: "#4caf50" }}
+            >
+              {value === 0 ? "-" : value} / 10
             </Typography>
           </Box>
         </Box>

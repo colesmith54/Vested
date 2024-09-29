@@ -107,7 +107,7 @@ const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
         </TableCell>
         <TableCell align="left">{row.name}</TableCell>
         <TableCell align="left">{row.ticker.toUpperCase()}</TableCell>
-        <TableCell align="left">{`\$${row.price}`}</TableCell>
+        <TableCell align="left">{`$${row.price}`}</TableCell>
 
         <TableCell align="right">{renderScore(row.environmental)}</TableCell>
         <TableCell align="right">{renderScore(row.social)}</TableCell>

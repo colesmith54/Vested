@@ -1,12 +1,11 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import Info from './pages/Info';
-import Portfolio from './pages/Portfolio';
-import Layout from './components/Layout';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Portfolio from "./pages/Portfolio";
+import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
-import { GlobalStateProvider } from './GlobalState';
-import News from './components/News';
+import { GlobalStateProvider } from "./GlobalState";
+import News from "./components/News";
 function App() {
   return (
     <GlobalStateProvider>
@@ -17,7 +16,7 @@ function App() {
             <Route path="info/:ticker" element={<News />} />
           </Route>
           <Route path="portfolio" element={<Portfolio />} />
-          <Route path="*" element={<NotFound/>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </GlobalStateProvider>
