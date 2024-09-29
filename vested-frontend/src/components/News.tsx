@@ -65,7 +65,6 @@ const News: React.FC<NewsProps> = ({ ticker }) => {
 
   return (
     <div>
-      <h2>News about {ticker}</h2>
       <Grid container spacing={3}>
         {news.map((article, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
