@@ -27,7 +27,8 @@ const GaugeComponent: React.FC<GaugeComponentProps> = ({ value }) => {
     };
 
     const target = gaugeRef.current;
-    if (target && typeof Gauge !== "undefined") {
+    if (target) {
+      // @ts-ignore
       const gauge = new Gauge(target).setOptions(opts);
       gauge.maxValue = 10;
       gauge.setMinValue(0);
