@@ -1,10 +1,11 @@
 import React from "react";
-import { Box, TextField, InputAdornment } from "@mui/material";
+import { Box, TextField, InputAdornment} from "@mui/material";
 import { Link } from "react-router-dom";
 import { useGlobalState } from "../GlobalState";
 import styles from "../styles/Header.module.css";
 import Logo from "../assets/vestedLogoCropped.png";
 import { useNavigate } from "react-router-dom";
+import InfoIcon from '@mui/icons-material/Info';
 
 const Header: React.FC = () => {
   const { state, updateState } = useGlobalState();
@@ -57,9 +58,6 @@ const Header: React.FC = () => {
 
       <Box className={styles.searchContainer}>
         <Box className={styles.navLinks}>
-          <Link to="/about" className={styles.link}>
-            About
-          </Link>
           <Link to="/portfolio" className={styles.link}>
             Portfolio
             <svg
@@ -68,7 +66,7 @@ const Header: React.FC = () => {
               height="24"
               viewBox="0 0 89 78"
               fill="none"
-              style={{ marginLeft: "8px", verticalAlign: "middle" }} // Add margin to create space between text and SVG
+              style={{ marginLeft: "8px", marginRight: "20px", verticalAlign: "middle" }} // Add margin to create space between text and SVG
             >
               {/* Remove the rect element to eliminate the surrounding rectangle */}
               <path
@@ -78,6 +76,31 @@ const Header: React.FC = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
+            </svg>
+          </Link>
+
+          <Link to="/about" className={styles.link}>
+            About
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ marginLeft: "8px", marginRight: "20px", verticalAlign: "middle" }}
+            >
+              <circle cx="12" cy="12" r="10" stroke="#000000" strokeWidth="0.4" />
+              <text
+                x="12"
+                y="16"
+                textAnchor="middle"
+                fill="#000000"
+                fontSize="12px"
+                fontWeight="bold"
+                fontFamily="Arial, sans-serif"
+              >
+                i
+              </text>
             </svg>
           </Link>
         </Box>
