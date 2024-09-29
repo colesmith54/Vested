@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import NewsAPI from 'ts-newsapi';
-import { Grid } from '@mui/material';
-import NewsCard from './NewsCard';
+import React, { useEffect, useState } from "react";
+import NewsAPI from "ts-newsapi";
+import { Grid } from "@mui/material";
+import NewsCard from "./NewsCard";
 
 interface Article {
   source: {
@@ -23,19 +23,23 @@ interface HeadlinesResponse {
   articles: Article[];
 }
 
-const News: React.FC = () => {
+interface NewsProps {
+  ticker: string;
+}
+
+const News: React.FC<NewsProps> = ({ ticker }) => {
   const [news, setNews] = useState<Article[]>([]); // Explicitly define the type for news articles
   const [loading, setLoading] = useState(true); // Initialize state for loading
   const [error, setError] = useState<Error | null>(null); // Initialize state for error
 
   useEffect(() => {
     const fetchNews = async () => {
-      const newsAPI = new NewsAPI('c6c5184927704d47addddae65a2d5fc8');
+      const newsAPI = new NewsAPI("c6c5184927704d47addddae65a2d5fc8");
       try {
         const headlines: HeadlinesResponse = await newsAPI.getEverything({
-          q: 'ORCL',
-          language: 'en',
-          sortBy: 'relevancy',
+          q: ticker,
+          language: "en",
+          sortBy: "relevancy",
           pageSize: 20,
           page: 1,
         });
@@ -49,7 +53,7 @@ const News: React.FC = () => {
     };
 
     fetchNews();
-  }, []);
+  }, [ticker]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -61,16 +65,15 @@ const News: React.FC = () => {
 
   return (
     <div>
-      <h2>News about ORCL</h2>
+      <h2>News about {ticker}</h2>
       <Grid container spacing={3}>
         {news.map((article, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <NewsCard
               title={article.title}
               source={article.source.name}
-              image={article.urlToImage || 'default-image-url.jpg'}
+              image={article.urlToImage || "default-image-url.jpg"}
               url={article.url}
-              
             />
           </Grid>
         ))}
