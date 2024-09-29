@@ -1,4 +1,3 @@
-import { Gauge } from "gaugejs";
 import React, { useEffect, useRef } from "react";
 
 interface GaugeComponentProps {
@@ -28,7 +27,7 @@ const GaugeComponent: React.FC<GaugeComponentProps> = ({ value }) => {
     };
 
     const target = gaugeRef.current;
-    if (target) {
+    if (target && typeof Gauge !== "undefined") {
       const gauge = new Gauge(target).setOptions(opts);
       gauge.maxValue = 10;
       gauge.setMinValue(0);
