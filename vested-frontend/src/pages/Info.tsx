@@ -1,12 +1,30 @@
 // Info.tsx
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Box, Typography, Button, Alert } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Alert,
+  Tabs,
+  Tab,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LaunchIcon from "@mui/icons-material/Launch";
 import StockGraph from "../components/StockGraph";
 import styles from "../styles/Info.module.css";
 import ImageWithFallback from "../components/ImageWithFallback";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import { useGlobalState } from "../GlobalState.tsx";
+import News from "../components/News";
 
 const colorMapping: { [key: number]: string } = {
   0: "#ff6b6b",
@@ -67,12 +85,53 @@ const renderScore = (score: string) => {
 };
 
 const Info: React.FC = () => {
+  const { state, updateState } = useGlobalState();
   const location = useLocation();
   const row = location.state?.row;
 
-  console.log("Row", location.state);
+  const { portfolioItems } = state;
+  const [openDialog, setOpenDialog] = useState(false);
+  const [portfolioAmount, setPortfolioAmount] = useState("");
+  const [tabIndex, setTabIndex] = useState(0);
 
   const navigate = useNavigate();
+
+  const handleAddToPortfolio = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+    setPortfolioAmount("");
+  };
+
+  const handleAddPortfolioSubmit = (edit: boolean = false) => {
+    if (!edit) {
+      updateState({
+        portfolioItems: [
+          ...portfolioItems,
+          {
+            ...row,
+            price: parseFloat(portfolioAmount),
+            options: [row.environmental, row.social, row.governance],
+          },
+        ],
+      });
+    } else {
+      updateState({
+        portfolioItems: portfolioItems.map((item) =>
+          item.ticker === row.ticker
+            ? {
+                ...item,
+                price: parseFloat(portfolioAmount),
+                options: [row.environmental, row.social, row.governance],
+              }
+            : item
+        ),
+      });
+    }
+    handleDialogClose();
+  };
 
   if (!row) {
     return (
@@ -107,7 +166,7 @@ const Info: React.FC = () => {
             objectFit: "contain",
           }}
         />
-        <Typography variant="h4" style={{ color: "black" }}>
+        <Typography variant="h4" style={{ color: "#393E41" }}>
           {row.name} ({row.ticker.toUpperCase()})
         </Typography>
       </Box>
@@ -143,35 +202,132 @@ const Info: React.FC = () => {
             Visit Website
           </Button>
         )}
+        <IconButton
+          aria-controls={`menu-${row.ticker}`}
+          aria-haspopup="true"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleAddToPortfolio();
+          }}
+        >
+          {state.portfolioItems.find((item) => item.ticker === row.ticker) ? (
+            <EditIcon />
+          ) : (
+            <AddIcon />
+          )}
+        </IconButton>
       </Box>
 
-      {/* Main Content */}
-      <div style={{ display: "flex", alignItems: "flex-start", width: "100%" }}>
-        <div style={{ flex: "0 0 70%" }}>
-          <Box className={styles.graphContainer}>
-            <StockGraph ticker={row.ticker} />
-          </Box>
-        </div>
+      {/* Dialog for Add/Edit Portfolio */}
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>
+          {state.portfolioItems.find((item) => item.ticker === row.ticker)
+            ? "Edit Portfolio Item"
+            : "Add to Portfolio"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {state.portfolioItems.find((item) => item.ticker === row.ticker)
+              ? `Edit the amount in dollars for ${row.name}.`
+              : `Enter the amount in dollars for ${row.name}.`}
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id={`portfolio-amount-${row.ticker}`}
+            label="Amount ($)"
+            fullWidth
+            type="number"
+            variant="standard"
+            value={portfolioAmount}
+            onChange={(e) => setPortfolioAmount(e.target.value)}
+            inputProps={{ min: "0", step: "0.01" }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>Cancel</Button>
+          <Button
+            onClick={() =>
+              handleAddPortfolioSubmit(
+                !!state.portfolioItems.find(
+                  (item) => item.ticker === row.ticker
+                )
+              )
+            }
+            disabled={!portfolioAmount || parseFloat(portfolioAmount) <= 0}
+          >
+            {state.portfolioItems.find((item) => item.ticker === row.ticker)
+              ? "Edit"
+              : "Add"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Tabs Section */}
+      <Tabs
+        value={tabIndex}
+        onChange={(e, newValue) => setTabIndex(newValue)}
+        sx={{
+          marginBottom: 2,
+          "& .MuiTabs-indicator": {
+            backgroundColor: "#393E41",
+          },
+          "& .MuiTab-root": {
+            color: "#393E41",
+            textTransform: "none",
+            "&.Mui-selected": {
+              color: "#393E41",
+            },
+            "&:focus": {
+              outline: "none",
+            },
+            "&:focus-visible": {
+              outline: "none",
+            },
+          },
+        }}
+      >
+        <Tab label="Stock Info" />
+        <Tab label="News" />
+      </Tabs>
+
+      {/* Content Based on Selected Tab */}
+      {tabIndex === 0 && (
         <div
-          style={{ flex: "0 0 30%", paddingLeft: "40px", textAlign: "left" }}
+          style={{ display: "flex", alignItems: "flex-start", width: "100%" }}
         >
-          <Typography variant="h5" style={{ color: "black" }}>
-            Environmental: {renderScore(row.environmental)}
-          </Typography>
-          <Typography
-            variant="h5"
-            style={{ color: "black", marginTop: "24px" }}
+          <div style={{ flex: "0 0 70%" }}>
+            <Box className={styles.graphContainer}>
+              <StockGraph ticker={row.ticker} />
+            </Box>
+          </div>
+          <div
+            style={{ flex: "0 0 30%", paddingLeft: "40px", textAlign: "left" }}
           >
-            Social: {renderScore(row.social)}
-          </Typography>
-          <Typography
-            variant="h5"
-            style={{ color: "black", marginTop: "24px" }}
-          >
-            Governance: {renderScore(row.governance)}
-          </Typography>
+            <Typography variant="h5" style={{ color: "#393E41" }}>
+              Environmental: {renderScore(row.environmental)}
+            </Typography>
+            <Typography
+              variant="h5"
+              style={{ color: "#393E41", marginTop: "24px" }}
+            >
+              Social: {renderScore(row.social)}
+            </Typography>
+            <Typography
+              variant="h5"
+              style={{ color: "#393E41", marginTop: "24px" }}
+            >
+              Governance: {renderScore(row.governance)}
+            </Typography>
+          </div>
         </div>
-      </div>
+      )}
+
+      {tabIndex === 1 && (
+        <Box sx={{ width: "100%" }}>
+          <News ticker={row.ticker} />
+        </Box>
+      )}
     </div>
   );
 };

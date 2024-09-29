@@ -21,6 +21,8 @@ const Portfolio: React.FC = () => {
     tooltip: `${item.name}: ${item.price} USD`, // Custom tooltip value to be shown on hover
   }));
 
+
+
   // console.log("state", state);
 
   const [value, setValue] = useState(0);
@@ -79,6 +81,11 @@ const Portfolio: React.FC = () => {
     }
   }, [portfolioItems]);
 
+  const valueFormatter = (item: { value: number }): string => {
+    return `$${item.value}`;
+  };
+  
+
   return (
     <div>
       <Header />
@@ -97,6 +104,7 @@ const Portfolio: React.FC = () => {
                     additionalRadius: -30,
                     color: "gray",
                   },
+                  valueFormatter
                 },
               ]}
               width={600}

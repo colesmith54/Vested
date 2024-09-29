@@ -5,6 +5,7 @@ import { useGlobalState } from "../GlobalState";
 import styles from "../styles/Header.module.css";
 import Logo from "../assets/vestedLogoCropped.png";
 import { useNavigate } from "react-router-dom";
+import OpenAIRequest from "./OpenAIRequest";
 
 const Header: React.FC = () => {
   const { state, updateState } = useGlobalState();
@@ -54,6 +55,7 @@ const Header: React.FC = () => {
           style: { backgroundColor: "white" },
         }}
       />
+      <OpenAIRequest />
 
       <Box className={styles.searchContainer}>
         <Box className={styles.navLinks}>

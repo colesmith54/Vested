@@ -1,3 +1,4 @@
+// StockGraph.tsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -199,7 +200,26 @@ const StockGraph: React.FC<StockGraphProps> = ({ ticker }) => {
           exclusive
           onChange={handleTimeWindowChange}
           aria-label="time window"
-          color="primary"
+          sx={{
+            "& .MuiToggleButton-root": {
+              color: "#90CA8F",
+              borderColor: "#90CA8F",
+              textTransform: "none",
+              "&.Mui-selected": {
+                backgroundColor: "#90CA8F",
+                color: "#fff",
+                "&:hover": {
+                  backgroundColor: "#90CA8F",
+                },
+              },
+              "&:hover": {
+                backgroundColor: "rgba(144, 202, 143, 0.08)",
+              },
+              "&:focus": {
+                outline: "none",
+              },
+            },
+          }}
         >
           {["1w", "1m", "3m", "6m", "1y"].map((window) => (
             <ToggleButton key={window} value={window} aria-label={window}>

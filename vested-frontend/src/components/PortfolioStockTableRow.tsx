@@ -38,6 +38,16 @@ const getColor = (value: number): string => {
   return colorMapping[floor] || "#000000";
 };
 
+const formatPrice = (price: number): string => {
+  if (price >= 1000000) {
+    return `$${(price / 1000000).toFixed(1)}M`; // Convert to millions and add 'M'
+  } else if (price >= 1000) {
+    return `$${(price / 1000).toFixed(1)}K`; // Convert to thousands and add 'K'
+  } else {
+    return `$${price}`; // Display as is if below 1000
+  }
+};
+
 const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
   row,
   onClick,
@@ -107,7 +117,7 @@ const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
         </TableCell>
         <TableCell align="left">{row.name}</TableCell>
         <TableCell align="left">{row.ticker.toUpperCase()}</TableCell>
-        <TableCell align="left">{`$${row.price}`}</TableCell>
+        <TableCell align="left">{formatPrice(row.price)}</TableCell>
 
         <TableCell align="right">{renderScore(row.environmental)}</TableCell>
         <TableCell align="right">{renderScore(row.social)}</TableCell>
