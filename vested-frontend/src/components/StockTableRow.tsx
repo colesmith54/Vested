@@ -50,7 +50,7 @@ const getColor = (value: number): string => {
 };
 
 const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
-  const { state, updateState } = useGlobalState();
+  const { state, updateState, removeStock } = useGlobalState();
   const { portfolioItems } = state;
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -177,6 +177,20 @@ const StockTableRow: React.FC<StockTableRowProps> = ({ row, onClick }) => {
           />
         </DialogContent>
         <DialogActions>
+          {state.portfolioItems.find((item) => item.ticker === row.ticker) ? (
+            <Button
+              onClick={() => {
+                removeStock(row.ticker);
+                handleDialogClose();
+              }}
+              sx={{
+                color: "#ff6b6b",
+                ":hover": { backgroundColor: "rgba(255, 107, 107, 0.35)" },
+              }}
+            >
+              Remove
+            </Button>
+          ) : null}
           <Button onClick={handleDialogClose}>Cancel</Button>
           <Button
             onClick={() =>
