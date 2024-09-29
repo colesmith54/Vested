@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode, useContext } from "react";
+import { createContext, useState, ReactNode, useContext } from "react";
 
 // Define the structure of the state
 interface GlobalState {

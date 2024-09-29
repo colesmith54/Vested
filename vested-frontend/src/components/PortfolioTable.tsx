@@ -9,7 +9,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { TablePagination } from "@mui/material";
 import { useGlobalState } from "../GlobalState.tsx";
-import axios from "axios";
 import PortfolioStockTableRow from "./PortfolioStockTableRow.tsx";
 import { useNavigate } from "react-router-dom";
 
@@ -24,17 +23,6 @@ interface StockRow {
   amount: string;
 }
 
-interface CsvRow {
-  t: string;
-  n: string;
-  l: string;
-  w: string;
-  e: number;
-  s: number;
-  g: number;
-  url: string
-}
-
 interface Column {
   id: string;
   label: string;
@@ -42,7 +30,6 @@ interface Column {
   align?: "right" | "center" | "left";
   format?: (value: number) => string;
 }
-
 
 const columns: readonly Column[] = [
   { id: "logo", label: "Logo", minWidth: 100, align: "center" },
@@ -65,35 +52,18 @@ const columns: readonly Column[] = [
   },
 ];
 
-const scaleToTen = (value: number, min: number, max: number): string => {
-  return String((((value - min) / (max - min)) * 10).toFixed(1));
-};
-
 const PortfolioTable: React.FC = () => {
-
   const [portfolioData, setPortfolioData] = useState<StockRow[]>([]);
 
   const navigate = useNavigate();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const { state, updateState } = useGlobalState();
+  const { state } = useGlobalState();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-
-        let result = state.portfolioItems;
-
-        // Create a map for easy lookup of amounts by ticker
-        const amountsMap = state.portfolioItems.reduce((map, item) => {
-          map[item.ticker.toLowerCase()] = item.amount; // Use toLowerCase for case-insensitive matching
-          return map;
-        }, {});
-        
-        // Get tickers for filtering
-        const tickers = state.portfolioItems.map((item) => item.ticker.toLowerCase());
-        
         // Filter the csvData based on the tickers and add the amount field
         const filtered_data = state.portfolioItems
           // .filter((row) => row.ticker && tickers.includes(row.ticker.toLowerCase()))
@@ -102,15 +72,10 @@ const PortfolioTable: React.FC = () => {
             amount: "$" + row.price || 0, // Add dollar amount, defaulting to 0 if not found
           }));
 
-
-        
-        result = filtered_data;
         console.log("filtered_data: ", filtered_data);
-        
+
         // Update portfolio data with the new result
         setPortfolioData(filtered_data);
-        
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -172,15 +137,12 @@ const PortfolioTable: React.FC = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={
-          portfolioData.length
-        }
+        count={portfolioData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-
     </Paper>
   );
 };

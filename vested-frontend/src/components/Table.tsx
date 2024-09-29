@@ -95,7 +95,7 @@ const StickyHeadTable: React.FC = () => {
         const minG = Math.min(...governanceScores);
         const maxG = Math.max(...governanceScores);
 
-        const data: StockRow[] = result.map((row: any, index) => ({
+        const data: StockRow[] = result.map((row: any) => ({
           logo: row.l,
           name: row.n,
           ticker: row.t,

@@ -14,7 +14,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import styles from "../styles/Table.module.css";
 import { useGlobalState } from "../GlobalState.tsx";
 import ImageWithFallback from "./ImageWithFallback.tsx";
-import Portfolio from "../pages/Portfolio.tsx";
 
 interface StockRow {
   logo: string;
@@ -52,7 +51,10 @@ const getColor = (value: number): string => {
   return colorMapping[floor] || "#000000";
 };
 
-const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({ row, onClick }) => {
+const PortfolioStockTableRow: React.FC<PortfolioStockTableRowProps> = ({
+  row,
+  onClick,
+}) => {
   const { state, updateState } = useGlobalState();
   const { portfolioItems } = state;
 
