@@ -114,7 +114,7 @@ const StickyHeadTable: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (newPage: number) => {
     setPage(newPage);
   };
 
